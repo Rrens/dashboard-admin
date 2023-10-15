@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('token');
             $table->string('refresh_token');
             $table->dateTime('last_login');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
