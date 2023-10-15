@@ -16,7 +16,3 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('admin.page.homepage');
 });
-
-Route::get('/cek', function ($id) {
-    return 'ya';
-});
