@@ -1,18 +1,29 @@
 <?php
 
+use App\Http\Controllers\AdminManageController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Verifikasi\IklanController;
+use App\Http\Controllers\Verifikasi\MerchantController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
 
-Route::get('/', function () {
-    return view('admin.page.homepage');
+Route::redirect('/', 'dashboard', 301);
+
+Route::group([
+    'prefix' => 'dashboard',
+], function () {
+    Route::get('', [DashboardController::class, 'index'])->name('dashboard.index');
+});
+
+Route::group([
+    'prefix' => 'admin-management',
+], function () {
+    Route::get('', [AdminManageController::class, 'index'])->name('admin.index');
+});
+
+Route::group([
+    'prefix' => 'verifikasi',
+], function () {
+    Route::get('merchant', [MerchantController::class, 'index'])->name('verifikasi.merchant.index');
+    Route::get('iklan', [IklanController::class, 'index'])->name('verifikasi.iklan.index');
 });

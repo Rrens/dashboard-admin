@@ -1,5 +1,5 @@
 @extends('admin.components.master')
-@section('title', 'FAQ')
+@section('title', 'Admin Management')
 @push('head')
     <style>
         .color-card {
@@ -22,12 +22,12 @@
 @section('container')
     <div class="page-heading d-flex justify-content-between">
         <div class="flex-start">
-            <h3>FAQ</h3>
+            <h3>Manajemen Admin</h3>
         </div>
         <div class="flex-end">
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Add_modal"><i
                     class="bi bi-plus-circle"></i>&nbsp Tambah
-                FAQ</button>
+                Admin</button>
         </div>
     </div>
     <div class="page-content">
@@ -40,34 +40,46 @@
                                 <table class="table table-striped" id="table1">
                                     <thead>
                                         <tr>
-                                            <th>No</th>
-                                            <th>Pertanyaan</th>
-                                            <th>Jawaban</th>
-                                            <th>Aksi</th>
+                                            <th>ID Admin</th>
+                                            <th>Nama</th>
+                                            <th>Email</th>
+                                            <th>Password</th>
+                                            <th>Role</th>
+                                            <th>Last Login</th>
+                                            <th>Manage Admin</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($data as $item)
-                                            <tr>
-                                                <td class="text-bold-500">
-                                                    {{ $loop->iteration }}
-                                                </td>
-                                                <td class="text-bold-500">
-                                                    {{ $item->question }}
-                                                </td>
-                                                <td class="text-bold-500">
-                                                    {{ $item->answer }}
-                                                </td>
-                                                <td>
-                                                    <button class="btn btn-light-warning btn-sm" data-bs-toggle="modal"
-                                                        data-bs-target="#modalUpdate{{ $item->id }}">Update
-                                                    </button>
-                                                    <button class="btn btn-light-danger btn-sm" data-bs-toggle="modal"
-                                                        data-bs-target="#modalDelete{{ $item->id }}">Delete
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        @endforeach
+                                        {{-- @foreach ($data as $item) --}}
+                                        <tr>
+                                            <td class="text-bold-500">
+                                                {{-- {{ $loop->iteration }} --}}
+                                            </td>
+                                            <td class="text-bold-500">
+                                                {{-- {{ $loop->iteration }} --}}
+                                            </td>
+                                            <td class="text-bold-500">
+                                                {{-- {{ $loop->iteration }} --}}
+                                            </td>
+                                            <td class="text-bold-500">
+                                                {{-- {{ $loop->iteration }} --}}
+                                            </td>
+                                            <td class="text-bold-500">
+                                                {{-- {{ $loop->iteration }} --}}
+                                            </td>
+                                            <td class="text-bold-500">
+                                                {{-- {{ $loop->iteration }} --}}
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-light-warning btn-sm" data-bs-toggle="modal"
+                                                    data-bs-target="#modalUpdate">Update
+                                                </button>
+                                                <button class="btn btn-light-danger btn-sm" data-bs-toggle="modal"
+                                                    data-bs-target="#modalDelete">Delete
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        {{-- @endforeach --}}
                                     </tbody>
                                 </table>
                             </div>
@@ -86,18 +98,31 @@
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah FAQ</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ route('faq.store') }}" method="post">
+                <form action="" method="post">
                     @csrf
                     <div class="modal-body">
                         <div class="form-group mb-3">
-                            <label for="pertanyaan">Pertanyaan</label>
-                            <input type="text" class="form-control mt-3" id="pertanyaan"
-                                name="question"value="{{ old('question') }}" required>
+                            <label for="name">Nama</label>
+                            <input type="text" class="form-control" id="name"
+                                name="name"value="{{ old('name') }}" required>
                         </div>
                         <div class="form-group mb-3">
-                            <label for="jawaban">Jawaban</label>
-                            <input type="text" class="form-control mt-3" id="jawaban"
-                                name="answer"value="{{ old('answer') }}" required>
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" id="email"
+                                name="email"value="{{ old('email') }}" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="Password">Password</label>
+                            <input type="text" class="form-control" id="Password"
+                                name="password"value="{{ old('password') }}" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="Password">Role</label>
+                            <select name="role" class="form-select">
+                                <option selected hidden>Pilih Role</option>
+                                <option value="superadmin">Super Admin</option>
+                                <option value="admin">admin</option>
+                            </select>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -115,7 +140,7 @@
         </div>
     </div>
 
-    @foreach ($data as $item)
+    {{-- @foreach ($data as $item)
         <div class="modal fade" id="modalUpdate{{ $item->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -153,9 +178,9 @@
                 </div>
             </div>
         </div>
-    @endforeach
+    @endforeach --}}
 
-    @foreach ($data as $item)
+    {{-- @foreach ($data as $item)
         <div class="modal fade" id="modalDelete{{ $item->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -181,7 +206,7 @@
                 </div>
             </div>
         </div>
-    @endforeach
+    @endforeach --}}
 
 @endsection
 

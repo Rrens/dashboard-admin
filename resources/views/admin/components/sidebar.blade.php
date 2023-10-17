@@ -42,10 +42,35 @@
         <div class="sidebar-menu">
             <ul class="menu">
                 <li class="sidebar-title">Admin</li>
-                <li class="sidebar-item active">
+                <li class="sidebar-item">
                     <a href="" class="sidebar-link">
+                        <i class="bi bi-person-fill"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+                <li class="sidebar-item {{ $active == 'admin management' ? 'active' : '' }}">
+                    <a href="{{ route('admin.index') }}" class="sidebar-link">
                         <i class="bi bi-person-lines-fill"></i>
-                        <span>User Management</span>
+                        <span>Admin Management</span>
+                    </a>
+                </li>
+                <li class="sidebar-title">Verifikasi</li>
+                <li class="sidebar-item {{ $active == 'verifikasi merchant' ? 'active' : '' }}">
+                    <a href="{{ route('verifikasi.merchant.index') }}" class="sidebar-link">
+                        <i class="bi bi-motherboard-fil"></i>
+                        <span>Merchant</span>
+                    </a>
+                </li>
+                <li class="sidebar-item {{ $active == 'verifikasi iklan' ? 'active' : '' }}">
+                    <a href="{{ route('verifikasi.iklan.index') }}" class="sidebar-link">
+                        <i class="bi bi-cart-fill"></i>
+                        <span>Iklan</span>
+                    </a>
+                </li>
+                <li class="sidebar-item {{ $active == 'dashboard' ? 'active' : '' }}">
+                    <a href="{{ route('dashboard.index') }}" class="sidebar-link">
+                        <i class="bi bi-bar-chart-fill"></i>
+                        <span>Dashboard</span>
                     </a>
                 </li>
                 {{-- <li class="sidebar-item  {{ $active == 'faq' ? 'active' : '' }}">
