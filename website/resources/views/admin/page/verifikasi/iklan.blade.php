@@ -31,13 +31,13 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card" style="margin-top:2.2rem">
-                            <div class="card-body">
+                            <div class="card-body table-responsive">
                                 <table class="table table-striped" id="table1">
                                     <thead>
                                         <tr>
                                             <th>ID User</th>
-                                            <th>Nama</th>
-                                            <th>Location ID</th>
+                                            <th>Kota</th>
+                                            <th>Provinsi</th>
                                             <th>Category ID</th>
                                             <th>Deskripsi</th>
                                             <th>Note</th>
@@ -47,42 +47,46 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{-- @foreach ($data as $item) --}}
-                                        <tr>
-                                            <td class="text-bold-500">
-                                                {{-- {{ $loop->iteration }} --}}
-                                            </td>
-                                            <td class="text-bold-500">
-                                                {{-- {{ $loop->iteration }} --}}
-                                            </td>
-                                            <td class="text-bold-500">
-                                                {{-- {{ $loop->iteration }} --}}
-                                            </td>
-                                            <td class="text-bold-500">
-                                                {{-- {{ $loop->iteration }} --}}
-                                            </td>
-                                            <td class="text-bold-500">
-                                                {{-- {{ $loop->iteration }} --}}
-                                            </td>
-                                            <td class="text-bold-500">
-                                                {{-- {{ $loop->iteration }} --}}
-                                            </td>
-                                            <td class="text-bold-500">
-                                                {{-- {{ $loop->iteration }} --}}
-                                            </td>
-                                            <td class="text-bold-500">
-                                                {{-- {{ $loop->iteration }} --}}
-                                            </td>
-                                            <td>
-                                                <button class="btn btn-light-warning btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#modalUpdate">Setuju
-                                                </button>
-                                                <button class="btn btn-light-danger btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#modalDelete">Tidak Setuju
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        {{-- @endforeach --}}
+                                        @foreach ($data as $item)
+                                            @php
+                                                // dd($item);
+                                            @endphp
+                                            <tr>
+                                                <td class="text-bold-500">
+                                                    {{ $item['user_id'] }}
+                                                </td>
+                                                <td class="text-bold-500">
+                                                    {{ $item['city'] }}
+                                                </td>
+                                                <td class="text-bold-500">
+                                                    {{ $item['province'] }}
+                                                </td>
+                                                <td class="text-bold-500">
+                                                    <a href="#" data-bs-toggle="modal"
+                                                        data-bs-target="#modalDetailCategories{{ $item['category_id'] }}">{{ $item['category_id'] }}</a>
+                                                </td>
+                                                <td class="text-bold-500">
+                                                    {{ $item['description'] }}
+                                                </td>
+                                                <td class="text-bold-500">
+                                                    {{ $item['notes'] }}
+                                                </td>
+                                                <td class="text-bold-500">
+                                                    Rp.{{ number_format($item['price']) }}
+                                                </td>
+                                                <td class="text-bold-500">
+                                                    {{ $item['picture'] }}
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-light-warning btn-sm" data-bs-toggle="modal"
+                                                        data-bs-target="#modalAprrove{{ $item['id'] }}">Setuju
+                                                    </button>
+                                                    <button class="btn btn-light-danger btn-sm" data-bs-toggle="modal"
+                                                        data-bs-target="#modalNotAprrove{{ $item['id'] }}">Tidak Setuju
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -143,28 +147,35 @@
         </div>
     </div>
 
-    {{-- @foreach ($data as $item)
-        <div class="modal fade" id="modalUpdate{{ $item->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
+    @foreach ($data as $item)
+        <div class="modal fade" id="modalDetailCategories{{ $item['category_id'] }}" tabindex="-1"
+            aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah FAQ</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="{{ route('faq.update') }}" method="post">
+                    <form action="" method="post">
                         @csrf
                         <div class="modal-body">
-                            <div class="form-group mb-3">
-                                <label for="pertanyaan">Pertanyaan</label>
-                                <input type="number" value="{{ $item->id }}" name="id" hidden>
-                                <input type="text" class="form-control mt-3" id="pertanyaan" name="question"
-                                    value="{{ $item->question }}" required>
-                            </div>
-                            <div class="form-group mb-3">
-                                <label for="jawaban">Jawaban</label>
-                                <input type="text" class="form-control mt-3" id="jawaban"
-                                    name="answer"value="{{ $item->answer }}" required>
+                            <div class="card-body table-responsive">
+                                <table class="table table-striped" id="table1">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($item['sub_category'] as $row)
+                                            <tr>
+                                                <td class="text-bold-500">
+                                                    {{ $row['name'] }}
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -181,35 +192,64 @@
                 </div>
             </div>
         </div>
-    @endforeach --}}
+    @endforeach
 
-    {{-- @foreach ($data as $item)
-        <div class="modal fade" id="modalDelete{{ $item->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
+
+    @foreach ($data as $item)
+        <div class="modal fade" id="modalNotAprrove{{ $item['id'] }}" tabindex="-1"
+            aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header d-flex justify-content-center">
-                        <h5 class="modal-title" id="exampleModalScrollableTitle">Hapus FAQ
-                            {{ $item->title . ' ?' }}</h5>
+                        <h5 class="modal-title" id="exampleModalScrollableTitle">Tidak Approve</h5>
                     </div>
-                    <form action="{{ route('faq.delete') }}" id="myForm" method="post">
-                        @csrf
+                    <form id="myForm" method="post">
                         <div class="modal-footer d-flex justify-content-center">
                             <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
                                 <i class="bx bx-x d-block d-sm-none"></i>
                                 <span class="d-none d-sm-block">Close</span>
                             </button>
-                            <input type="number" value="{{ $item->id }}" name="id" hidden>
-                            <button type="submit" class="btn btn-danger ml-1" data-bs-dismiss="modal">
+                            <input type="number" value="{{ $item['id'] }}" name="id" id="id_acc" hidden>
+                            <input type="text" value="approve" name="approve" id="id_acc" hidden>
+                            <button type="button" id="btn_confirm" class="btn btn-success ml-1"
+                                data-bs-dismiss="modal">
                                 <i class="bx bx-check d-block d-sm-none"></i>
-                                <span class="d-none d-sm-block">Delete</span>
+                                <span class="d-none d-sm-block">Simpan</span>
                             </button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
-    @endforeach --}}
+    @endforeach
+
+    @foreach ($data as $item)
+        <div class="modal fade" id="modalAprrove{{ $item['id'] }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header d-flex justify-content-center">
+                        <h5 class="modal-title" id="exampleModalScrollableTitle">Approve</h5>
+                    </div>
+                    <form id="myForm" method="post">
+                        <div class="modal-footer d-flex justify-content-center">
+                            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                <i class="bx bx-x d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">Close</span>
+                            </button>
+                            <input type="number" value="{{ $item['id'] }}" name="id" id="id_acc" hidden>
+                            <input type="text" value="not-approve" name="approve" id="id_acc" hidden>
+                            <button type="button" id="btn_confirm" class="btn btn-success ml-1"
+                                data-bs-dismiss="modal">
+                                <i class="bx bx-check d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">Simpan</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endforeach
 
 @endsection
 

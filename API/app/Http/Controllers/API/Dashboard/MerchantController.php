@@ -21,5 +21,12 @@ class MerchantController extends Controller
                 'data' => $data
             ], 200);
         }
+
+        return response()->json([
+            'meta' => [
+                'status' => 'failed',
+                'message' => 'Data Not Found'
+            ],
+        ], 404);
     }
 }

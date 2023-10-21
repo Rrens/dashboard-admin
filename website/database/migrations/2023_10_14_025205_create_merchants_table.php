@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('profile_picture')->nullable();
             $table->string('npwp');
             $table->string('id_card_number');
+            $table->string('is_approve')->nullable();
             // $table->string('token');
             // $table->string('refresh_token');
             $table->dateTime('last_login')->nullable();

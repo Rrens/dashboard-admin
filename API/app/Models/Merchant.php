@@ -24,7 +24,9 @@ class Merchant extends Model
         'city',
         'province',
         'profile_picture',
-        'profile_picture',
+        'is_approve',
+        'npwp',
+        'id_card_number',
         'created_at',
         'updated_at',
     ];

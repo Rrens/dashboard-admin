@@ -16,11 +16,15 @@ class Ads extends Model
 
     protected $fillable = [
         'user_id',
+        'category_id',
         'description',
         'notes',
         'price',
         'picture',
+        'city',
+        'province',
         'count_order',
+        'is_approve',
         'rating',
         'count_view',
         'created_at',
@@ -35,5 +39,15 @@ class Ads extends Model
     public function transaction()
     {
         return $this->belongsTo(Transaction::class);
+    }
+
+    public function categories()
+    {
+        return $this->hasMany(Categories::class, 'id', 'category_id');
+    }
+
+    public function sub_category()
+    {
+        return $this->hasMany(SubCategory::class, 'category_id', 'id');
     }
 }

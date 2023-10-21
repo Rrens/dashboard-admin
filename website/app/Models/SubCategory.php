@@ -6,33 +6,28 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Merchant extends Model
+class SubCategory extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'merchants';
+    protected $table = 'sub_category';
     protected $primaryKey = 'id';
     protected $guarded = [];
 
     protected $fillable = [
-        'user_id',
+        'category_id',
         'name',
-        'email',
-        'password',
-        'phone_number',
-        'address',
-        'city',
-        'province',
-        'profile_picture',
-        'npwp',
-        'is_approve',
-        'id_card_number',
         'created_at',
         'updated_at',
     ];
 
-    public function user()
+    public function categories()
     {
-        return $this->hasMany(User::class, 'id', 'user_id');
+        return $this->hasMany(Categories::class, 'id', 'category_id',);
+    }
+
+    public function ads()
+    {
+        return $this->belongsTo(Ads::class);
     }
 }

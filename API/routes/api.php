@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\API\Dashboard\MerchantController;
+use App\Http\Controllers\API\Verify\AdsController;
+use App\Http\Controllers\API\Verify\MerchantController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,4 +16,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/verify/merchant', [MerchantController::class, 'index']);
+
+Route::group([
+    'prefix' => 'verify',
+], function () {
+    Route::get('merchant', [MerchantController::class, 'index']);
+    Route::post('change-approve', [MerchantController::class, 'change_approve']);
+    Route::get('ads', [AdsController::class, 'index']);
+});
