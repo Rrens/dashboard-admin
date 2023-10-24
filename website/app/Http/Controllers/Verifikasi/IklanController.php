@@ -15,8 +15,12 @@ class IklanController extends Controller
         try {
             $_URL = env('API_URL') . 'verify/ads';
             $data_from_api = collect(Http::get($_URL)->json());
-            $data = $data_from_api['data'];
-            // dd($data);
+            // dd($data_from_api['data'][0]);
+            if (!empty($data_from_api['data'][0])) {
+                $data = $data_from_api['data'];
+            } else {
+                $data = null;
+            }
         } catch (Exception $error) {
             dd($error->getMessage());
         }

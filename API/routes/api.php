@@ -20,7 +20,19 @@ use Illuminate\Support\Facades\Route;
 Route::group([
     'prefix' => 'verify',
 ], function () {
-    Route::get('merchant', [MerchantController::class, 'index']);
-    Route::post('change-approve', [MerchantController::class, 'change_approve']);
-    Route::get('ads', [AdsController::class, 'index']);
+
+    Route::group([
+        'prefix' => 'merchant',
+    ], function () {
+        Route::get('', [MerchantController::class, 'index']);
+        Route::post('detail', [MerchantController::class, 'detail']);
+        Route::post('change-approve', [MerchantController::class, 'change_approve']);
+    });
+
+    Route::group([
+        'prefix' => 'ads'
+    ], function () {
+        Route::get('', [AdsController::class, 'index']);
+        Route::post('change-approve',  [AdsController::class, 'change_approve']);
+    });
 });

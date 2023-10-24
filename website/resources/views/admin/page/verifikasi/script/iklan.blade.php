@@ -7,12 +7,11 @@
         $('#id_not_approve').val(dataId);
     }
 
-    const _URL = "{{ env('API_URL') . 'verify/merchant/change-approve' }}"
+    const _URL = "{{ env('API_URL') . 'verify/ads/change-approve' }}"
     $('#btn_confirm_approve').on('click', function() {
-        // console.log('approve');
+
         let data = $('#approve').val();
         let id = $('#id_approve').val();
-        // console.log(data, id)
 
         $.ajax({
             url: _URL,

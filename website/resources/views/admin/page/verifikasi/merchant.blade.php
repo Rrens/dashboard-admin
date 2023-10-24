@@ -49,50 +49,53 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($data as $item)
-                                            <tr>
-                                                <td class="text-bold-500">
-                                                    {{ $item['user_id'] }}
-                                                </td>
-                                                <td class="text-bold-500">
-                                                    {{ $item['name'] }}
-                                                </td>
-                                                <td class="text-bold-500">
-                                                    {{ $item['email'] }}
-                                                </td>
-                                                <td class="text-bold-500">
-                                                    {{ $item['phone_number'] }}
-                                                </td>
-                                                <td class="text-bold-500">
-                                                    {{ $item['address'] }}
-                                                </td>
-                                                <td class="text-bold-500">
-                                                    {{ $item['city'] }}
-                                                </td>
-                                                <td class="text-bold-500">
-                                                    {{ $item['province'] }}
-                                                </td>
-                                                <td class="text-bold-500">
-                                                    {{ $item['profile_picture'] }}
-                                                </td>
-                                                <td class="text-bold 500">
-                                                    {{ $item['id_card_number'] }}
-                                                </td>
-                                                <td class="text-bold-500">
-                                                    {{ $item['npwp'] }}
-                                                </td>
-                                                <td>
-                                                    <button class="btn btn-light-warning btn-sm"
-                                                        onclick="approve({{ $item['id'] }})" data-bs-toggle="modal"
-                                                        data-bs-target="#modalAprrove">Setuju
-                                                    </button>
-                                                    <button class="btn btn-light-danger btn-sm" data-bs-toggle="modal"
-                                                        onclick="not_approve({{ $item['id'] }})"
-                                                        data-bs-target="#modalNotAprrove">Tidak Setuju
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        @endforeach
+                                        @if (!empty($data[0]))
+                                            @foreach ($data as $item)
+                                                <tr>
+                                                    <td class="text-bold-500">
+                                                        {{ $item['user_id'] }}
+                                                    </td>
+                                                    <td class="text-bold-500">
+                                                        {{ $item['name'] }}
+                                                    </td>
+                                                    <td class="text-bold-500">
+                                                        {{ $item['email'] }}
+                                                    </td>
+                                                    <td class="text-bold-500">
+                                                        {{ $item['phone_number'] }}
+                                                    </td>
+                                                    <td class="text-bold-500">
+                                                        {{ $item['address'] }}
+                                                    </td>
+                                                    <td class="text-bold-500">
+                                                        {{ $item['city'] }}
+                                                    </td>
+                                                    <td class="text-bold-500">
+                                                        {{ $item['province'] }}
+                                                    </td>
+                                                    <td class="text-bold-500">
+                                                        {{ $item['profile_picture'] }}
+                                                    </td>
+                                                    <td class="text-bold 500">
+                                                        {{ $item['id_card_number'] }}
+                                                    </td>
+                                                    <td class="text-bold-500">
+                                                        {{ $item['npwp'] }}
+                                                    </td>
+                                                    <td>
+                                                        <button class="btn btn-light-warning btn-sm"
+                                                            onclick="approve({{ $item['id'] }})" data-bs-toggle="modal"
+                                                            data-bs-target="#modalAprrove">Setuju
+                                                        </button>
+                                                        <button class="btn btn-light-danger btn-sm" data-bs-toggle="modal"
+                                                            onclick="not_approve({{ $item['id'] }})"
+                                                            data-bs-target="#modalNotAprrove">Tidak Setuju
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @endif
+
                                     </tbody>
                                 </table>
                             </div>
@@ -105,7 +108,6 @@
     </div>
 
 
-    {{-- @foreach ($data as $item) --}}
     <div class="modal fade" id="modalAprrove" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -118,7 +120,7 @@
                             <i class="bx bx-x d-block d-sm-none"></i>
                             <span class="d-none d-sm-block">Close</span>
                         </button>
-                        <input type="number" name="id" id="id_approve" hidden>
+                        <input type="number" name="id" value="" id="id_approve" hidden>
                         <input type="text" value="approve" name="approve" id="approve" hidden>
                         <button type="button" id="btn_confirm_approve" class="btn btn-success ml-1">
                             <i class="bx bx-check d-block d-sm-none"></i>
@@ -129,9 +131,7 @@
             </div>
         </div>
     </div>
-    {{-- @endforeach --}}
 
-    {{-- @foreach ($data as $item) --}}
     <div class="modal fade" id="modalNotAprrove" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -156,7 +156,6 @@
             </div>
         </div>
     </div>
-    {{-- @endforeach --}}
 
 
 @endsection
