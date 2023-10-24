@@ -7,12 +7,14 @@ use App\Http\Controllers\Verifikasi\MerchantController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::redirect('/', 'dashboard', 301);
+Route::redirect('/', 'dashboard/merchant', 301);
 
 Route::group([
     'prefix' => 'dashboard',
 ], function () {
-    Route::get('', [DashboardController::class, 'index'])->name('dashboard.index');
+    Route::get('merchant', [MerchantController::class, 'dashboard_index'])->name('merchant.dashboard');
+    Route::get('iklan', [IklanController::class, 'dashboard_index'])->name('iklan.dashboard');
+    // Route::get('', [DashboardController::class, 'index'])->name('dashboard.index');
 });
 
 Route::group([

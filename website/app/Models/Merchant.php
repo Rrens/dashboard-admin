@@ -15,7 +15,6 @@ class Merchant extends Model
     protected $guarded = [];
 
     protected $fillable = [
-        'user_id',
         'name',
         'email',
         'password',
@@ -31,8 +30,9 @@ class Merchant extends Model
         'updated_at',
     ];
 
-    public function user()
+
+    public function transaction()
     {
-        return $this->hasMany(User::class, 'id', 'user_id');
+        return $this->belongsTo(Transaction::class);
     }
 }

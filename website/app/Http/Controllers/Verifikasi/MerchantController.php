@@ -27,4 +27,10 @@ class MerchantController extends Controller
 
         return view('admin.page.verifikasi.merchant', compact('active', 'data'));
     }
+
+    public function dashboard_index()
+    {
+        $active = 'dashboard';
+        return view('admin.page.dashboard.merchant', compact('active'));
+    }
 }

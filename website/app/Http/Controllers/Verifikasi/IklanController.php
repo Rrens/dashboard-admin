@@ -26,4 +26,10 @@ class IklanController extends Controller
         }
         return view('admin.page.verifikasi.iklan', compact('active', 'data'));
     }
+
+    public function dashboard_index()
+    {
+        $active = 'dashboard';
+        return view('admin.page.dashboard.iklan', compact('active'));
+    }
 }

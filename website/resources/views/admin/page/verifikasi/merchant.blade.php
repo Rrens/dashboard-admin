@@ -53,7 +53,7 @@
                                             @foreach ($data as $item)
                                                 <tr>
                                                     <td class="text-bold-500">
-                                                        {{ $item['user_id'] }}
+                                                        {{ $item['id'] }}
                                                     </td>
                                                     <td class="text-bold-500">
                                                         {{ $item['name'] }}

@@ -15,20 +15,21 @@ class Transaction extends Model
     protected $guarded = [];
 
     protected $fillable = [
-        'user_id',
+        'merchant_id',
         'ads_id',
         'total_transaction',
         'created_at',
         'updated_at',
     ];
 
-    public function user()
-    {
-        return $this->hasMany(User::class, 'id', 'user_id');
-    }
 
     public function ads()
     {
         return $this->hasMany(User::class, 'id', 'ads_id');
+    }
+
+    public function merchant()
+    {
+        return $this->hasMany(Merchant::class, 'id', 'merchant_id');
     }
 }

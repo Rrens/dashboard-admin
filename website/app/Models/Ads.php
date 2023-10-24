@@ -15,7 +15,7 @@ class Ads extends Model
     protected $guarded = [];
 
     protected $fillable = [
-        'user_id',
+        'merchant_id',
         'category_id',
         'description',
         'notes',

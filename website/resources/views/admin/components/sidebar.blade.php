@@ -81,12 +81,12 @@
                     </a>
                     <ul class="submenu">
                         <li class="submenu-item">
-                            <a href="{{ route('dashboard.index') }}" class="sidebar-link">
+                            <a href="{{ route('merchant.dashboard') }}" class="sidebar-link">
                                 Merchant
                             </a>
                         </li>
                         <li class="submenu-item">
-                            <a href="{{ route('dashboard.index') }}" class="sidebar-link">
+                            <a href="{{ route('iklan.dashboard') }}" class="sidebar-link">
                                 Iklan
                             </a>
                         </li>

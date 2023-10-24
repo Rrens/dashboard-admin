@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('transaction', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->unsignedBigInteger('merchant_id')->nullable();
+            $table->foreign('merchant_id')->references('id')->on('merchants');
             $table->unsignedBigInteger('ads_id')->nullable();
             $table->foreign('ads_id')->references('id')->on('ads');
             $table->decimal('total_transaction');
