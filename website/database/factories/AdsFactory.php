@@ -27,6 +27,9 @@ class AdsFactory extends Factory
             'province' => $this->faker->state,
             'rating' => $this->faker->randomFloat(1, 1, 5),
             'count_view' => $this->faker->numberBetween(10, 500),
+            'is_approve' => $this->faker->randomElement(['approve', 'not_approve', null]),
+            'month' => $this->faker->numberBetween(1, 12),
+            'year' => $this->faker->numberBetween(2020, 2023),
         ];
     }
 }

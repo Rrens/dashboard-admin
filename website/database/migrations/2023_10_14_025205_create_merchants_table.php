@@ -24,6 +24,8 @@ return new class extends Migration
             $table->string('npwp');
             $table->string('id_card_number');
             $table->string('is_approve')->nullable();
+            $table->integer('month')->nullable();
+            $table->integer('year')->nullable();
             // $table->string('token');
             // $table->string('refresh_token');
             $table->dateTime('last_login')->nullable();

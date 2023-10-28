@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\Dashboard\MerchantController as DashboardMerchantController;
 use App\Http\Controllers\API\Verify\AdsController;
 use App\Http\Controllers\API\Verify\MerchantController;
 use Illuminate\Http\Request;
@@ -34,5 +35,20 @@ Route::group([
     ], function () {
         Route::get('', [AdsController::class, 'index']);
         Route::post('change-approve',  [AdsController::class, 'change_approve']);
+    });
+});
+
+Route::group([
+    'prefix' => 'dashboard'
+], function () {
+    Route::group([
+        'prefix' => 'merchant'
+    ], function () {
+        Route::get('verify', [DashboardMerchantController::class, 'data_verify_merchant_and_not']);
+        Route::get('data-verify', [DashboardMerchantController::class, 'data_verify_merchant']);
+        Route::get('check-merchant-active-or-not', [DashboardMerchantController::class, 'data_active_merchant_and_not']);
+        Route::get('data-merchant-active', [DashboardMerchantController::class, 'data_active_merchant']);
+        Route::get('average-transaction-merchant-periode', [DashboardMerchantController::class, 'avgTransactionMerchantPerPeriod']);
+        Route::get('data-average-transaction-merchant-periode/{month}/{year}', [DashboardMerchantController::class, 'dataAvgTransactionMerchantPerPeriod']);
     });
 });

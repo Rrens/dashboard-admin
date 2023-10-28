@@ -26,6 +26,8 @@ class Ads extends Model
         'count_order',
         'rating',
         'is_approve',
+        'year',
+        'month',
         'count_view',
         'created_at',
         'updated_at',

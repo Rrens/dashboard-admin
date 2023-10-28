@@ -25,6 +25,8 @@ class Merchant extends Model
         'profile_picture',
         'npwp',
         'is_approve',
+        'month',
+        'year',
         'id_card_number',
         'created_at',
         'updated_at',

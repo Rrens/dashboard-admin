@@ -99,55 +99,6 @@
         </section>
     </div>
 
-    <div class="modal fade" id="Add_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah FAQ</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form action="" method="post">
-                    @csrf
-                    <div class="modal-body">
-                        <div class="form-group mb-3">
-                            <label for="name">Nama</label>
-                            <input type="text" class="form-control" id="name"
-                                name="name"value="{{ old('name') }}" required>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="email">Email</label>
-                            <input type="email" class="form-control" id="email"
-                                name="email"value="{{ old('email') }}" required>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="Password">Password</label>
-                            <input type="text" class="form-control" id="Password"
-                                name="password"value="{{ old('password') }}" required>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="Password">Role</label>
-                            <select name="role" class="form-select">
-                                <option selected hidden>Pilih Role</option>
-                                <option value="superadmin">Super Admin</option>
-                                <option value="admin">admin</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                            <i class="bx bx-x d-block d-sm-none"></i>
-                            <span class="d-none d-sm-block">Close</span>
-                        </button>
-                        <button type="submit" class="btn btn-primary ml-1" data-bs-dismiss="modal">
-                            <i class="bx bx-check d-block d-sm-none"></i>
-                            <span class="d-none d-sm-block">Save</span>
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
     @if (!empty($data[0]))
         @foreach ($data as $item)
             <div class="modal fade" id="modalDetailCategories{{ $item['category_id'] }}" tabindex="-1"

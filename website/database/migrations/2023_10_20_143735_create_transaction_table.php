@@ -18,6 +18,8 @@ return new class extends Migration
             $table->unsignedBigInteger('ads_id')->nullable();
             $table->foreign('ads_id')->references('id')->on('ads');
             $table->decimal('total_transaction');
+            $table->integer('month');
+            $table->integer('year');
             $table->softDeletes();
             $table->timestamps();
         });

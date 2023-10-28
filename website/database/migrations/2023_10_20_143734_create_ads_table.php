@@ -27,6 +27,8 @@ return new class extends Migration
             $table->string('rating')->nullable();
             $table->integer('count_view')->nullable();
             $table->string('is_approve')->nullable();
+            $table->integer('month')->nullable();
+            $table->integer('year')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             CategoriesSeeder::class,
             AdsSeeder::class,
             SubCategorySeeder::class,
+            TransactionSeeder::class,
         ]);
     }
 }

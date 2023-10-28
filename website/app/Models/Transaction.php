@@ -18,6 +18,8 @@ class Transaction extends Model
         'merchant_id',
         'ads_id',
         'total_transaction',
+        'month',
+        'year',
         'created_at',
         'updated_at',
     ];

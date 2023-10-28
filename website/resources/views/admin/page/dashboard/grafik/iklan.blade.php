@@ -12,8 +12,8 @@
 
 
     // CHEAT PERIODE
-    var ctxBarCheatPeriode = document.getElementById("barCheatPeriode").getContext("2d");
-    var myBarCheatPeriode = new Chart(ctxBarCheatPeriode, {
+    var ctxbarCountRatingAdsPerPeriode = document.getElementById("barCountRatingAdsPerPeriode").getContext("2d");
+    var mybarCountRatingAdsPerPeriode = new Chart(ctxbarCountRatingAdsPerPeriode, {
         type: 'bar',
         data: {
             labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
@@ -89,15 +89,8 @@
                     var id = this.data.datasets[datasetIndex].data[index];
                     var verified = this.data.datasets[0].data[index];
                     var notVerified = this.data.datasets[1].data[index];
-                    console.log(this.data.datasets)
-
-                    // console.log('Data yang diklik:', index);
-
-                    // alert(`data yang di kik ${index}`)
-                    // alert(`Data yang diklik: ${id}`);
-                    // $('#myModal').modal('show');
-                    // $('#modalBody').html(`Data yang diklik: ${chartData}`);
-
+                    // console.log(this.data.datasets)
+                    $("#modalViewDataDashboard").modal("show");
                 }
             },
             scales: {
@@ -121,90 +114,19 @@
         }
     });
 
-    // AVERAGE MERCHANT PERIODE
-    var ctxBarAverageMerchantPeriode = document.getElementById("barAverageMerchantPeriode").getContext("2d");
-    var myBarAverageMerchantPeriode = new Chart(ctxBarAverageMerchantPeriode, {
-        type: 'bar',
-        data: {
-            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
-            datasets: [{
-                label: 'Students',
-                backgroundColor: [chartColors.orange, chartColors.yellow, chartColors.green, chartColors
-                    .grey, chartColors.info, chartColors.blue, chartColors.purple
-                ],
-                data: [
-                    20,
-                    2,
-                    90,
-                    20,
-                    45,
-                    55,
-                    15,
-                ]
-            }]
-        },
-        options: {
-            responsive: true,
-            barRoundness: 1,
-            title: {
-                display: true,
-                // text: "Students in 2020"
-            },
-            legend: {
-                display: false
-            },
-            'onClick': function(evt, item) {
-                // console.log ('legend onClick', evt);
-                // console.log('legd item', item);
-                if (item && item.length > 0) {
-                    // Ambil data dari data poin yang diklik
-                    var datasetIndex = item[0]._datasetIndex;
-                    var index = item[0]._index;
-                    // var chartData = this.data.datasets[datasetIndex].data[index];
-                    var id = this.data.datasets[datasetIndex].data[index];
-
-                    // console.log('Data yang diklik:', id);
-
-                    alert(`data yang di kik ${id}`)
-                    // alert(`Data yang diklik: ${id}`);
-                    // $('#myModal').modal('show');
-                    // $('#modalBody').html(`Data yang diklik: ${chartData}`);
-
-                }
-            },
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true,
-                        suggestedMax: 40 + 20,
-                        padding: 10,
-                    },
-                    gridLines: {
-                        drawBorder: false,
-                    }
-                }],
-                xAxes: [{
-                    gridLines: {
-                        display: false,
-                        drawBorder: false
-                    }
-                }]
-            }
-        }
-    });
 
 
     // PIE MERCHANT VERIFY
-    var pieMerchantVerify = document.getElementById("pieMerchantVerify").getContext("2d");
-    var gradientMerchantVerify = pieMerchantVerify.createLinearGradient(0, 0, 0, 400);
+    var pieFavoriteAdsPerCategory = document.getElementById("pieFavoriteAdsPerCategory").getContext("2d");
+    var gradientMerchantVerify = pieFavoriteAdsPerCategory.createLinearGradient(0, 0, 0, 400);
     gradientMerchantVerify.addColorStop(0, 'rgba(50, 69, 209,1)');
     gradientMerchantVerify.addColorStop(1, 'rgba(265, 177, 249,0)');
 
-    var gradient2MerchantVerify = pieMerchantVerify.createLinearGradient(0, 0, 0, 400);
+    var gradient2MerchantVerify = pieFavoriteAdsPerCategory.createLinearGradient(0, 0, 0, 400);
     gradient2MerchantVerify.addColorStop(0, 'rgba(255, 91, 92,1)');
     gradient2MerchantVerify.addColorStop(1, 'rgba(265, 177, 249,0)');
 
-    var myPieMerchantVerify = new Chart(pieMerchantVerify, {
+    var mypieFavoriteAdsPerCategory = new Chart(pieFavoriteAdsPerCategory, {
         type: 'pie',
         data: {
             labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
@@ -245,9 +167,8 @@
                     // var chartData = this.data.datasets[datasetIndex].data[index];
                     var id = this.data.datasets[datasetIndex].data[index];
 
-                    // console.log('Data yang diklik:', id);
-
-                    alert(`data yang di kik ${id}`)
+                    // alert(`data yang di kik ${id}`)
+                    $("#modalViewDataDashboard").modal("show");
                     // alert(`Data yang diklik: ${id}`);
                     // $('#myModal').modal('show');
                     // $('#modalBody').html(`Data yang diklik: ${chartData}`);
@@ -259,16 +180,16 @@
 
 
     // USER ACTIVE AND NO
-    var pieUserActiveAndNo = document.getElementById("pieUserActiveAndNo").getContext("2d");
-    var gradientUserActiveAndNo = pieUserActiveAndNo.createLinearGradient(0, 0, 0, 400);
+    var pieAdsApproveAndNotApprove = document.getElementById("pieAdsApproveAndNotApprove").getContext("2d");
+    var gradientUserActiveAndNo = pieAdsApproveAndNotApprove.createLinearGradient(0, 0, 0, 400);
     gradientUserActiveAndNo.addColorStop(0, 'rgba(50, 69, 209,1)');
     gradientUserActiveAndNo.addColorStop(1, 'rgba(265, 177, 249,0)');
 
-    var gradient2UserActiveAndNo = pieUserActiveAndNo.createLinearGradient(0, 0, 0, 400);
+    var gradient2UserActiveAndNo = pieAdsApproveAndNotApprove.createLinearGradient(0, 0, 0, 400);
     gradient2UserActiveAndNo.addColorStop(0, 'rgba(255, 91, 92,1)');
     gradient2UserActiveAndNo.addColorStop(1, 'rgba(265, 177, 249,0)');
 
-    var myPieUserActiveAndNo = new Chart(pieUserActiveAndNo, {
+    var mypieAdsApproveAndNotApprove = new Chart(pieAdsApproveAndNotApprove, {
         type: 'pie',
         data: {
             labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
@@ -298,7 +219,34 @@
                     display: true,
                     text: 'Chart.js Pie Chart'
                 }
-            }
+            },
+            'onClick': function(evt, item) {
+                // console.log ('legend onClick', evt);
+                // console.log('legd item', item);
+                if (item && item.length > 0) {
+                    // Ambil data dari data poin yang diklik
+                    var datasetIndex = item[0]._datasetIndex;
+                    var index = item[0]._index;
+                    // var chartData = this.data.datasets[datasetIndex].data[index];
+                    var id = this.data.datasets[datasetIndex].data[index];
+
+                    // console.log('Data yang diklik:', id);
+
+                    $("#modalViewDataDashboard").modal("show");
+                    alert(`data yang di kik ${id}`)
+                    // alert(`Data yang diklik: ${id}`);
+                    // $('#myModal').modal('show');
+                    // $('#modalBody').html(`Data yang diklik: ${chartData}`);
+
+                }
+            },
         },
     });
+
+    function showModal(date) {
+        const modal = document.getElementById('dateModal');
+        const modalDate = document.getElementById('modalDate');
+        modalDate.textContent = 'Tanggal: ' + date;
+        modal.style.display = 'block';
+    }
 </script>
