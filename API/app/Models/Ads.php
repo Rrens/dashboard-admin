@@ -15,8 +15,9 @@ class Ads extends Model
     protected $guarded = [];
 
     protected $fillable = [
-        'user_id',
+        'merchant_id',
         'category_id',
+        'name',
         'description',
         'notes',
         'price',
@@ -24,8 +25,10 @@ class Ads extends Model
         'city',
         'province',
         'count_order',
-        'is_approve',
         'rating',
+        'is_approve',
+        'year',
+        'month',
         'count_view',
         'created_at',
         'updated_at',
@@ -33,7 +36,7 @@ class Ads extends Model
 
     public function user()
     {
-        return $this->hasMany(User::class, 'id', 'id_user');
+        return $this->hasMany(User::class, 'id_user');
     }
 
     public function transaction()
@@ -43,11 +46,16 @@ class Ads extends Model
 
     public function categories()
     {
-        return $this->hasMany(Categories::class, 'id', 'category_id');
+        return $this->belongsTo(Categories::class, 'category_id');
     }
 
-    public function sub_category()
+    public function merchant()
     {
-        return $this->hasMany(SubCategory::class, 'category_id', 'id');
+        return $this->hasMany(Merchant::class, 'id', 'merchant_id');
     }
+
+    // public function sub_category()
+    // {
+    //     return $this->hasOne(SubCategory::class);
+    // }
 }

@@ -1,7 +1,7 @@
 <script>
-    // Merchant Verifikasi dan tidak
+    // Iklan Verifikasi dan tidak
     $.ajax({
-        url: "{{ env('API_URL') . 'dashboard/merchant/data-verify' }}",
+        url: "{{ env('API_URL') . 'dashboard/iklan/data-verify' }}",
         method: 'GET',
         success: function(data) {
             // console.log(data.data)
@@ -16,34 +16,37 @@
                             ${value.name}
                         </td>
                         <td class="text-bold-500">
-                            ${value.id}
+                            ${value.merchant_id}
                         </td>
                         <td class="text-bold-500">
-                            ${value.email}
+                            ${value.category_id}
                         </td>
                         <td class="text-bold-500">
-                            ${value.phone_number}
+                            ${value.merchant[0].province}
                         </td>
                         <td class="text-bold-500">
-                            ${value.address}
+                            ${value.merchant[0].city}
                         </td>
                         <td class="text-bold-500">
-                            ${value.city}
+                            ${value.description}
                         </td>
                         <td class="text-bold-500">
-                            ${value.province}
+                            ${value.notes}
                         </td>
                         <td class="text-bold-500">
-                            ${value.profile_picture}
+                            ${value.price}
                         </td>
                         <td class="text-bold-500">
-                            ${value.id_card_number}
+                            ${value.picture}
                         </td>
                         <td class="text-bold-500">
-                            ${value.npwp}
+                            ${value.count_order}
                         </td>
                         <td class="text-bold-500">
-                            ${value.last_login}
+                            ${value.rating}
+                        </td>
+                        <td class="text-bold-500">
+                            ${value.count_view}
                         </td>
                         <td>
                             <button class="btn btn-light-warning btn-sm" onclick="detail(this)"
@@ -63,52 +66,54 @@
         }
     })
 
-    // Pengguna Aktif dan tidak
+    // Iklan Favorite Berdasarkan kategori
     $.ajax({
-        url: "{{ env('API_URL') . 'dashboard/merchant/data-merchant-active' }}",
+        url: "{{ env('API_URL') . 'dashboard/iklan/data-verify' }}",
         method: 'GET',
         success: function(data) {
+            // console.log(data.data)
             const data_api = data.data;
             let newRow = null;
-
-            $('#table_data_active_and_not tbody').empty();
-
+            $('#table_data_verify tbody').empty();
             data_api.forEach(value => {
                 newRow += `
                     <tr>
 
                         <td class="text-bold-500">
-                            ${value.id}
-                        </td>
-                        <td class="text-bold-500">
                             ${value.name}
                         </td>
                         <td class="text-bold-500">
-                            ${value.email}
+                            ${value.merchant_id}
                         </td>
                         <td class="text-bold-500">
-                            ${value.phone_number}
+                            ${value.category_id}
                         </td>
                         <td class="text-bold-500">
-                            ${value.address}
+                            ${value.merchant[0].province}
                         </td>
                         <td class="text-bold-500">
-                            ${value.city}
+                            ${value.merchant[0].city}
                         </td>
                         <td class="text-bold-500">
-                            ${value.province}
+                            ${value.description}
                         </td>
                         <td class="text-bold-500">
-                            ${value.profile_picture}
+                            ${value.notes}
                         </td>
                         <td class="text-bold-500">
-                            ${value.id_card_number}
+                            ${value.price}
                         </td>
                         <td class="text-bold-500">
-                            ${value.npwp}
+                            ${value.picture}
                         </td>
                         <td class="text-bold-500">
-                            ${value.last_login}
+                            ${value.count_order}
+                        </td>
+                        <td class="text-bold-500">
+                            ${value.rating}
+                        </td>
+                        <td class="text-bold-500">
+                            ${value.count_view}
                         </td>
                         <td>
                             <button class="btn btn-light-warning btn-sm" onclick="detail(this)"
@@ -124,7 +129,7 @@
                 `;
             });
 
-            $('#table_data_active_and_not tbody').append(newRow);
+            $('#table_data_verify tbody').append(newRow);
         }
     })
 </script>

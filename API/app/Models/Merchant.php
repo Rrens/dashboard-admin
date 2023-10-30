@@ -15,7 +15,6 @@ class Merchant extends Model
     protected $guarded = [];
 
     protected $fillable = [
-        'user_id',
         'name',
         'email',
         'password',
@@ -24,15 +23,23 @@ class Merchant extends Model
         'city',
         'province',
         'profile_picture',
-        'is_approve',
         'npwp',
+        'is_approve',
+        'month',
+        'year',
         'id_card_number',
         'created_at',
         'updated_at',
     ];
 
-    public function user()
+
+    public function transaction()
     {
-        return $this->hasMany(User::class, 'id', 'user_id');
+        return $this->belongsTo(Transaction::class);
+    }
+
+    public function ads()
+    {
+        return $this->belongsTo(Ads::class);
     }
 }

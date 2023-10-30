@@ -17,6 +17,7 @@ class Ads extends Model
     protected $fillable = [
         'merchant_id',
         'category_id',
+        'name',
         'description',
         'notes',
         'price',
@@ -47,6 +48,12 @@ class Ads extends Model
     {
         return $this->belongsTo(Categories::class . 'category_id');
     }
+
+    public function merchant()
+    {
+        return $this->hasMany(Merchant::class, 'id', 'merchant_id');
+    }
+
 
     // public function sub_category()
     // {

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\Dashboard\AdsController as DashboardAdsController;
 use App\Http\Controllers\API\Dashboard\MerchantController as DashboardMerchantController;
 use App\Http\Controllers\API\Verify\AdsController;
 use App\Http\Controllers\API\Verify\MerchantController;
@@ -50,5 +51,16 @@ Route::group([
         Route::get('data-merchant-active', [DashboardMerchantController::class, 'data_active_merchant']);
         Route::get('average-transaction-merchant-periode', [DashboardMerchantController::class, 'avgTransactionMerchantPerPeriod']);
         Route::get('data-average-transaction-merchant-periode/{month}/{year}', [DashboardMerchantController::class, 'dataAvgTransactionMerchantPerPeriod']);
+    });
+
+    Route::group([
+        'prefix' => 'iklan'
+    ], function () {
+        Route::get('verify', [DashboardAdsController::class, 'data_verify_ads_and_not']);
+        Route::get('data-verify', [DashboardAdsController::class, 'data_verify_ads']);
+        Route::get('average-favorite-ads', [DashboardAdsController::class, 'favorite_ads_per_categories']);
+        Route::get('data-average-favorite-ads/{id}', [DashboardAdsController::class, 'data_favorite_ads_per_categories']);
+        Route::get('rating-ads-periode', [DashboardAdsController::class, 'rating_ads_per_periode']);
+        Route::get('data-rating-ads-periode/{month}', [DashboardAdsController::class, 'data_rating_ads_per_periode']);
     });
 });

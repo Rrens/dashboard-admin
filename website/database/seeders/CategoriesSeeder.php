@@ -21,13 +21,13 @@ class CategoriesSeeder extends Seeder
                 'name' => 'Elektronik Rumah Tangga',
             ],
             [
-                'name' => 'Elektronik & Gadget'
+                'name' => 'Elektronik dan Gadget'
             ],
             [
                 'name' => 'Jasa Kebersihan'
             ],
             [
-                'name' => 'Fotografi & Videografi'
+                'name' => 'Fotografi dan Videografi'
             ],
             [
                 'name' => 'Event Organizer'
@@ -39,7 +39,7 @@ class CategoriesSeeder extends Seeder
                 'name' => 'Biro Jasa'
             ],
             [
-                'name' => 'Creative & Pemrograman'
+                'name' => 'Creative dan Pemrograman'
             ],
             [
                 'name' => 'Kendaraan'
@@ -48,16 +48,16 @@ class CategoriesSeeder extends Seeder
                 'name' => 'Kursus'
             ],
             [
-                'name' => 'Tour & Travel'
+                'name' => 'Tour dan Travel'
             ],
             [
                 'name' => 'Kecantikan'
             ],
             [
-                'name' => 'Olahraga & Kesehatan'
+                'name' => 'Olahraga dan Kesehatan'
             ],
             [
-                'name' => 'Pindahan Rumah & Kantor'
+                'name' => 'Pindahan Rumah dan Kantor'
             ],
         ]);
     }

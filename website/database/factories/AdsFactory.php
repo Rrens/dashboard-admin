@@ -19,6 +19,7 @@ class AdsFactory extends Factory
         return [
             'merchant_id' => $this->faker->numberBetween(1, 100),
             'category_id' => $this->faker->numberBetween(1, 15),
+            'name' => $this->faker->sentence(5),
             'description' => $this->faker->realText(),
             'notes'  => $this->faker->realText(),
             'price' => $this->faker->randomFloat(2, 1000, 100000),
@@ -29,7 +30,7 @@ class AdsFactory extends Factory
             'count_view' => $this->faker->numberBetween(10, 500),
             'is_approve' => $this->faker->randomElement(['approve', 'not_approve', null]),
             'month' => $this->faker->numberBetween(1, 12),
-            'year' => $this->faker->numberBetween(2020, 2023),
+            'year' => 2023,
         ];
     }
 }

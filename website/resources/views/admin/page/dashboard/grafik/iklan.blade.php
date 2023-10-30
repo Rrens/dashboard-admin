@@ -7,65 +7,59 @@
         info: '#41B1F9',
         blue: '#3245D1',
         purple: 'rgb(153, 102, 255)',
-        grey: '#EBEFF6'
+        grey: '#EBEFF6',
+        teal: 'rgb(1, 192, 205)',
+        pink: 'rgb(255, 105, 180)',
+        lavender: 'rgb(182, 102, 210)',
+        gold: 'rgb(255, 215, 0)',
+        silver: 'rgb(192, 192, 192)',
+        custom: 'rgb(128, 128, 128)'
     };
 
 
     // CHEAT PERIODE
+    const data_month = [{{ $rating_month }}]
+    let monthNames = {
+        1: "Jan",
+        2: "Feb",
+        3: "Mar",
+        4: "Apr",
+        5: "Mei",
+        6: "Jun",
+        7: "Jul",
+        8: "Ags",
+        9: "Sep",
+        10: "Okt",
+        11: "Nov",
+        12: "Des",
+    };
     var ctxbarCountRatingAdsPerPeriode = document.getElementById("barCountRatingAdsPerPeriode").getContext("2d");
     var mybarCountRatingAdsPerPeriode = new Chart(ctxbarCountRatingAdsPerPeriode, {
         type: 'bar',
         data: {
-            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+            labels: data_month.map(function(value) {
+                return monthNames[value];
+            }),
             datasets: [{
-                    label: 'Verifikasi',
-                    backgroundColor: [chartColors.orange, chartColors.yellow, chartColors.green, chartColors
-                        .grey, chartColors.info, chartColors.blue, chartColors.purple
-                    ],
-                    data: [
-                        5,
-                        10,
-                        30,
-                        40,
-                        35,
-                        55,
-                        15,
-                    ],
-                    id: [
-                        1,
-                        23,
-                        4,
-                        4,
-                        2,
-                        2,
-                        12
-                    ],
-                },
-                {
-                    label: 'Tidak Verifikasi',
-                    backgroundColor: [chartColors.orange, chartColors.yellow, chartColors.green, chartColors
-                        .grey, chartColors.info, chartColors.blue, chartColors.purple
-                    ],
-                    data: [
-                        12,
-                        3,
-                        3,
-                        4,
-                        3,
-                        5,
-                        3,
-                    ],
-                    id: [
-                        1,
-                        23,
-                        4,
-                        4,
-                        2,
-                        2,
-                        12
-                    ],
-                },
-            ]
+                label: 'Jumlah rating iklan berdasarkan periode',
+                backgroundColor: [
+                    chartColors.orange,
+                    chartColors.yellow,
+                    chartColors.green,
+                    chartColors.grey,
+                    chartColors.info,
+                    chartColors.blue,
+                    chartColors.purple,
+                    chartColors.teal,
+                    chartColors.pink,
+                    chartColors.lavender,
+                    chartColors.gold,
+                    chartColors.silver,
+                    chartColors.custom
+                ],
+                data: [{{ $rating_periode }}],
+                month: [{{ $rating_month }}],
+            }, ]
         },
         options: {
             responsive: true,
@@ -86,18 +80,83 @@
                     var datasetIndex = item[0]._datasetIndex;
                     var index = item[0]._index;
                     // var chartData = this.data.datasets[datasetIndex].data[index];
-                    var id = this.data.datasets[datasetIndex].data[index];
-                    var verified = this.data.datasets[0].data[index];
-                    var notVerified = this.data.datasets[1].data[index];
+                    var month = this.data.datasets[datasetIndex].month[index];
                     // console.log(this.data.datasets)
-                    $("#modalViewDataDashboard").modal("show");
+                    $.ajax({
+                        url: `{{ env('API_URL') . 'dashboard/iklan/data-rating-ads-periode/${month}' }}`,
+                        method: 'GET',
+                        success: function(data) {
+                            // console.log(data.data)
+                            const data_api = data.data;
+                            let newRow = null;
+                            $('#table_data_verify tbody').empty();
+                            data_api.forEach(value => {
+                                console.log(value)
+                                newRow += `
+                                    <tr>
+
+                                        <td class="text-bold-500">
+                                            ${value.name}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.merchant_id}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.category_id}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.merchant[0].province}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.merchant[0].city}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.description}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.notes}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.price}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.picture}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.count_order}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.rating}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.count_view}
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-light-warning btn-sm" onclick="detail(this)"
+                                                data-bs-toggle="modal" data-bs-target="#modalDetail">
+                                                <i class="bi bi-pencil-fill"></i>
+                                            </button>
+                                            <button class="btn btn-light-danger btn-sm" data-bs-toggle="modal"
+                                                onclick="delete(this)" data-bs-target="#modalDelete">
+                                                <i class="bi bi-trash-fill"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                `;
+                            });
+
+                            $('#table_data_verify tbody').append(newRow);
+                        }
+                    })
+
+                    $("#modalbarCountRatingAdsPerPeriode").modal("show");
                 }
             },
             scales: {
                 yAxes: [{
                     ticks: {
                         beginAtZero: true,
-                        suggestedMax: 40 + 20,
+                        // suggestedMax: 40 + 20,
                         padding: 10,
                     },
                     gridLines: {
@@ -125,35 +184,42 @@
     var gradient2MerchantVerify = pieFavoriteAdsPerCategory.createLinearGradient(0, 0, 0, 400);
     gradient2MerchantVerify.addColorStop(0, 'rgba(255, 91, 92,1)');
     gradient2MerchantVerify.addColorStop(1, 'rgba(265, 177, 249,0)');
+    let labelFavoriteAds = {!! json_encode($name_categories) !!}
+    var decodedString = JSON.parse(labelFavoriteAds);
 
     var mypieFavoriteAdsPerCategory = new Chart(pieFavoriteAdsPerCategory, {
         type: 'pie',
         data: {
-            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+            labels: decodedString,
             datasets: [{
                 label: 'Students',
-                backgroundColor: [chartColors.orange, chartColors.yellow, chartColors.green, chartColors
-                    .grey, chartColors.info, chartColors.blue, chartColors.purple
+                backgroundColor: [
+                    chartColors.orange,
+                    chartColors.yellow,
+                    chartColors.green,
+                    chartColors.grey,
+                    chartColors.info,
+                    chartColors.blue,
+                    chartColors.purple,
+                    chartColors.teal,
+                    chartColors.pink,
+                    chartColors.lavender,
+                    chartColors.gold,
+                    chartColors.silver,
+                    chartColors.custom
                 ],
-                data: [
-                    5,
-                    10,
-                    30,
-                    40,
-                    35,
-                    55,
-                    15,
-                ]
+                data: [{{ $rating_categories }}],
+                id: [{{ $id }}],
             }]
         },
         options: {
             responsive: true,
             plugins: {
                 legend: {
-                    position: 'top',
+                    display: false, // Menonaktifkan legend
                 },
                 title: {
-                    display: true,
+                    display: false,
                     text: 'Chart.js Pie Chart'
                 }
             },
@@ -165,14 +231,76 @@
                     var datasetIndex = item[0]._datasetIndex;
                     var index = item[0]._index;
                     // var chartData = this.data.datasets[datasetIndex].data[index];
-                    var id = this.data.datasets[datasetIndex].data[index];
+                    var id = this.data.datasets[datasetIndex].id[index];
 
-                    // alert(`data yang di kik ${id}`)
-                    $("#modalViewDataDashboard").modal("show");
-                    // alert(`Data yang diklik: ${id}`);
-                    // $('#myModal').modal('show');
-                    // $('#modalBody').html(`Data yang diklik: ${chartData}`);
+                    // Iklan Favorite Berdasarkan kategori
+                    $.ajax({
+                        url: `{{ env('API_URL') . 'dashboard/iklan/data-average-favorite-ads/${id}' }}`,
+                        method: 'GET',
+                        success: function(data) {
+                            // console.log(data.data)
+                            const data_api = data.data;
+                            let newRow = null;
+                            $('#table_data_verify tbody').empty();
+                            data_api.forEach(value => {
+                                newRow += `
+                                    <tr>
 
+                                        <td class="text-bold-500">
+                                            ${value.name}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.merchant_id}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.category_id}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.merchant[0].province}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.merchant[0].city}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.description}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.notes}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.price}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.picture}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.count_order}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.rating}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.count_view}
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-light-warning btn-sm" onclick="detail(this)"
+                                                data-bs-toggle="modal" data-bs-target="#modalDetail">
+                                                <i class="bi bi-pencil-fill"></i>
+                                            </button>
+                                            <button class="btn btn-light-danger btn-sm" data-bs-toggle="modal"
+                                                onclick="delete(this)" data-bs-target="#modalDelete">
+                                                <i class="bi bi-trash-fill"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                `;
+                            });
+
+                            $('#table_data_verify tbody').append(newRow);
+                        }
+                    })
+
+                    $("#modalAdsFavoritePerCategories").modal("show");
                 }
             },
         },
@@ -192,20 +320,12 @@
     var mypieAdsApproveAndNotApprove = new Chart(pieAdsApproveAndNotApprove, {
         type: 'pie',
         data: {
-            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+            labels: ["Approve", "Not Approve"],
             datasets: [{
-                label: 'Students',
-                backgroundColor: [chartColors.orange, chartColors.yellow, chartColors.green, chartColors
-                    .grey, chartColors.info, chartColors.blue, chartColors.purple
-                ],
-                data: [
-                    50,
-                    30,
-                    10,
-                    20,
-                    95,
-                    25,
-                    5,
+                label: 'Iklan Verifikasi dan tidak',
+                backgroundColor: [chartColors.orange, chartColors.blue],
+                data: [{{ $data_verify_and_not[0]['approve'] }},
+                    {{ $data_verify_and_not[0]['not_approve'] }}
                 ]
             }]
         },
@@ -217,36 +337,17 @@
                 },
                 title: {
                     display: true,
-                    text: 'Chart.js Pie Chart'
+                    text: 'Jumlah Iklan lolos dan tidak'
                 }
             },
             'onClick': function(evt, item) {
-                // console.log ('legend onClick', evt);
-                // console.log('legd item', item);
                 if (item && item.length > 0) {
-                    // Ambil data dari data poin yang diklik
                     var datasetIndex = item[0]._datasetIndex;
                     var index = item[0]._index;
-                    // var chartData = this.data.datasets[datasetIndex].data[index];
                     var id = this.data.datasets[datasetIndex].data[index];
-
-                    // console.log('Data yang diklik:', id);
-
-                    $("#modalViewDataDashboard").modal("show");
-                    alert(`data yang di kik ${id}`)
-                    // alert(`Data yang diklik: ${id}`);
-                    // $('#myModal').modal('show');
-                    // $('#modalBody').html(`Data yang diklik: ${chartData}`);
-
+                    $("#modalViewVerifyAndNot").modal("show");
                 }
             },
         },
     });
-
-    function showModal(date) {
-        const modal = document.getElementById('dateModal');
-        const modalDate = document.getElementById('modalDate');
-        modalDate.textContent = 'Tanggal: ' + date;
-        modal.style.display = 'block';
-    }
 </script>

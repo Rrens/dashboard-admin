@@ -16,14 +16,14 @@
     };
 
 
-    // CHEAT PERIODE
+    // CHEAT PERIODE (BELUM)
     let ctxBarCheatPeriode = document.getElementById("barCheatPeriode").getContext("2d");
     let myBarCheatPeriode = new Chart(ctxBarCheatPeriode, {
         type: 'bar',
         data: {
             labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
             datasets: [{
-                    label: 'Verifikasi',
+                    label: 'Jumlah Pengguna melakukan kecurangan berdasarkan periode',
                     backgroundColor: [chartColors.orange, chartColors.yellow, chartColors.green, chartColors
                         .grey, chartColors.info, chartColors.blue, chartColors.purple
                     ],
@@ -77,7 +77,7 @@
             barRoundness: 1,
             title: {
                 display: true,
-                // text: "Students in 2020"
+                text: "Jumlah Pengguna melakukan kecurangan berdasarkan periode"
             },
             legend: {
                 display: false
@@ -295,8 +295,8 @@
                 },
                 title: {
                     display: true,
-                    text: 'Merchant Verifikasi dan tidak'
-                }
+                    text: "Jumlah Merchant Verifikasi Atau tidak"
+                },
             },
             'onClick': function(evt, item) {
                 if (item && item.length > 0) {

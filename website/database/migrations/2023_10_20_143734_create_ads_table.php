@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreign('merchant_id')->references('id')->on('merchants');
             $table->unsignedBigInteger('category_id')->nullable();
             $table->foreign('category_id')->references('id')->on('categories');
+            $table->string('name');
             $table->longText('description');
             $table->text('notes');
             $table->decimal('price');

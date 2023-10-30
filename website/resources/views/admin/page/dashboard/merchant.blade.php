@@ -97,10 +97,6 @@
                         <i class="bx bx-x d-block d-sm-none"></i>
                         <span class="d-none d-sm-block">Close</span>
                     </button>
-                    <button type="submit" class="btn btn-primary ml-1" data-bs-dismiss="modal">
-                        <i class="bx bx-check d-block d-sm-none"></i>
-                        <span class="d-none d-sm-block">Save</span>
-                    </button>
                 </div>
             </div>
         </div>
@@ -144,10 +140,6 @@
                         <i class="bx bx-x d-block d-sm-none"></i>
                         <span class="d-none d-sm-block">Close</span>
                     </button>
-                    <button type="submit" class="btn btn-primary ml-1" data-bs-dismiss="modal">
-                        <i class="bx bx-check d-block d-sm-none"></i>
-                        <span class="d-none d-sm-block">Save</span>
-                    </button>
                 </div>
             </div>
         </div>
@@ -158,7 +150,7 @@
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-fullscreen">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">VERIFY ACTIVE</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">AVERAGE TRANSACTIONS PER PERIODE</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body table-responsive">
@@ -187,10 +179,6 @@
                         <i class="bx bx-x d-block d-sm-none"></i>
                         <span class="d-none d-sm-block">Close</span>
                     </button>
-                    <button type="submit" class="btn btn-primary ml-1" data-bs-dismiss="modal">
-                        <i class="bx bx-check d-block d-sm-none"></i>
-                        <span class="d-none d-sm-block">Save</span>
-                    </button>
                 </div>
             </div>
         </div>
@@ -203,10 +191,6 @@
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="{{ asset('assets/extensions/chart.js/Chart.min.js') }}"></script>
     @include('admin.page.dashboard.grafik.merchant')
-    <script>
-        let year = $('#year').val()
-        let month = $('#month').val()
-    </script>
     @include('admin.page.dashboard.script.merchant')
     {{-- <script src="{{ asset('assets/js/pages/ui-chartjs.js') }}"></script> --}}
 @endpush

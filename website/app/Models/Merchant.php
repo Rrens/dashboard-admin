@@ -37,4 +37,9 @@ class Merchant extends Model
     {
         return $this->belongsTo(Transaction::class);
     }
+
+    public function ads()
+    {
+        return $this->belongsTo(Ads::class);
+    }
 }
