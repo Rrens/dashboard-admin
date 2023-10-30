@@ -38,13 +38,15 @@ class AdsController extends Controller
     public function data_verify_ads()
     {
         $data = Ads::with('merchant')->where('is_approve', 'approve')->get();
+        $data_not_active = Ads::with('merchant')->where('is_approve', 'not_approve')->get();
         if (!empty($data[0])) {
             return response()->json([
                 'meta' => [
                     'status' => 'success',
                     'message' => 'Successfully fetch data'
                 ],
-                'data' => $data
+                'data' => $data,
+                'data_not_active' => $data_not_active
             ], 200);
         }
 

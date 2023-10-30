@@ -7,7 +7,7 @@ use App\Http\Controllers\Verifikasi\MerchantController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::redirect('/', 'dashboard/merchant', 301);
+Route::redirect('/', 'dashboard/merchant');
 
 Route::group([
     'prefix' => 'dashboard',

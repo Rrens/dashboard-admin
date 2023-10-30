@@ -17,115 +17,115 @@
 
 
     // CHEAT PERIODE (BELUM)
-    let ctxBarCheatPeriode = document.getElementById("barCheatPeriode").getContext("2d");
-    let myBarCheatPeriode = new Chart(ctxBarCheatPeriode, {
-        type: 'bar',
-        data: {
-            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
-            datasets: [{
-                    label: 'Jumlah Pengguna melakukan kecurangan berdasarkan periode',
-                    backgroundColor: [chartColors.orange, chartColors.yellow, chartColors.green, chartColors
-                        .grey, chartColors.info, chartColors.blue, chartColors.purple
-                    ],
-                    data: [
-                        5,
-                        10,
-                        30,
-                        40,
-                        35,
-                        55,
-                        15,
-                    ],
-                    id: [
-                        1,
-                        23,
-                        4,
-                        4,
-                        2,
-                        2,
-                        12
-                    ],
-                },
-                {
-                    label: 'Tidak Verifikasi',
-                    backgroundColor: [chartColors.orange, chartColors.yellow, chartColors.green, chartColors
-                        .grey, chartColors.info, chartColors.blue, chartColors.purple
-                    ],
-                    data: [
-                        12,
-                        3,
-                        3,
-                        4,
-                        3,
-                        5,
-                        3,
-                    ],
-                    id: [
-                        1,
-                        23,
-                        4,
-                        4,
-                        2,
-                        2,
-                        12
-                    ],
-                },
-            ]
-        },
-        options: {
-            responsive: true,
-            barRoundness: 1,
-            title: {
-                display: true,
-                text: "Jumlah Pengguna melakukan kecurangan berdasarkan periode"
-            },
-            legend: {
-                display: false
-            },
-            'onClick': function(evt, item) {
-                // console.log ('legend onClick', evt);
-                // console.log('legd item', item);
-                if (item && item.length > 0) {
-                    // console.log(item);
-                    // Ambil data dari data poin yang diklik
-                    let datasetIndex = item[0]._datasetIndex;
-                    let index = item[0]._index;
-                    // let chartData = this.data.datasets[datasetIndex].data[index];
-                    let id = this.data.datasets[datasetIndex].data[index];
-                    let verified = this.data.datasets[0].data[index];
-                    let notVerified = this.data.datasets[1].data[index];
-                    console.log(this.data.datasets)
-                    $("#modalViewDataDashboard").modal("show");
+    // let ctxBarCheatPeriode = document.getElementById("barCheatPeriode").getContext("2d");
+    // let myBarCheatPeriode = new Chart(ctxBarCheatPeriode, {
+    //     type: 'bar',
+    //     data: {
+    //         labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+    //         datasets: [{
+    //                 label: 'Jumlah Pengguna melakukan kecurangan berdasarkan periode',
+    //                 backgroundColor: [chartColors.orange, chartColors.yellow, chartColors.green, chartColors
+    //                     .grey, chartColors.info, chartColors.blue, chartColors.purple
+    //                 ],
+    //                 data: [
+    //                     5,
+    //                     10,
+    //                     30,
+    //                     40,
+    //                     35,
+    //                     55,
+    //                     15,
+    //                 ],
+    //                 id: [
+    //                     1,
+    //                     23,
+    //                     4,
+    //                     4,
+    //                     2,
+    //                     2,
+    //                     12
+    //                 ],
+    //             },
+    //             {
+    //                 label: 'Tidak Verifikasi',
+    //                 backgroundColor: [chartColors.orange, chartColors.yellow, chartColors.green, chartColors
+    //                     .grey, chartColors.info, chartColors.blue, chartColors.purple
+    //                 ],
+    //                 data: [
+    //                     12,
+    //                     3,
+    //                     3,
+    //                     4,
+    //                     3,
+    //                     5,
+    //                     3,
+    //                 ],
+    //                 id: [
+    //                     1,
+    //                     23,
+    //                     4,
+    //                     4,
+    //                     2,
+    //                     2,
+    //                     12
+    //                 ],
+    //             },
+    //         ]
+    //     },
+    //     options: {
+    //         responsive: true,
+    //         barRoundness: 1,
+    //         title: {
+    //             display: true,
+    //             text: "Jumlah Pengguna melakukan kecurangan berdasarkan periode"
+    //         },
+    //         legend: {
+    //             display: false
+    //         },
+    //         'onClick': function(evt, item) {
+    //             // console.log ('legend onClick', evt);
+    //             // console.log('legd item', item);
+    //             if (item && item.length > 0) {
+    //                 // console.log(item);
+    //                 // Ambil data dari data poin yang diklik
+    //                 let datasetIndex = item[0]._datasetIndex;
+    //                 let index = item[0]._index;
+    //                 // let chartData = this.data.datasets[datasetIndex].data[index];
+    //                 let id = this.data.datasets[datasetIndex].data[index];
+    //                 let verified = this.data.datasets[0].data[index];
+    //                 let notVerified = this.data.datasets[1].data[index];
+    //                 console.log(this.data.datasets)
+    //                 $("#modalViewDataDashboard").modal("show");
 
-                    // console.log('Data yang diklik:', index);
+    //                 // console.log('Data yang diklik:', index);
 
-                    // alert(`data yang di kik ${index}`)
-                    // alert(`Data yang diklik: ${id}`);
-                    // $('#myModal').modal('show');
-                    // $('#modalBody').html(`Data yang diklik: ${chartData}`);
+    //                 // alert(`data yang di kik ${index}`)
+    //                 // alert(`Data yang diklik: ${id}`);
+    //                 // $('#myModal').modal('show');
+    //                 // $('#modalBody').html(`Data yang diklik: ${chartData}`);
 
-                }
-            },
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true,
-                        suggestedMax: 40 + 20,
-                        padding: 10,
-                    },
-                    gridLines: {
-                        drawBorder: false,
-                    }
-                }],
-                xAxes: [{
-                    gridLines: {
-                        display: false,
-                        drawBorder: false
-                    }
-                }]
-            }
-        }
-    });
+    //             }
+    //         },
+    //         scales: {
+    //             yAxes: [{
+    //                 ticks: {
+    //                     beginAtZero: true,
+    //                     suggestedMax: 40 + 20,
+    //                     padding: 10,
+    //                 },
+    //                 gridLines: {
+    //                     drawBorder: false,
+    //                 }
+    //             }],
+    //             xAxes: [{
+    //                 gridLines: {
+    //                     display: false,
+    //                     drawBorder: false
+    //                 }
+    //             }]
+    //         }
+    //     }
+    // });
 
     // AVERAGE MERCHANT PERIODE
     let ctxBarAverageMerchantPeriode = document.getElementById("barAverageMerchantPeriode").getContext("2d");
@@ -303,6 +303,80 @@
                     let datasetIndex = item[0]._datasetIndex;
                     let index = item[0]._index;
                     let id = this.data.datasets[datasetIndex].data[index];
+
+                    let label = null;
+                    if (this.data.labels[index] == 'Approve') {
+                        label = 'active'
+                    } else {
+                        label = 'not_active'
+                    }
+
+                    $.ajax({
+                        url: "{{ env('API_URL') . 'dashboard/merchant/data-verify' }}",
+                        method: 'GET',
+                        success: function(data) {
+                            let data_api = null
+                            if (label == 'active') {
+                                data_api = data.data;
+                            } else {
+                                data_api = data.data_not_active;
+                            }
+                            let newRow = null;
+                            $('#table_data_verify tbody').empty();
+                            data_api.forEach(value => {
+                                newRow += `
+                                    <tr>
+
+                                        <td class="text-bold-500">
+                                            ${value.name}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.id}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.email}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.phone_number}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.address}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.city}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.province}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.profile_picture}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.id_card_number}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.npwp}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.last_login}
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-light-warning btn-sm" onclick="detail(this)"
+                                                data-bs-toggle="modal" data-bs-target="#modalDetail">
+                                                <i class="bi bi-pencil-fill"></i>
+                                            </button>
+                                            <button class="btn btn-light-danger btn-sm" data-bs-toggle="modal"
+                                                onclick="delete(this)" data-bs-target="#modalDelete">
+                                                <i class="bi bi-trash-fill"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                `;
+                            });
+
+                            $('#table_data_verify tbody').append(newRow);
+                        }
+                    })
                     $("#modalViewVerifyAndNot").modal("show");
                 }
             },
@@ -348,6 +422,85 @@
                     let datasetIndex = item[0]._datasetIndex;
                     let index = item[0]._index;
                     let id = this.data.datasets[datasetIndex].data[index];
+                    // console.log(this.data.labels[index])
+                    let label = null;
+                    if (this.data.labels[index] == 'ACTIVE') {
+                        label = 'active'
+
+                    } else {
+                        label = 'not_active'
+                    }
+                    // Pengguna Aktif dan tidak
+                    $.ajax({
+                        url: "{{ env('API_URL') . 'dashboard/merchant/data-merchant-active' }}",
+                        method: 'GET',
+                        success: function(data) {
+                            let newRow = null;
+                            // console.log(label)
+                            let data_api = null
+                            if (label == 'active') {
+
+                                data_api = data.data;
+                            } else {
+                                data_api = data.data_not_active;
+                            }
+                            // console.log(data)
+                            $('#table_data_active_and_not tbody').empty();
+
+                            data_api.forEach(value => {
+                                newRow += `
+                                    <tr>
+
+                                        <td class="text-bold-500">
+                                            ${value.id}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.name}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.email}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.phone_number}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.address}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.city}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.province}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.profile_picture}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.id_card_number}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.npwp}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.last_login}
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-light-warning btn-sm" onclick="detail(this)"
+                                                data-bs-toggle="modal" data-bs-target="#modalDetail">
+                                                <i class="bi bi-pencil-fill"></i>
+                                            </button>
+                                            <button class="btn btn-light-danger btn-sm" data-bs-toggle="modal"
+                                                onclick="delete(this)" data-bs-target="#modalDelete">
+                                                <i class="bi bi-trash-fill"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                `;
+                            });
+
+                            $('#table_data_active_and_not tbody').append(newRow);
+                        }
+                    })
                     $("#modalViewMerchantActiveAndNot").modal("show");
                 }
             },

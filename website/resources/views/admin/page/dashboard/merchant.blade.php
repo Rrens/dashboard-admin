@@ -33,7 +33,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-6">
+                {{-- <div class="col-md-6">
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title">Jumlah Pengguna melakukan kecurangan berdasarkan periode</h4>
@@ -42,15 +42,13 @@
                             <canvas id="barCheatPeriode"></canvas>
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title">Rata-rata transaksi merchant berdasarkan periode</h4>
                         </div>
                         <div class="card-body">
-                            {{-- <input type="number" id="month" value="">
-                            <input type="number" id="year" value=""> --}}
                             <canvas id="barAverageMerchantPeriode"></canvas>
                         </div>
                     </div>

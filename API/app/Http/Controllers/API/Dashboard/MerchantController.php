@@ -40,13 +40,15 @@ class MerchantController extends Controller
     public function data_verify_merchant()
     {
         $data = Merchant::where('is_approve', 'approve')->get();
+        $data_not_active = Merchant::where('is_approve', 'not_approve')->get();
         if (!empty($data[0])) {
             return response()->json([
                 'meta' => [
                     'status' => 'success',
                     'message' => 'Successfully fetch data'
                 ],
-                'data' => $data
+                'data' => $data,
+                'data_not_active' => $data_not_active
             ], 200);
         }
 
@@ -62,10 +64,11 @@ class MerchantController extends Controller
     {
         $threeMonthsAgo = Carbon::now()->subMonths(3);
 
+        // return response()->json($threeMonthsAgo);
         $data = Merchant::selectRaw('
-                SUM(CASE WHEN last_login >= ? THEN 1 ELSE 0 END) as active,
-                SUM(CASE WHEN last_login < ? THEN 1 ELSE 0 END) as not_active
-            ', [$threeMonthsAgo, $threeMonthsAgo])
+        SUM(CASE WHEN last_login >= ? THEN 1 ELSE 0 END) as active,
+        SUM(CASE WHEN last_login < ? THEN 1 ELSE 0 END) as not_active
+        ', [$threeMonthsAgo, $threeMonthsAgo])
             ->get();
 
         if (!empty($data[0])) {
@@ -74,7 +77,7 @@ class MerchantController extends Controller
                     'status' => 'success',
                     'message' => 'Successfully fetch data'
                 ],
-                'data' => $data
+                'data' => $data,
             ], 200);
         }
 
@@ -95,13 +98,19 @@ class MerchantController extends Controller
             ->whereDate('last_login', '>=', $threeMonthsAgo)
             ->get();
 
+        $data_not_active =
+            Merchant::whereNotNull('last_login')
+            ->whereDate('last_login', '<', $threeMonthsAgo)
+            ->get();
+
         if (!empty($data[0])) {
             return response()->json([
                 'meta' => [
                     'status' => 'success',
                     'message' => 'Successfully fetch data'
                 ],
-                'data' => $data
+                'data' => $data,
+                'data_not_active' => $data_not_active
             ], 200);
         }
 
