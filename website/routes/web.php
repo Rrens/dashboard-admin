@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AdminManageController;
+use App\Http\Controllers\Dashboard\IklantController;
+use App\Http\Controllers\Dashboard\MerchantController as DashboardMerchantController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Verifikasi\IklanController;
 use App\Http\Controllers\Verifikasi\MerchantController;
@@ -12,8 +14,8 @@ Route::redirect('/', 'dashboard/merchant');
 Route::group([
     'prefix' => 'dashboard',
 ], function () {
-    Route::get('merchant', [MerchantController::class, 'dashboard_index'])->name('merchant.dashboard');
-    Route::get('iklan', [IklanController::class, 'dashboard_index'])->name('iklan.dashboard');
+    Route::get('merchant', [DashboardMerchantController::class, 'index'])->name('merchant.dashboard');
+    Route::get('iklan', [IklantController::class, 'index'])->name('iklan.dashboard');
     // Route::get('', [DashboardController::class, 'index'])->name('dashboard.index');
 });
 
