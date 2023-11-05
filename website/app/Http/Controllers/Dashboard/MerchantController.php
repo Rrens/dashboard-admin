@@ -76,6 +76,7 @@ class MerchantController extends Controller
         // dd($request->all());
         $validator = Validator::make($request->all(), [
             'name_edit_verify' => 'required|string',
+            'id_edit_verify' => 'required',
             'email_edit_verify' => 'required|email',
             'telp_edit_verify' => 'required|numeric',
             'address_edit_verify' => 'required',
@@ -114,15 +115,14 @@ class MerchantController extends Controller
             dd($error->getMessage());
         }
 
-        dd($response->json(), $data);
         if ($response->status() == 200) {
 
             $responseData = $response->json();
-            Alert::toast($responseData->meta->message, 'success');
+            Alert::toast($responseData['meta']['message'], 'success');
             return back();
         } else {
             $errorMessage = $response->json();
-            Alert::error($errorMessage->meta->message);
+            Alert::error($errorMessage['meta']['message']);
             return back();
         }
     }
@@ -131,6 +131,7 @@ class MerchantController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name_edit_active_or_not' => 'required|string',
+            'id_edit_active_or_not' => 'required',
             'email_edit_active_or_not' => 'required|email',
             'telp_edit_active_or_not' => 'required|numeric',
             'address_edit_active_or_not' => 'required',
@@ -170,7 +171,6 @@ class MerchantController extends Controller
         }
 
         if ($response->status() == 200) {
-
             $responseData = $response->json();
             Alert::toast($responseData['meta']['message'], 'success');
             return back();
@@ -185,6 +185,7 @@ class MerchantController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name_edit_average_detail' => 'required|string',
+            'id_edit_average_detail' => 'required',
             'email_edit_average_detail' => 'required|email',
             'telp_edit_average_detail' => 'required|numeric',
             'address_edit_average_detail' => 'required',
@@ -224,6 +225,120 @@ class MerchantController extends Controller
         }
 
         if ($response->status() == 200) {
+            $responseData = $response->json();
+            Alert::toast($responseData['meta']['message'], 'success');
+            return back();
+        } else {
+            $errorMessage = $response->json();
+            Alert::error($errorMessage['meta']['message']);
+            return back();
+        }
+    }
+
+    public function DestroyVerifyOrNot(Request $request)
+    {
+        // dd($request->all());
+        $validator = Validator::make($request->all(), [
+            'id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            Alert::error($validator->messages()->all());
+            return back();
+        }
+
+        $data = [
+            'id' => $request->id,
+        ];
+
+        $_URL = env('API_URL') . 'dashboard/merchant/destroy-verify';
+
+        try {
+            $response = Http::post($_URL, [
+                $data
+            ]);
+        } catch (Exception $error) {
+            dd($error->getMessage());
+        }
+
+        if ($response->status() == 200) {
+
+            $responseData = $response->json();
+            Alert::toast($responseData['meta']['message'], 'success');
+            return back();
+        } else {
+            $errorMessage = $response->json();
+            Alert::error($errorMessage['meta']['message']);
+            return back();
+        }
+    }
+
+    public function DestroyActiveOrNot(Request $request)
+    {
+        // dd($request->all());
+        $validator = Validator::make($request->all(), [
+            'id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            Alert::error($validator->messages()->all());
+            return back();
+        }
+
+        $data = [
+            'id' => $request->id,
+        ];
+
+        $_URL = env('API_URL') . 'dashboard/merchant/destroy-active';
+
+        try {
+            $response = Http::post($_URL, [
+                $data
+            ]);
+        } catch (Exception $error) {
+            dd($error->getMessage());
+        }
+
+        if ($response->status() == 200) {
+
+            $responseData = $response->json();
+            Alert::toast($responseData['meta']['message'], 'success');
+            return back();
+        } else {
+            $errorMessage = $response->json();
+            Alert::error($errorMessage['meta']['message']);
+            return back();
+        }
+    }
+
+    public function DestroyAvgTransaction(Request $request)
+    {
+        // dd($request->all());
+        $validator = Validator::make($request->all(), [
+            'id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            Alert::error($validator->messages()->all());
+            return back();
+        }
+
+        $data = [
+            'id' => $request->id,
+        ];
+
+        $_URL = env('API_URL') . 'dashboard/merchant/destroy-average';
+
+        try {
+            $response = Http::post($_URL, [
+                $data
+            ]);
+        } catch (Exception $error) {
+            dd($error->getMessage());
+        }
+
+        if ($response->status() == 200) {
+
             $responseData = $response->json();
             Alert::toast($responseData['meta']['message'], 'success');
             return back();

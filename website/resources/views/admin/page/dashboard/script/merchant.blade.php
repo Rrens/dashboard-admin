@@ -74,14 +74,6 @@
         })
     }
 
-    function UserActiveOrNotdestroy(data) {
-        $('#card-body section').empty();
-        let html = `
-            <input type="number" id="id" hidden>
-        `;
-        $('#card-body section').append(html);
-    }
-
     function averageEdit(data) {
         $('#card-body section').empty();
         $.ajax({
@@ -157,14 +149,6 @@
         })
     }
 
-    function averageDestroy(data) {
-        $('#car-body section').empty();
-        let html = `
-            <input type="number" id="id" hidden>
-        `;
-        $('#card-body section').append(html);
-    }
-
     function VerifyEdit(data) {
         $('#card-body section').empty();
         $.ajax({
@@ -172,7 +156,6 @@
             method: 'GET',
             success: function(data) {
                 let value = data.data
-                console.log(data)
                 let html = `
                     <form enctype="multipart/form-data" id="form" method="POST" action="{{ route('merchant.update-verify') }}">
                         @csrf
@@ -241,11 +224,103 @@
         })
     }
 
+    function UserActiveOrNotdestroy(data) {
+        $('#card section').empty();
+
+        $.ajax({
+            url: `{{ env('API_URL') . 'dashboard/merchant/merchant-detail/${data}' }}`,
+            method: 'GET',
+            success: function(data) {
+                let value = data.data.id
+                let html = `
+                    <form enctype="multipart/form-data" id="form" method="POST" action="{{ route('merchant.destroy-active') }}">
+                        @csrf
+                        <div class="mt-3 d-flex justify-content-center">
+                            <input type="number" name="id" value="${value}" hidden>
+                            <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">
+                                <i class="bx bx-x d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">Delete</span>
+                            </button>
+                            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                <i class="bx bx-x d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">Close</span>
+                            </button>
+                        </div>
+                    </form>
+                    `;
+                $('#card section').append(html);
+            },
+            error: function(xhr, status, error) {
+                console.log("AJAX request error:");
+                console.log(`Status: ${status}`);
+                console.log(`Error" ${error}`);
+            }
+        })
+    }
+
+    function averageDestroy(data) {
+        $('#card section').empty();
+        $.ajax({
+            url: `{{ env('API_URL') . 'dashboard/merchant/merchant-detail/${data}' }}`,
+            method: 'GET',
+            success: function(data) {
+                let value = data.data.id
+                let html = `
+                    <form enctype="multipart/form-data" id="form" method="POST" action="{{ route('merchant.destroy-average') }}">
+                        @csrf
+                        <div class="mt-3 d-flex justify-content-center">
+                            <input type="number" name="id" value="${value}" hidden>
+                            <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">
+                                <i class="bx bx-x d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">Delete</span>
+                            </button>
+                            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                <i class="bx bx-x d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">Close</span>
+                            </button>
+                        </div>
+                    </form>
+                    `;
+                $('#card section').append(html);
+            },
+            error: function(xhr, status, error) {
+                console.log("AJAX request error:");
+                console.log(`Status: ${status}`);
+                console.log(`Error" ${error}`);
+            }
+        })
+    }
+
     function VerifyDestroy(data) {
-        $('#card-body section').empty();
-        let html = `
-            <input type="number" id="id" hidden>
-        `;
-        $('#card-body section').append(html);
+        $('#card section').empty();
+        $.ajax({
+            url: `{{ env('API_URL') . 'dashboard/merchant/merchant-detail/${data}' }}`,
+            method: 'GET',
+            success: function(data) {
+                let value = data.data.id
+                let html = `
+                    <form enctype="multipart/form-data" id="form" method="POST" action="{{ route('merchant.destroy-verify') }}">
+                        @csrf
+                        <div class="mt-3 d-flex justify-content-center">
+                            <input type="number" name="id" value="${value}" hidden>
+                            <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">
+                                <i class="bx bx-x d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">Delete</span>
+                            </button>
+                            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                <i class="bx bx-x d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">Close</span>
+                            </button>
+                        </div>
+                    </form>
+                    `;
+                $('#card section').append(html);
+            },
+            error: function(xhr, status, error) {
+                console.log("AJAX request error:");
+                console.log(`Status: ${status}`);
+                console.log(`Error" ${error}`);
+            }
+        })
     }
 </script>

@@ -206,22 +206,10 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body table-responsive">
-                    <form enctype="multipart/form-data" id="form">
-                        <div class="card-body">
-                            <section>
-                            </section>
-                            <div class="mt-3 d-flex justify-content-center">
-                                <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">
-                                    <i class="bx bx-x d-block d-sm-none"></i>
-                                    <span class="d-none d-sm-block">Delete</span>
-                                </button>
-                                <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                                    <i class="bx bx-x d-block d-sm-none"></i>
-                                    <span class="d-none d-sm-block">Close</span>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                    <div class="card-body" id="card">
+                        <section>
+                        </section>
+                    </div>
                 </div>
             </div>
         </div>
