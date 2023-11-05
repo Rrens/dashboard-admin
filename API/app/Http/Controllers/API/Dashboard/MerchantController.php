@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Merchant;
 use App\Models\Transaction;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class MerchantController extends Controller
 {
@@ -176,6 +178,259 @@ class MerchantController extends Controller
         return response()->json([
             'meta' => [
                 'status' => 'failed',
+                'message' => 'Data Not Found'
+            ],
+        ], 404);
+    }
+
+    public function merchant_detail($id)
+    {
+        $data = Merchant::findOrFail($id);
+
+        if (!empty($data)) {
+            return response()->json([
+                'meta' => [
+                    'status' => 'success',
+                    'message' => 'Successfully fetch data'
+                ],
+                'data' => $data,
+            ], 200);
+        }
+
+        return response()->json([
+            'meta' => [
+                'status' => 'failed',
+                'message' => 'Data Not Found'
+            ],
+        ], 404);
+    }
+
+    public function update_verify(Request $request)
+    {
+        $data_request = [
+            'name' => $request[0]['name'],
+            'id' => $request[0]['id'],
+            'email' => $request[0]['email'],
+            'telp' => $request[0]['telp'],
+            'address' => $request[0]['address'],
+            'city' => $request[0]['city'],
+            'province' => $request[0]['province'],
+            'id_card' => $request[0]['id_card'],
+            'npwp' => $request[0]['npwp'],
+            'last_login' => $request[0]['last_login'],
+        ];
+
+        $validator = Validator::make($data_request, [
+            'name' => 'required|string',
+            'id' => 'required',
+            'email' => 'required|email',
+            'telp' => 'required|numeric',
+            'address' => 'required',
+            'city' => 'required|string',
+            'province' => 'required|string',
+            'id_card' => 'required|numeric',
+            'npwp' => 'required',
+            'last_login' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'meta' => [
+                    'status' => 'Error',
+                    'message' => 'Bad Request'
+                ],
+            ], 400);
+        }
+
+        try {
+            $data = Merchant::findOrFail($data_request['id']);
+            $data->id = $data_request['id'];
+            $data->name = $data_request['name'];
+            $data->email = $data_request['email'];
+            $data->phone_number = $data_request['telp'];
+            $data->address = $data_request['address'];
+            $data->city = $data_request['city'];
+            $data->province = $data_request['province'];
+            $data->id_card_number = $data_request['id_card'];
+            $data->npwp = $data_request['npwp'];
+            $data->save();
+        } catch (Exception $error) {
+            return response()->json([
+                'meta' => [
+                    'status' => 'Error',
+                    'message' => 'Internal Server Error'
+                ],
+                'data' => $error
+            ], 500);
+        }
+
+        if (!empty($data)) {
+            return response()->json([
+                'meta' => [
+                    'status' => 'success',
+                    'message' => 'Successfully Update data'
+                ],
+                'data' => $data,
+            ], 200);
+        }
+
+        return response()->json([
+            'meta' => [
+                'status' => 'Error',
+                'message' => 'Data Not Found'
+            ],
+        ], 404);
+    }
+
+    public function update_average(Request $request)
+    {
+        $data_request = [
+            'name' => $request[0]['name'],
+            'id' => $request[0]['id'],
+            'email' => $request[0]['email'],
+            'telp' => $request[0]['telp'],
+            'address' => $request[0]['address'],
+            'city' => $request[0]['city'],
+            'province' => $request[0]['province'],
+            'id_card' => $request[0]['id_card'],
+            'npwp' => $request[0]['npwp'],
+            'last_login' => $request[0]['last_login'],
+        ];
+
+        $validator = Validator::make($data_request, [
+            'name' => 'required|string',
+            'id' => 'required',
+            'email' => 'required|email',
+            'telp' => 'required|numeric',
+            'address' => 'required',
+            'city' => 'required|string',
+            'province' => 'required|string',
+            'id_card' => 'required|numeric',
+            'npwp' => 'required',
+            'last_login' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'meta' => [
+                    'status' => 'Error',
+                    'message' => 'Bad Request'
+                ],
+            ], 400);
+        }
+
+        try {
+            $data = Merchant::findOrFail($data_request['id']);
+            $data->id = $data_request['id'];
+            $data->name = $data_request['name'];
+            $data->email = $data_request['email'];
+            $data->phone_number = $data_request['telp'];
+            $data->address = $data_request['address'];
+            $data->city = $data_request['city'];
+            $data->province = $data_request['province'];
+            $data->id_card_number = $data_request['id_card'];
+            $data->npwp = $data_request['npwp'];
+            $data->save();
+        } catch (Exception $error) {
+            return response()->json([
+                'meta' => [
+                    'status' => 'Error',
+                    'message' => 'Internal Server Error'
+                ],
+                'data' => $error
+            ], 500);
+        }
+
+        if (!empty($data)) {
+            return response()->json([
+                'meta' => [
+                    'status' => 'success',
+                    'message' => 'Successfully Update data'
+                ],
+                'data' => $data,
+            ], 200);
+        }
+
+        return response()->json([
+            'meta' => [
+                'status' => 'Error',
+                'message' => 'Data Not Found'
+            ],
+        ], 404);
+    }
+
+    public function update_active_or_not(Request $request)
+    {
+        $data_request = [
+            'name' => $request[0]['name'],
+            'id' => $request[0]['id'],
+            'email' => $request[0]['email'],
+            'telp' => $request[0]['telp'],
+            'address' => $request[0]['address'],
+            'city' => $request[0]['city'],
+            'province' => $request[0]['province'],
+            'id_card' => $request[0]['id_card'],
+            'npwp' => $request[0]['npwp'],
+            'last_login' => $request[0]['last_login'],
+        ];
+
+        $validator = Validator::make($data_request, [
+            'name' => 'required|string',
+            'id' => 'required',
+            'email' => 'required|email',
+            'telp' => 'required|numeric',
+            'address' => 'required',
+            'city' => 'required|string',
+            'province' => 'required|string',
+            'id_card' => 'required|numeric',
+            'npwp' => 'required',
+            'last_login' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'meta' => [
+                    'status' => 'Error',
+                    'message' => 'Bad Request'
+                ],
+            ], 400);
+        }
+
+        try {
+            $data = Merchant::findOrFail($data_request['id']);
+            $data->id = $data_request['id'];
+            $data->name = $data_request['name'];
+            $data->email = $data_request['email'];
+            $data->phone_number = $data_request['telp'];
+            $data->address = $data_request['address'];
+            $data->city = $data_request['city'];
+            $data->province = $data_request['province'];
+            $data->id_card_number = $data_request['id_card'];
+            $data->npwp = $data_request['npwp'];
+            $data->save();
+        } catch (Exception $error) {
+            return response()->json([
+                'meta' => [
+                    'status' => 'Error',
+                    'message' => 'Internal Server Error'
+                ],
+                'data' => $error
+            ], 500);
+        }
+
+        if (!empty($data)) {
+            return response()->json([
+                'meta' => [
+                    'status' => 'success',
+                    'message' => 'Successfully Update data'
+                ],
+                'data' => $data,
+            ], 200);
+        }
+
+        return response()->json([
+            'meta' => [
+                'status' => 'Error',
                 'message' => 'Data Not Found'
             ],
         ], 404);

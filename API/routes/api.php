@@ -51,6 +51,10 @@ Route::group([
         Route::get('data-merchant-active', [DashboardMerchantController::class, 'data_active_merchant']);
         Route::get('average-transaction-merchant-periode', [DashboardMerchantController::class, 'avgTransactionMerchantPerPeriod']);
         Route::get('data-average-transaction-merchant-periode/{month}/{year}', [DashboardMerchantController::class, 'dataAvgTransactionMerchantPerPeriod']);
+        Route::get('merchant-detail/{id}', [DashboardMerchantController::class, 'merchant_detail']);
+        Route::post('update-verify', [DashboardMerchantController::class, 'update_verify']);
+        Route::post('update-average', [DashboardMerchantController::class, 'update_average']);
+        Route::post('update-active-or-not', [DashboardMerchantController::class, 'update_active_or_not']);
     });
 
     Route::group([

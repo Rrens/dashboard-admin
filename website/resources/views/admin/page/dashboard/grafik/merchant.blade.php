@@ -221,12 +221,13 @@
                                             ${monthNames[value.month]}
                                         </td>
                                         <td>
-                                            <button class="btn btn-light-warning btn-sm" onclick="detail(this)"
-                                                data-bs-toggle="modal" data-bs-target="#modalDetail">
-                                                <i class="bi bi-info-circle-fill"></i>
+                                            <button class="btn btn-light-warning btn-sm" onclick="averageEdit(${value.id})"
+                                                data-bs-toggle="modal" data-bs-target="#modalEdit">
+                                                <i class="bi bi-pencil-fill"></i>
                                             </button>
                                             <button class="btn btn-light-danger btn-sm" data-bs-toggle="modal"
-                                                onclick="delete(this)" data-bs-target="#modalDelete">
+                                                onclick="averageDestroy(${value.id})"
+                                                data-bs-target="#modalDelete">
                                                 <i class="bi bi-trash-fill"></i>
                                             </button>
                                         </td>
@@ -328,10 +329,10 @@
                                     <tr>
 
                                         <td class="text-bold-500">
-                                            ${value.name}
+                                            ${value.id}
                                         </td>
                                         <td class="text-bold-500">
-                                            ${value.id}
+                                            ${value.name}
                                         </td>
                                         <td class="text-bold-500">
                                             ${value.email}
@@ -361,12 +362,13 @@
                                             ${value.last_login}
                                         </td>
                                         <td>
-                                            <button class="btn btn-light-warning btn-sm" onclick="detail(this)"
-                                                data-bs-toggle="modal" data-bs-target="#modalDetail">
+                                            <button class="btn btn-light-warning btn-sm" onclick="VerifyEdit(${value.id})"
+                                                data-bs-toggle="modal" data-bs-target="#modalEdit">
                                                 <i class="bi bi-pencil-fill"></i>
                                             </button>
                                             <button class="btn btn-light-danger btn-sm" data-bs-toggle="modal"
-                                                onclick="delete(this)" data-bs-target="#modalDelete">
+                                                onclick="VerifyDestroy(${value.id})"
+                                                data-bs-target="#modalDelete">
                                                 <i class="bi bi-trash-fill"></i>
                                             </button>
                                         </td>
@@ -485,12 +487,13 @@
                                             ${value.last_login}
                                         </td>
                                         <td>
-                                            <button class="btn btn-light-warning btn-sm" onclick="detail(this)"
-                                                data-bs-toggle="modal" data-bs-target="#modalDetail">
+                                            <button class="btn btn-light-warning btn-sm" onclick="UserActiveOrNotedit(${value.id})"
+                                                data-bs-toggle="modal" data-bs-target="#modalEdit">
                                                 <i class="bi bi-pencil-fill"></i>
                                             </button>
                                             <button class="btn btn-light-danger btn-sm" data-bs-toggle="modal"
-                                                onclick="delete(this)" data-bs-target="#modalDelete">
+                                                onclick="UserActiveOrNotdestroy(${value.id})"
+                                                data-bs-target="#modalDelete">
                                                 <i class="bi bi-trash-fill"></i>
                                             </button>
                                         </td>
@@ -502,6 +505,7 @@
                         }
                     })
                     $("#modalViewMerchantActiveAndNot").modal("show");
+
                 }
             },
         },

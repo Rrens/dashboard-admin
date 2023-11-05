@@ -14,7 +14,14 @@ Route::redirect('/', 'dashboard/merchant');
 Route::group([
     'prefix' => 'dashboard',
 ], function () {
-    Route::get('merchant', [DashboardMerchantController::class, 'index'])->name('merchant.dashboard');
+    Route::group([
+        'prefix' => 'merchant',
+    ], function () {
+        Route::get('', [DashboardMerchantController::class, 'index'])->name('merchant.dashboard');
+        Route::post('/update-verify-or-not', [DashboardMerchantController::class, 'updateVerifyOrNot'])->name('merchant.update-verify');
+        Route::post('/update-average-detail', [DashboardMerchantController::class, 'updateAvgTransaction'])->name('merchant.update-average');
+        Route::post('/update-active-or-not', [DashboardMerchantController::class, 'updateActiveOrNot'])->name('merchant.update-active-or-not');
+    });
     Route::get('iklan', [IklantController::class, 'index'])->name('iklan.dashboard');
     // Route::get('', [DashboardController::class, 'index'])->name('dashboard.index');
 });

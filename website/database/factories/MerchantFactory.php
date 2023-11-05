@@ -23,7 +23,7 @@ class MerchantFactory extends Factory
         return [
             'name' => $this->faker->company(),
             'email'  => $this->faker->unique()->safeEmail,
-            'phone_number' => $this->faker->phoneNumber,
+            'phone_number' =>  '628' .  $this->faker->randomNumber(9, true),
             'address' => $this->faker->address,
             'city' => $this->faker->city,
             'province' => $this->faker->state,
