@@ -19,6 +19,7 @@ class MerchantController extends Controller
                 SUM(CASE WHEN is_approve = "approve" THEN 1 ELSE 0 END) as approve,
                 SUM(CASE WHEN is_approve = "not_approve" THEN 1 ELSE 0 END) as not_approve
             '))
+            ->where('deleted_at', null)
             ->get();
 
         if (!empty($data[0])) {
@@ -41,7 +42,9 @@ class MerchantController extends Controller
 
     public function data_verify_merchant()
     {
-        $data = Merchant::where('is_approve', 'approve')->get();
+        $data = Merchant::where('is_approve', 'approve')
+            ->where('deleted_at', null)
+            ->get();
         $data_not_active = Merchant::where('is_approve', 'not_approve')->get();
         if (!empty($data[0])) {
             return response()->json([
@@ -71,6 +74,7 @@ class MerchantController extends Controller
         SUM(CASE WHEN last_login >= ? THEN 1 ELSE 0 END) as active,
         SUM(CASE WHEN last_login < ? THEN 1 ELSE 0 END) as not_active
         ', [$threeMonthsAgo, $threeMonthsAgo])
+            ->where('deleted_at', null)
             ->get();
 
         if (!empty($data[0])) {
@@ -98,11 +102,13 @@ class MerchantController extends Controller
         // Merchant yang aktif dalam 3 bulan terakhir
         $data = Merchant::whereNotNull('last_login')
             ->whereDate('last_login', '>=', $threeMonthsAgo)
+            ->where('deleted_at', null)
             ->get();
 
         $data_not_active =
             Merchant::whereNotNull('last_login')
             ->whereDate('last_login', '<', $threeMonthsAgo)
+            ->where('deleted_at', null)
             ->get();
 
         if (!empty($data[0])) {
@@ -129,15 +135,22 @@ class MerchantController extends Controller
 
         $month = Transaction::groupBy('month')
             ->orderBy('month', 'asc')
+            ->with('merchant')
+            ->whereHas('merchant', function ($query) {
+                $query->whereNull('deleted_at');
+            })
             ->pluck('month');
 
-        $data = Transaction::select(
-            DB::raw('year'),
-            DB::raw('month'),
-            DB::raw('SUM(total_transaction) as total_transaction')
-        )
+        $data = Transaction::join('merchants as m', 'transaction.merchant_id', '=', 'm.id')
+            ->select(
+                DB::raw('transaction.year'),
+                DB::raw('transaction.month'),
+                DB::raw('SUM(transaction.total_transaction) as total_transaction'),
+                DB::raw('m.id')
+            )
             ->groupBy('year', 'month')
             ->orderBy('month', 'asc')
+            ->where('m.deleted_at', null)
             ->get();
 
         if (!empty($data[0])) {
@@ -163,6 +176,10 @@ class MerchantController extends Controller
     {
         $data = Transaction::where('month', $month)
             ->where('year', $year)
+            ->with('merchant')
+            ->whereHas('merchant', function ($query) {
+                $query->whereNull('deleted_at');
+            })
             ->get();
 
         if (!empty($data[0])) {
@@ -244,6 +261,17 @@ class MerchantController extends Controller
 
         try {
             $data = Merchant::findOrFail($data_request['id']);
+
+            if (empty($data)) {
+
+                return response()->json([
+                    'meta' => [
+                        'status' => 'Error',
+                        'message' => 'Data Not Found'
+                    ],
+                ], 404);
+            }
+
             $data->id = $data_request['id'];
             $data->name = $data_request['name'];
             $data->email = $data_request['email'];
@@ -254,6 +282,13 @@ class MerchantController extends Controller
             $data->id_card_number = $data_request['id_card'];
             $data->npwp = $data_request['npwp'];
             $data->save();
+
+            return response()->json([
+                'meta' => [
+                    'status' => 'success',
+                    'message' => 'Successfully Update data'
+                ],
+            ], 200);
         } catch (Exception $error) {
             return response()->json([
                 'meta' => [
@@ -263,23 +298,6 @@ class MerchantController extends Controller
                 'data' => $error
             ], 500);
         }
-
-        if (!empty($data)) {
-            return response()->json([
-                'meta' => [
-                    'status' => 'success',
-                    'message' => 'Successfully Update data'
-                ],
-                'data' => $data,
-            ], 200);
-        }
-
-        return response()->json([
-            'meta' => [
-                'status' => 'Error',
-                'message' => 'Data Not Found'
-            ],
-        ], 404);
     }
 
     public function update_average(Request $request)
@@ -321,6 +339,17 @@ class MerchantController extends Controller
 
         try {
             $data = Merchant::findOrFail($data_request['id']);
+
+            if (empty($data)) {
+
+                return response()->json([
+                    'meta' => [
+                        'status' => 'Error',
+                        'message' => 'Data Not Found'
+                    ],
+                ], 404);
+            }
+
             $data->id = $data_request['id'];
             $data->name = $data_request['name'];
             $data->email = $data_request['email'];
@@ -331,6 +360,13 @@ class MerchantController extends Controller
             $data->id_card_number = $data_request['id_card'];
             $data->npwp = $data_request['npwp'];
             $data->save();
+
+            return response()->json([
+                'meta' => [
+                    'status' => 'success',
+                    'message' => 'Successfully Update data'
+                ],
+            ], 200);
         } catch (Exception $error) {
             return response()->json([
                 'meta' => [
@@ -340,23 +376,6 @@ class MerchantController extends Controller
                 'data' => $error
             ], 500);
         }
-
-        if (!empty($data)) {
-            return response()->json([
-                'meta' => [
-                    'status' => 'success',
-                    'message' => 'Successfully Update data'
-                ],
-                'data' => $data,
-            ], 200);
-        }
-
-        return response()->json([
-            'meta' => [
-                'status' => 'Error',
-                'message' => 'Data Not Found'
-            ],
-        ], 404);
     }
 
     public function update_active_or_not(Request $request)
@@ -398,6 +417,17 @@ class MerchantController extends Controller
 
         try {
             $data = Merchant::findOrFail($data_request['id']);
+
+            if (empty($data)) {
+
+                return response()->json([
+                    'meta' => [
+                        'status' => 'Error',
+                        'message' => 'Data Not Found'
+                    ],
+                ], 404);
+            }
+
             $data->id = $data_request['id'];
             $data->name = $data_request['name'];
             $data->email = $data_request['email'];
@@ -408,6 +438,13 @@ class MerchantController extends Controller
             $data->id_card_number = $data_request['id_card'];
             $data->npwp = $data_request['npwp'];
             $data->save();
+
+            return response()->json([
+                'meta' => [
+                    'status' => 'success',
+                    'message' => 'Successfully Update data'
+                ],
+            ], 200);
         } catch (Exception $error) {
             return response()->json([
                 'meta' => [
@@ -417,22 +454,167 @@ class MerchantController extends Controller
                 'data' => $error
             ], 500);
         }
+    }
 
-        if (!empty($data)) {
+    public function destroy_active(Request $request)
+    {
+        $data_request = [
+            'id' => $request[0]['id'],
+        ];
+
+        $validator = Validator::make($data_request, [
+            'id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'meta' => [
+                    'status' => 'Error',
+                    'message' => 'Bad Request'
+                ],
+            ], 400);
+        }
+
+        try {
+            $data = Merchant::findOrFail($data_request['id']);
+
+            if (empty($data)) {
+                return response()->json([
+                    'meta' => [
+                        'status' => 'Error',
+                        'message' => 'Data Not Found'
+                    ],
+                ], 404);
+            }
+
+            $data->delete();
+
             return response()->json([
                 'meta' => [
                     'status' => 'success',
-                    'message' => 'Successfully Update data'
+                    'message' => 'Successfully Delete data'
                 ],
-                'data' => $data,
             ], 200);
+        } catch (Exception $error) {
+            return response()->json([
+                'meta' => [
+                    'status' => 'Error',
+                    'message' => 'Internal Server Error'
+                ],
+                'data' => $error
+            ], 500);
+        }
+    }
+
+    public function destroy_average(Request $request)
+    {
+        $data_request = [
+            'id' => $request[0]['id'],
+        ];
+
+        $validator = Validator::make($data_request, [
+            'id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'meta' => [
+                    'status' => 'Error',
+                    'message' => 'Bad Request'
+                ],
+            ], 400);
         }
 
+        try {
+            $data = Merchant::findOrFail($data_request['id']);
+
+            if (empty($data)) {
+                return response()->json([
+                    'meta' => [
+                        'status' => 'Error',
+                        'message' => 'Data Not Found'
+                    ],
+                ], 404);
+            }
+
+            $data->delete();
+
+            return response()->json([
+                'meta' => [
+                    'status' => 'success',
+                    'message' => 'Successfully Delete data'
+                ],
+            ], 200);
+        } catch (Exception $error) {
+            return response()->json([
+                'meta' => [
+                    'status' => 'Error',
+                    'message' => 'Internal Server Error'
+                ],
+                'data' => $error
+            ], 500);
+        }
+    }
+
+    public function destroy_verify(Request $request)
+    {
+        $data_request = [
+            'id' => $request[0]['id'],
+        ];
+
+        $validator = Validator::make($data_request, [
+            'id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'meta' => [
+                    'status' => 'Error',
+                    'message' => 'Bad Request'
+                ],
+            ], 400);
+        }
+
+        try {
+            $data = Merchant::findOrFail($data_request['id']);
+
+            if (empty($data)) {
+                return response()->json([
+                    'meta' => [
+                        'status' => 'Error',
+                        'message' => 'Data Not Found'
+                    ],
+                ], 404);
+            }
+
+            $data->delete();
+
+            return response()->json([
+                'meta' => [
+                    'status' => 'success',
+                    'message' => 'Successfully Delete data'
+                ],
+            ], 200);
+        } catch (Exception $error) {
+            return response()->json([
+                'meta' => [
+                    'status' => 'Error',
+                    'message' => 'Internal Server Error'
+                ],
+                'data' => $error
+            ], 500);
+        }
+    }
+
+    public function test($id)
+    {
+        $data = Merchant::findOrFail($id);
+        $data->delete();
         return response()->json([
             'meta' => [
-                'status' => 'Error',
-                'message' => 'Data Not Found'
-            ],
-        ], 404);
+                'status' => 'success',
+                'message' => 'Successfully Delete data'
+            ], 'data' => $data
+        ], 200);
     }
 }

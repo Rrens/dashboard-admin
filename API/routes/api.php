@@ -55,6 +55,10 @@ Route::group([
         Route::post('update-verify', [DashboardMerchantController::class, 'update_verify']);
         Route::post('update-average', [DashboardMerchantController::class, 'update_average']);
         Route::post('update-active-or-not', [DashboardMerchantController::class, 'update_active_or_not']);
+        Route::post('destroy-verify', [DashboardMerchantController::class, 'destroy_verify']);
+        Route::post('destroy-average', [DashboardMerchantController::class, 'destroy_average']);
+        Route::post('destroy-active', [DashboardMerchantController::class, 'destroy_active']);
+        Route::get('/test-destroy/{id}', [DashboardMerchantController::class, 'test']);
     });
 
     Route::group([
