@@ -15,9 +15,24 @@ class MerchantController extends Controller
 {
     public function data_verify_merchant_and_not()
     {
+        // $data = Merchant::select(DB::raw('
+        //         SUM(CASE WHEN is_approve = "approve" THEN 1 ELSE 0 END) as approve,
+        //         SUM(CASE WHEN is_approve = "not_approve" THEN 1 ELSE 0 END) as not_approve
+        //     '))
+        //     ->where('deleted_at', null)
+        //     ->get();
+
+        // $data = Merchant::select(DB::raw('
+        //         (SUM(CASE WHEN is_approve = "approve" THEN 1 ELSE 0 END) / COUNT(*)) * 100 as approve,
+        //         (SUM(CASE WHEN is_approve = "not_approve" THEN 1 ELSE 0 END) / COUNT(*)) * 100 as not_approve
+        //     '))
+        //     ->where('deleted_at', null)
+        //     ->get();
+
         $data = Merchant::select(DB::raw('
-                SUM(CASE WHEN is_approve = "approve" THEN 1 ELSE 0 END) as approve,
-                SUM(CASE WHEN is_approve = "not_approve" THEN 1 ELSE 0 END) as not_approve
+                (SUM(CASE WHEN is_approve = "approve" THEN 1 ELSE 0 END) / COUNT(*)) * 100 as approve,
+                (SUM(CASE WHEN is_approve = "not_approve" THEN 1 ELSE 0 END) / COUNT(*)) * 100 as not_approve,
+                SUM(CASE WHEN is_approve IS NULL THEN 1 ELSE 0 END) as null_count, COUNT(*) * 100 as total_count
             '))
             ->where('deleted_at', null)
             ->get();
@@ -71,8 +86,9 @@ class MerchantController extends Controller
 
         // return response()->json($threeMonthsAgo);
         $data = Merchant::selectRaw('
-        SUM(CASE WHEN last_login >= ? THEN 1 ELSE 0 END) as active,
-        SUM(CASE WHEN last_login < ? THEN 1 ELSE 0 END) as not_active
+            (SUM(CASE WHEN last_login >= ? THEN 1 ELSE 0 END) / COUNT(*)) * 100 as active,
+            (SUM(CASE WHEN last_login < ? THEN 1 ELSE 0 END) / COUNT(*)) * 100 as not_active,
+            SUM(CASE WHEN last_login IS NULL THEN 1 ELSE 0 END) as null_count, COUNT(*) * 100 as total_count
         ', [$threeMonthsAgo, $threeMonthsAgo])
             ->where('deleted_at', null)
             ->get();

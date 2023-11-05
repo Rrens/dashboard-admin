@@ -12,9 +12,12 @@ class AdsController extends Controller
     public function data_verify_ads_and_not()
     {
         $data = Ads::select(DB::raw('
-                SUM(CASE WHEN is_approve = "approve" THEN 1 ELSE 0 END) as approve,
-                SUM(CASE WHEN is_approve = "not_approve" THEN 1 ELSE 0 END) as not_approve
+                (SUM(CASE WHEN is_approve = "approve" THEN 1 ELSE 0 END) / COUNT(*)) * 100 as approve,
+                (SUM(CASE WHEN is_approve = "not_approve" THEN 1 ELSE 0 END) / COUNT(*)) * 100 as not_approve
             '))
+            ->whereHas('merchant', function ($query) {
+                $query->whereNull('deleted_at');
+            })
             ->get();
 
         if (!empty($data[0])) {
@@ -37,8 +40,17 @@ class AdsController extends Controller
 
     public function data_verify_ads()
     {
-        $data = Ads::with('merchant')->where('is_approve', 'approve')->get();
-        $data_not_active = Ads::with('merchant')->where('is_approve', 'not_approve')->get();
+        $data = Ads::with('merchant')
+            ->whereHas('merchant', function ($query) {
+                $query->whereNull('deleted_at');
+            })
+            ->where('is_approve', 'approve')
+            ->get();
+        $data_not_active = Ads::with('merchant')
+            ->whereHas('merchant', function ($query) {
+                $query->whereNull('deleted_at');
+            })->where('is_approve', 'not_approve')
+            ->get();
         if (!empty($data[0])) {
             return response()->json([
                 'meta' => [
@@ -84,6 +96,7 @@ class AdsController extends Controller
                 'ad.count_view',
                 DB::raw('AVG(ad.rating) as average_rating')
             )
+            ->whereNull('mc.deleted_at')
             ->groupBy('ad.category_id')
             ->get();
 
@@ -109,6 +122,9 @@ class AdsController extends Controller
     {
         $data = Ads::with('merchant')
             ->where('category_id', $id)
+            ->whereHas('merchant', function ($query) {
+                $query->whereNull('deleted_at');
+            })
             ->get();
 
         if (!empty($data[0])) {
@@ -159,6 +175,7 @@ class AdsController extends Controller
             )
             ->groupBy('ad.year', 'ad.month')
             ->orderBy('ad.month')
+            ->whereNull('mc.deleted_at')
             ->get();
 
         if (!empty($data[0])) {
@@ -183,6 +200,9 @@ class AdsController extends Controller
     {
         $data = Ads::with('merchant')
             ->where('month', $month)
+            ->whereHas('merchant', function ($query) {
+                $query->whereNull('deleted_at');
+            })
             ->get();
 
         if (!empty($data[0])) {
