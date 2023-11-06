@@ -265,4 +265,114 @@ class IklanController extends Controller
             return back();
         }
     }
+
+    public function deleteCountRating(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            Alert::error($validator->messages()->all());
+            return back();
+        }
+
+        $data = [
+            'id' => $request->id,
+        ];
+
+        $_URL = env('API_URL') . 'dashboard/iklan/destroy-count-rating';
+
+        try {
+            $response = Http::post($_URL, [
+                $data
+            ]);
+        } catch (Exception $error) {
+            dd($error->getMessage());
+        }
+
+        if ($response->status() == 200) {
+
+            $responseData = $response->json();
+            Alert::toast($responseData['meta']['message'], 'success');
+            return back();
+        } else {
+            $errorMessage = $response->json();
+            Alert::error($errorMessage['meta']['message']);
+            return back();
+        }
+    }
+
+    public function deleteFavoriteAds(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            Alert::error($validator->messages()->all());
+            return back();
+        }
+
+        $data = [
+            'id' => $request->id,
+        ];
+
+        $_URL = env('API_URL') . 'dashboard/iklan/destroy-favorite-ads';
+
+        try {
+            $response = Http::post($_URL, [
+                $data
+            ]);
+        } catch (Exception $error) {
+            dd($error->getMessage());
+        }
+
+        if ($response->status() == 200) {
+
+            $responseData = $response->json();
+            Alert::toast($responseData['meta']['message'], 'success');
+            return back();
+        } else {
+            $errorMessage = $response->json();
+            Alert::error($errorMessage['meta']['message']);
+            return back();
+        }
+    }
+    public function deleteVerify(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            Alert::error($validator->messages()->all());
+            return back();
+        }
+
+        $data = [
+            'id' => $request->id,
+        ];
+
+        $_URL = env('API_URL') . 'dashboard/iklan/destroy-verify';
+
+        try {
+            $response = Http::post($_URL, [
+                $data
+            ]);
+        } catch (Exception $error) {
+            dd($error->getMessage());
+        }
+
+        if ($response->status() == 200) {
+
+            $responseData = $response->json();
+            Alert::toast($responseData['meta']['message'], 'success');
+            return back();
+        } else {
+            $errorMessage = $response->json();
+            Alert::error($errorMessage['meta']['message']);
+            return back();
+        }
+    }
 }

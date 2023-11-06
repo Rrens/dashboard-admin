@@ -42,18 +42,20 @@
         <div class="sidebar-menu">
             <ul class="menu">
                 <li class="sidebar-title">Admin</li>
-                <li class="sidebar-item">
-                    <a href="" class="sidebar-link">
+                <li class="sidebar-item {{ $active == 'profile' ? 'active' : '' }}">
+                    <a href="{{ route('admin.profile') }}" class="sidebar-link">
                         <i class="bi bi-person-fill"></i>
                         <span>Profile</span>
                     </a>
                 </li>
-                <li class="sidebar-item {{ $active == 'admin management' ? 'active' : '' }}">
-                    <a href="{{ route('admin.index') }}" class="sidebar-link">
-                        <i class="bi bi-person-lines-fill"></i>
-                        <span>Admin Management</span>
-                    </a>
-                </li>
+                @if (auth()->user()->role == 'superadmin')
+                    <li class="sidebar-item {{ $active == 'admin management' ? 'active' : '' }}">
+                        <a href="{{ route('admin.index') }}" class="sidebar-link">
+                            <i class="bi bi-person-lines-fill"></i>
+                            <span>Admin Management</span>
+                        </a>
+                    </li>
+                @endif
                 <li class="sidebar-title">Menu</li>
                 <li
                     class="sidebar-item has-sub {{ $active == 'verifikasi merchant' || $active == 'verifikasi iklan' ? 'active' : '' }}">
@@ -93,7 +95,7 @@
                     </ul>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
+                    <a href="{{ route('logout') }}" class="sidebar-link">
                         <i class="bi bi-door-open-fill"></i>
                         <span>Logout</span>
                     </a>

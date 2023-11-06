@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -45,30 +46,26 @@ class AdminManageController extends Controller
 
     public function update(Request $request)
     {
-        if ($request->has('password')) {
-            $rules = [
+        if ($request->password != null) {
+            $validator = Validator::make($request->all(), [
                 'id' => 'required',
                 'name' => 'required',
                 'email' => 'required|email',
+                // 'role' => 'required|in:superadmin,admin',
                 'password' => 'required',
-                'role' => 'required|in:superadmin,admin'
-            ];
+            ]);
         } else {
-            $rules = [
+            $validator = Validator::make($request->all(), [
                 'id' => 'required',
                 'name' => 'required',
                 'email' => 'required|email',
-                'role' => 'required|in:superadmin,admin'
-            ];
+                // 'role' => 'required|in:superadmin,admin'
+            ]);
         }
 
-        $validator = Validator::make($request->all(), $rules);
-
         if ($validator->fails()) {
-            if ($validator->fails()) {
-                Alert::error($validator->messages()->all());
-                return back()->withInput();
-            }
+            Alert::error($validator->messages()->all());
+            return back()->withInput();
         }
 
         $user = User::findOrFail($request->id);
@@ -97,6 +94,51 @@ class AdminManageController extends Controller
 
         User::where('id', $request->id)->delete();
         Alert::toast('Sukses menghapus data', 'success');
+        return back();
+    }
+
+    public function profile()
+    {
+        $active = 'profile';
+        $data = Auth::user();
+        return view('admin.page.profile', compact('active', 'data'));
+    }
+
+    public function profile_store(Request $request)
+    {
+        if ($request->password == null) {
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|string',
+                'id' => 'required',
+                'email' => 'required|email',
+            ]);
+        } else {
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|string',
+                'id' => 'required',
+                'email' => 'required|email',
+                'password' => 'required',
+            ]);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string',
+            'id' => 'required',
+            'email' => 'required|email',
+        ]);
+
+        if ($validator->fails()) {
+            Alert::error($validator->messages()->all());
+            return back()->withInput();
+        }
+
+        $data = User::findOrFail($request->id);
+        $data->name = $request->name;
+        $data->email = $request->email;
+        $request->password != null ? $data->password = Hash::make($request->password) : '';
+        $data->save();
+
+        Alert::toast('Update Profile Successfully', 'success');
         return back();
     }
 }

@@ -237,7 +237,6 @@ class MerchantController extends Controller
 
     public function DestroyVerifyOrNot(Request $request)
     {
-        // dd($request->all());
         $validator = Validator::make($request->all(), [
             'id' => 'required',
         ]);

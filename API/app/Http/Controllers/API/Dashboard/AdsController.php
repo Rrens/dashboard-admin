@@ -498,4 +498,154 @@ class AdsController extends Controller
             ], 500);
         }
     }
+
+    public function destroy_favorite_ads(Request $request)
+    {
+        $data_request = [
+            'id' => $request[0]['id'],
+        ];
+
+        $validator = Validator::make($data_request, [
+            'id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'meta' => [
+                    'status' => 'Error',
+                    'message' => 'Bad Request'
+                ],
+            ], 400);
+        }
+
+        try {
+            $data = Ads::findOrFail($data_request['id']);
+
+            if (empty($data)) {
+                return response()->json([
+                    'meta' => [
+                        'status' => 'Error',
+                        'message' => 'Data Not Found'
+                    ],
+                ], 404);
+            }
+
+            $data->delete();
+
+            return response()->json([
+                'meta' => [
+                    'status' => 'success',
+                    'message' => 'Successfully Delete data'
+                ],
+            ], 200);
+        } catch (Exception $error) {
+            return response()->json([
+                'meta' => [
+                    'status' => 'Error',
+                    'message' => 'Internal Server Error'
+                ],
+                'data' => $error
+            ], 500);
+        }
+    }
+
+    public function destroy_count_rating(Request $request)
+    {
+        $data_request = [
+            'id' => $request[0]['id'],
+        ];
+
+        $validator = Validator::make($data_request, [
+            'id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'meta' => [
+                    'status' => 'Error',
+                    'message' => 'Bad Request'
+                ],
+            ], 400);
+        }
+
+        try {
+            $data = Ads::findOrFail($data_request['id']);
+
+            if (empty($data)) {
+                return response()->json([
+                    'meta' => [
+                        'status' => 'Error',
+                        'message' => 'Data Not Found'
+                    ],
+                ], 404);
+            }
+
+            $data->delete();
+
+            return response()->json([
+                'meta' => [
+                    'status' => 'success',
+                    'message' => 'Successfully Delete data'
+                ],
+            ], 200);
+        } catch (Exception $error) {
+            return response()->json([
+                'meta' => [
+                    'status' => 'Error',
+                    'message' => 'Internal Server Error'
+                ],
+                'data' => $error
+            ], 500);
+        }
+    }
+
+    public function destroy_verify(Request $request)
+    {
+        $data_request = [
+            'id' => $request[0]['id'],
+        ];
+
+        $validator = Validator::make($data_request, [
+            'id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'meta' => [
+                    'status' => 'Error',
+                    'message' => 'Bad Request'
+                ],
+            ], 400);
+        }
+
+        try {
+            $data = Ads::findOrFail($data_request['id']);
+
+            if (empty($data)) {
+                return response()->json([
+                    'meta' => [
+                        'status' => 'Error',
+                        'message' => 'Data Not Found'
+                    ],
+                ], 404);
+            }
+
+            $data->delete();
+
+            return response()->json([
+                'meta' => [
+                    'status' => 'success',
+                    'message' => 'Successfully Delete data'
+                ],
+            ], 200);
+        } catch (Exception $error) {
+            return response()->json([
+                'meta' => [
+                    'status' => 'Error',
+                    'message' => 'Internal Server Error'
+                ],
+                'data' => $error
+            ], 500);
+        }
+    }
 }

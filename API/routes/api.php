@@ -74,5 +74,8 @@ Route::group([
         Route::post('update-verify', [DashboardAdsController::class, 'update_verify']);
         Route::post('update-ads-favorite', [DashboardAdsController::class, 'update_ads_favorite']);
         Route::post('update-count-rating', [DashboardAdsController::class, 'update_count_rating']);
+        Route::post('destroy-count-rating', [DashboardAdsController::class, 'destroy_count_rating']);
+        Route::post('destroy-favorite-ads', [DashboardAdsController::class, 'destroy_favorite_ads']);
+        Route::post('destroy-verify', [DashboardAdsController::class, 'destroy_verify']);
     });
 });
