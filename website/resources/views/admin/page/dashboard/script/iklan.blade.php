@@ -1,73 +1,70 @@
 <script>
-    // Iklan Verifikasi dan tidak
-    // $.ajax({
-    //     url: "{{ env('API_URL') . 'dashboard/iklan/data-verify' }}",
-    //     method: 'GET',
-    //     success: function(data) {
-    //         // console.log(data.data)
-    //         let data_api = null
-    //         if (label == 'active') {
-    //             data_api = data.data;
-    //         } else {
-    //             data_api = data.data_not_active;
-    //         }
-    //         let newRow = null;
-    //         $('#table_data_verify tbody').empty();
-    //         data_api.forEach(value => {
-    //             newRow += `
-    //                 <tr>
+    function verifyOrNotEdit(data) {
+        $('#card section').empty();
+        $.ajax({
+            url: `{{ env('API_URL') . 'dashboard/iklan/ads-detail/${data}' }}`,
+            method: 'GET',
+            success: function(data) {
+                let value = data.data
+                let html = `
+                    <form enctype="multipart/form-data" id="form" method="POST" action="{{ route('ads.update-verify') }}">
+                        @csrf
+                        @include('admin.page.dashboard.script.form.iklan')
+                    </form>
+                `;
+                $('#card section').append(html);
+            },
+            error: function(xhr, status, error) {
+                console.log("AJAX request error:");
+                console.log(`Status: ${status}`);
+                console.log(`Error" ${error}`);
+            }
+        })
+    }
 
-    //                     <td class="text-bold-500">
-    //                         ${value.name}
-    //                     </td>
-    //                     <td class="text-bold-500">
-    //                         ${value.merchant_id}
-    //                     </td>
-    //                     <td class="text-bold-500">
-    //                         ${value.category_id}
-    //                     </td>
-    //                     <td class="text-bold-500">
-    //                         ${value.merchant[0].province}
-    //                     </td>
-    //                     <td class="text-bold-500">
-    //                         ${value.merchant[0].city}
-    //                     </td>
-    //                     <td class="text-bold-500">
-    //                         ${value.description}
-    //                     </td>
-    //                     <td class="text-bold-500">
-    //                         ${value.notes}
-    //                     </td>
-    //                     <td class="text-bold-500">
-    //                         ${value.price}
-    //                     </td>
-    //                     <td class="text-bold-500">
-    //                         ${value.picture}
-    //                     </td>
-    //                     <td class="text-bold-500">
-    //                         ${value.count_order}
-    //                     </td>
-    //                     <td class="text-bold-500">
-    //                         ${value.rating}
-    //                     </td>
-    //                     <td class="text-bold-500">
-    //                         ${value.count_view}
-    //                     </td>
-    //                     <td>
-    //                         <button class="btn btn-light-warning btn-sm" onclick="detail(this)"
-    //                             data-bs-toggle="modal" data-bs-target="#modalDetail">
-    //                             <i class="bi bi-pencil-fill"></i>
-    //                         </button>
-    //                         <button class="btn btn-light-danger btn-sm" data-bs-toggle="modal"
-    //                             onclick="delete(this)" data-bs-target="#modalDelete">
-    //                             <i class="bi bi-trash-fill"></i>
-    //                         </button>
-    //                     </td>
-    //                 </tr>
-    //             `;
-    //         });
+    function favoriteAdsEdit(data) {
+        $('#card section').empty();
+        $.ajax({
+            url: `{{ env('API_URL') . 'dashboard/iklan/ads-detail/${data}' }}`,
+            method: 'GET',
+            success: function(data) {
+                let value = data.data
+                let html = `
+                    <form enctype="multipart/form-data" id="form" method="POST" action="{{ route('ads.update-favorite') }}">
+                        @csrf
+                        @include('admin.page.dashboard.script.form.iklan')
+                    </form>
+                `;
+                $('#card section').append(html);
+            },
+            error: function(xhr, status, error) {
+                console.log("AJAX request error:");
+                console.log(`Status: ${status}`);
+                console.log(`Error" ${error}`);
+            }
+        })
+    }
 
-    //         $('#table_data_verify tbody').append(newRow);
-    //     }
-    // })
+    function countRatingEdit(data) {
+        $('#card section').empty();
+        $.ajax({
+            url: `{{ env('API_URL') . 'dashboard/iklan/ads-detail/${data}' }}`,
+            method: 'GET',
+            success: function(data) {
+                let value = data.data
+                let html = `
+                    <form enctype="multipart/form-data" id="form" method="POST" action="{{ route('ads.update-count-rating') }}">
+                        @csrf
+                        @include('admin.page.dashboard.script.form.iklan')
+                    </form>
+                `;
+                $('#card section').append(html);
+            },
+            error: function(xhr, status, error) {
+                console.log("AJAX request error:");
+                console.log(`Status: ${status}`);
+                console.log(`Error" ${error}`);
+            }
+        })
+    }
 </script>

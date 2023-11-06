@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminManageController;
-use App\Http\Controllers\Dashboard\IklantController;
+use App\Http\Controllers\Dashboard\IklanController as DashboardIklanController;
 use App\Http\Controllers\Dashboard\MerchantController as DashboardMerchantController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Verifikasi\IklanController;
@@ -18,15 +18,22 @@ Route::group([
         'prefix' => 'merchant',
     ], function () {
         Route::get('', [DashboardMerchantController::class, 'index'])->name('merchant.dashboard');
-        Route::post('/update-verify-or-not', [DashboardMerchantController::class, 'updateVerifyOrNot'])->name('merchant.update-verify');
-        Route::post('/update-average-detail', [DashboardMerchantController::class, 'updateAvgTransaction'])->name('merchant.update-average');
-        Route::post('/update-active-or-not', [DashboardMerchantController::class, 'updateActiveOrNot'])->name('merchant.update-active-or-not');
-        Route::post('/destroy-verify-or-not', [DashboardMerchantController::class, 'DestroyVerifyOrNot'])->name('merchant.destroy-verify');
-        Route::post('/destroy-active-or-not', [DashboardMerchantController::class, 'DestroyActiveOrNot'])->name('merchant.destroy-active');
-        Route::post('/destroy-average-detail', [DashboardMerchantController::class, 'DestroyAvgTransaction'])->name('merchant.destroy-average');
+        Route::post('update-verify-or-not', [DashboardMerchantController::class, 'updateVerifyOrNot'])->name('merchant.update-verify');
+        Route::post('update-average-detail', [DashboardMerchantController::class, 'updateAvgTransaction'])->name('merchant.update-average');
+        Route::post('update-active-or-not', [DashboardMerchantController::class, 'updateActiveOrNot'])->name('merchant.update-active-or-not');
+        Route::post('destroy-verify-or-not', [DashboardMerchantController::class, 'DestroyVerifyOrNot'])->name('merchant.destroy-verify');
+        Route::post('destroy-active-or-not', [DashboardMerchantController::class, 'DestroyActiveOrNot'])->name('merchant.destroy-active');
+        Route::post('destroy-average-detail', [DashboardMerchantController::class, 'DestroyAvgTransaction'])->name('merchant.destroy-average');
     });
-    Route::get('iklan', [IklantController::class, 'index'])->name('iklan.dashboard');
-    // Route::get('', [DashboardController::class, 'index'])->name('dashboard.index');
+
+    Route::group([
+        'prefix' => 'iklan',
+    ], function () {
+        Route::get('', [DashboardIklanController::class, 'index'])->name('iklan.dashboard');
+        Route::post('update-verify-or-not', [DashboardIklanController::class, 'updateVerifyOrNot'])->name('ads.update-verify');
+        Route::post('update-ads-favorite', [DashboardIklanController::class, 'updateAdsFavorite'])->name('ads.update-favorite');
+        Route::post('update-count-rating', [DashboardIklanController::class, 'updateCountRating'])->name('ads.update-count-rating');
+    });
 });
 
 Route::group([

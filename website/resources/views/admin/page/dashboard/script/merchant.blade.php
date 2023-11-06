@@ -1,6 +1,6 @@
 <script>
     function UserActiveOrNotedit(data) {
-        $('#card-body section').empty();
+        $('#card section').empty();
         $.ajax({
             url: `{{ env('API_URL') . 'dashboard/merchant/merchant-detail/${data}' }}`,
             method: 'GET',
@@ -75,7 +75,7 @@
     }
 
     function averageEdit(data) {
-        $('#card-body section').empty();
+        $('#card section').empty();
         $.ajax({
             url: `{{ env('API_URL') . 'dashboard/merchant/merchant-detail/${data}' }}`,
             method: 'GET',
@@ -150,7 +150,7 @@
     }
 
     function VerifyEdit(data) {
-        $('#card-body section').empty();
+        $('#card section').empty();
         $.ajax({
             url: `{{ env('API_URL') . 'dashboard/merchant/merchant-detail/${data}' }}`,
             method: 'GET',

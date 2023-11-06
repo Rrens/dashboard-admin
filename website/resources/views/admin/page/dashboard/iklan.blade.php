@@ -6,7 +6,6 @@
         <div class="page-title mb-4">
             <div class="row">
                 <div class="col-12 col-md-12 order-md-1 order-last">
-
                     <h3>Dashboard Iklan</h3>
                 </div>
             </div>
@@ -55,7 +54,7 @@
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-fullscreen">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">IKLAN MERCHANT</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Jumlah Iklan lolos dan tidak</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body table-responsive">
@@ -99,7 +98,7 @@
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-fullscreen">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">IKLAN MERCHANT</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Jumlah iklan favorit berdasarkan kategori</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body table-responsive">
@@ -143,7 +142,7 @@
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-fullscreen">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">IKLAN MERCHANT</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Jumlah rating iklan berdasarkan periode</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body table-responsive">
@@ -181,12 +180,44 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="modalEdit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-md">
+            <div class="modal-content" id="card">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">AVERAGE TRANSACTIONS PER PERIODE</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="card">
+                    <section></section>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalDelete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Hapus</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body table-responsive">
+                    <div class="card-body" id="card">
+                        <section>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="{{ asset('assets/extensions/chart.js/Chart.min.js') }}"></script>
     <script src="{{ asset('assets/extensions/chart.js/Chart.min.js') }}"></script>
     @include('admin.page.dashboard.grafik.iklan')
     @include('admin.page.dashboard.script.iklan')

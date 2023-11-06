@@ -288,7 +288,6 @@ class MerchantController extends Controller
                 ], 404);
             }
 
-            $data->id = $data_request['id'];
             $data->name = $data_request['name'];
             $data->email = $data_request['email'];
             $data->phone_number = $data_request['telp'];
@@ -366,7 +365,6 @@ class MerchantController extends Controller
                 ], 404);
             }
 
-            $data->id = $data_request['id'];
             $data->name = $data_request['name'];
             $data->email = $data_request['email'];
             $data->phone_number = $data_request['telp'];
@@ -444,7 +442,6 @@ class MerchantController extends Controller
                 ], 404);
             }
 
-            $data->id = $data_request['id'];
             $data->name = $data_request['name'];
             $data->email = $data_request['email'];
             $data->phone_number = $data_request['telp'];

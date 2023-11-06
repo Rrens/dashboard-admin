@@ -72,29 +72,20 @@
                 display: false
             },
             'onClick': function(evt, item) {
-                // console.log ('legend onClick', evt);
-                // console.log('legd item', item);
                 if (item && item.length > 0) {
-                    // console.log(item);
-                    // Ambil data dari data poin yang diklik
                     var datasetIndex = item[0]._datasetIndex;
                     var index = item[0]._index;
-                    // var chartData = this.data.datasets[datasetIndex].data[index];
                     var month = this.data.datasets[datasetIndex].month[index];
-                    // console.log(this.data.datasets)
                     $.ajax({
                         url: `{{ env('API_URL') . 'dashboard/iklan/data-rating-ads-periode/${month}' }}`,
                         method: 'GET',
                         success: function(data) {
-                            // console.log(data.data)
                             const data_api = data.data;
                             let newRow = null;
                             $('#table_data_verify tbody').empty();
                             data_api.forEach(value => {
-                                console.log(value)
                                 newRow += `
                                     <tr>
-
                                         <td class="text-bold-500">
                                             ${value.name}
                                         </td>
@@ -132,12 +123,12 @@
                                             ${value.count_view}
                                         </td>
                                         <td>
-                                            <button class="btn btn-light-warning btn-sm" onclick="detail(this)"
-                                                data-bs-toggle="modal" data-bs-target="#modalDetail">
+                                            <button class="btn btn-light-warning btn-sm" onclick="countRatingEdit(${value.id})"
+                                                data-bs-toggle="modal" data-bs-target="#modalEdit">
                                                 <i class="bi bi-pencil-fill"></i>
                                             </button>
                                             <button class="btn btn-light-danger btn-sm" data-bs-toggle="modal"
-                                                onclick="delete(this)" data-bs-target="#modalDelete">
+                                                onclick="countRatingdelete(${value.id})" data-bs-target="#modalDelete">
                                                 <i class="bi bi-trash-fill"></i>
                                             </button>
                                         </td>
@@ -172,8 +163,6 @@
             }
         }
     });
-
-
 
     // PIE MERCHANT VERIFY
     var pieFavoriteAdsPerCategory = document.getElementById("pieFavoriteAdsPerCategory").getContext("2d");
@@ -283,12 +272,12 @@
                                             ${value.count_view}
                                         </td>
                                         <td>
-                                            <button class="btn btn-light-warning btn-sm" onclick="detail(this)"
-                                                data-bs-toggle="modal" data-bs-target="#modalDetail">
+                                            <button class="btn btn-light-warning btn-sm" onclick="favoriteAdsEdit(${value.id})"
+                                                data-bs-toggle="modal" data-bs-target="#modalEdit">
                                                 <i class="bi bi-pencil-fill"></i>
                                             </button>
                                             <button class="btn btn-light-danger btn-sm" data-bs-toggle="modal"
-                                                onclick="delete(this)" data-bs-target="#modalDelete">
+                                                onclick="favoriteAdsdelete(${value.id})" data-bs-target="#modalDelete">
                                                 <i class="bi bi-trash-fill"></i>
                                             </button>
                                         </td>
@@ -406,12 +395,12 @@
                                             ${value.count_view}
                                         </td>
                                         <td>
-                                            <button class="btn btn-light-warning btn-sm" onclick="detail(this)"
-                                                data-bs-toggle="modal" data-bs-target="#modalDetail">
+                                            <button class="btn btn-light-warning btn-sm" onclick="verifyOrNotEdit(${value.id})"
+                                                data-bs-toggle="modal" data-bs-target="#modalEdit">
                                                 <i class="bi bi-pencil-fill"></i>
                                             </button>
                                             <button class="btn btn-light-danger btn-sm" data-bs-toggle="modal"
-                                                onclick="delete(this)" data-bs-target="#modalDelete">
+                                                onclick="verifyOrNotdelete(${value.id})" data-bs-target="#modalDelete">
                                                 <i class="bi bi-trash-fill"></i>
                                             </button>
                                         </td>

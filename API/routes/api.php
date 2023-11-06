@@ -70,5 +70,9 @@ Route::group([
         Route::get('data-average-favorite-ads/{id}', [DashboardAdsController::class, 'data_favorite_ads_per_categories']);
         Route::get('rating-ads-periode', [DashboardAdsController::class, 'rating_ads_per_periode']);
         Route::get('data-rating-ads-periode/{month}', [DashboardAdsController::class, 'data_rating_ads_per_periode']);
+        Route::get('ads-detail/{id}', [DashboardAdsController::class, 'ads_detail']);
+        Route::post('update-verify', [DashboardAdsController::class, 'update_verify']);
+        Route::post('update-ads-favorite', [DashboardAdsController::class, 'update_ads_favorite']);
+        Route::post('update-count-rating', [DashboardAdsController::class, 'update_count_rating']);
     });
 });
