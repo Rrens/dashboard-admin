@@ -31,6 +31,9 @@ Route::group([
         Route::post('destroy-verify-or-not', [DashboardMerchantController::class, 'DestroyVerifyOrNot'])->name('merchant.destroy-verify');
         Route::post('destroy-active-or-not', [DashboardMerchantController::class, 'DestroyActiveOrNot'])->name('merchant.destroy-active');
         Route::post('destroy-average-detail', [DashboardMerchantController::class, 'DestroyAvgTransaction'])->name('merchant.destroy-average');
+        Route::get('print-verify/{approve}', [DashboardMerchantController::class, 'print_verify'])->name('print.verify-merchant');
+        Route::get('print-active-or-not/{status}', [DashboardMerchantController::class, 'print_active_or_not'])->name('print.active-merchant');
+        Route::get('print-average-transaction/{month}/{year}', [DashboardMerchantController::class, 'print_average_transaction'])->name('print.average-merchant');
     });
 
     Route::group([

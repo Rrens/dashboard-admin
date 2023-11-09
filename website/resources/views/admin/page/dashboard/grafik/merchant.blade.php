@@ -81,13 +81,21 @@
                     let month = this.data.datasets[datasetIndex].month[index];
                     let year = this.data.datasets[datasetIndex].year[index];
 
+                    let month_ajax = month
+                    let year_ajax = year
+                    let newRow = null;
+                    if (month != null && year != null) {
+                        $("#average-merchant").empty();
+                        $("#average-merchant").append(
+                            `<a href="{{ env('APP_WEBSITE') . '/dashboard/merchant/print-average-transaction/${month}/${year}' }}" target="_blank" class="btn btn-primary">Print</a>`
+                        );
+                    }
                     // modalViewTransactionMerchantPerPeriode
                     $.ajax({
                         url: `{{ env('API_URL') . 'dashboard/merchant/data-average-transaction-merchant-periode/${month}/${year}' }}`,
                         method: 'GET',
                         success: function(data) {
                             const data_api = data.data;
-                            let newRow = null;
 
                             $('#table_data_average_per_periode tbody').empty();
                             data_api.forEach(value => {
@@ -205,17 +213,24 @@
                         method: 'GET',
                         success: function(data) {
                             let data_api = null
+                            $("#verify-merchant").empty()
                             if (label == 'active') {
                                 data_api = data.data;
+                                $("#verify-merchant").append(
+                                    `<a href="{{ route('print.verify-merchant', 'verify') }}" target="_blank" class="btn btn-primary">Print</a>`
+                                );
                             } else {
                                 data_api = data.data_not_active;
+                                $("#verify-merchant").append(
+                                    `<a href="{{ route('print.verify-merchant', 'not-verify') }}" target="_blank" class="btn btn-primary">Print</a>`
+                                );
                             }
                             let newRow = null;
+
                             $('#table_data_verify tbody').empty();
                             data_api.forEach(value => {
                                 newRow += `
                                     <tr>
-
                                         <td class="text-bold-500">
                                             ${value.id}
                                         </td>
@@ -328,11 +343,17 @@
                             let newRow = null;
                             // console.log(label)
                             let data_api = null
+                            $("#active-merchant").empty()
                             if (label == 'active') {
-
                                 data_api = data.data;
+                                $("#active-merchant").append(
+                                    `<a href="{{ route('print.active-merchant', 'active') }}" target="_blank" class="btn btn-primary">Print</a>`
+                                );
                             } else {
                                 data_api = data.data_not_active;
+                                $("#active-merchant").append(
+                                    `<a href="{{ route('print.active-merchant', 'not-active') }}" target="_blank" class="btn btn-primary">Print</a>`
+                                );
                             }
                             // console.log(data)
                             $('#table_data_active_and_not tbody').empty();
@@ -390,6 +411,7 @@
                             });
 
                             $('#table_data_active_and_not tbody').append(newRow);
+
                         }
                     })
                     $("#modalViewMerchantActiveAndNot").modal("show");

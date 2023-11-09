@@ -71,6 +71,67 @@ class MerchantController extends Controller
         ));
     }
 
+    public function print_verify($approve)
+    {
+        $_URL_MERCHANT_ACTIVE_OR_NOT = env('API_URL') . 'dashboard/merchant/data-verify';
+        $data_api_merchant_active_or_not = collect(Http::get($_URL_MERCHANT_ACTIVE_OR_NOT)->json());
+        if (!empty($data_api_merchant_active_or_not['data'][0])) {
+            $data = array();
+            if ($approve == 'verify') {
+                if (!empty($data_api_merchant_active_or_not['data'][0])) {
+                    $data = $data_api_merchant_active_or_not['data'];
+                } else {
+                    $data = null;
+                }
+            } else {
+                if (!empty($data_api_merchant_active_or_not['data_not_active'][0])) {
+                    $data = $data_api_merchant_active_or_not['data_not_active'];
+                } else {
+                    $data = null;
+                }
+            }
+        } else {
+            $data = null;
+        }
+        return view('admin.page.dashboard.grafik.print.merchant', compact('data'));
+    }
+
+    public function print_active_or_not($status)
+    {
+        // dd($data);
+        $_URL_MERCHANT_ACTIVE_OR_NOT = env('API_URL') . 'dashboard/merchant/data-merchant-active';
+        $data_api_merchant_active_or_not = collect(Http::get($_URL_MERCHANT_ACTIVE_OR_NOT)->json());
+        if ($status == 'active') {
+            if (!empty($data_api_merchant_active_or_not['data'][0])) {
+                $data = $data_api_merchant_active_or_not['data'];
+            } else {
+                $data = null;
+            }
+        } else {
+            if (!empty($data_api_merchant_active_or_not['data_not_active'][0])) {
+                $data = $data_api_merchant_active_or_not['data_not_active'];
+            } else {
+                $data = null;
+            }
+        }
+        return view('admin.page.dashboard.grafik.print.merchant', compact('data'));
+    }
+
+    public function print_average_transaction($month, $year)
+    {
+        $_URL_AVERAGE_TRANSACTION = env('API_URL') . 'dashboard/merchant/data-average-transaction-merchant-periode/' . $month . '/' . $year;
+        $data_average_transaction = collect(Http::get($_URL_AVERAGE_TRANSACTION)->json());
+        // dd($data_average_transaction);
+        if (!empty($data_average_transaction['data'][0])) {
+            $data = array();
+            $data = $data_average_transaction['data'];
+        } else {
+            $data = null;
+        }
+        // dd($data);
+        return view('admin.page.dashboard.grafik.print.merchant-average', compact('data'));
+    }
+
     public function updateVerifyOrNot(Request $request)
     {
         // dd($request->all());
