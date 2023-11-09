@@ -89,6 +89,55 @@ class IklanController extends Controller
         ));
     }
 
+    public function print_rating_ads($month)
+    {
+        $_URL_RATING_ADS = env('API_URL') . 'dashboard/iklan/data-rating-ads-periode/' . $month;
+        $data_rating_ads = collect(Http::get($_URL_RATING_ADS)->json());
+        // dd($data_rating_ads);
+        if (!empty($data_rating_ads['data'][0])) {
+            $data = $data_rating_ads['data'];
+        } else {
+            $data = null;
+        }
+        // dd($data);
+        return view('admin.page.dashboard.grafik.print.iklan', compact('data'));
+    }
+
+    public function print_ads_favorite($category)
+    {
+        $_URL_ADS_FAVORITE = env('API_URL') . 'dashboard/iklan/data-average-favorite-ads/' . $category;
+        $data_average_transaction = collect(Http::get($_URL_ADS_FAVORITE)->json());
+        // dd($data_average_transaction);
+        if (!empty($data_average_transaction['data'][0])) {
+            $data = $data_average_transaction['data'];
+        } else {
+            $data = null;
+        }
+        // dd($data);
+        return view('admin.page.dashboard.grafik.print.iklan', compact('data'));
+    }
+
+    public function print_verify_ads($status)
+    {
+        $_URL_VERIFY_ADS = env('API_URL') . 'dashboard/iklan/data-verify';
+        $data_api_verify_ads = collect(Http::get($_URL_VERIFY_ADS)->json());
+        if ($status == 'approve') {
+            if (!empty($data_api_verify_ads['data'][0])) {
+                $data = $data_api_verify_ads['data'];
+            } else {
+                $data = null;
+            }
+        } else {
+            if (!empty($data_api_verify_ads['data_not_active'][0])) {
+                $data = $data_api_verify_ads['data_not_active'];
+            } else {
+                $data = null;
+            }
+        }
+        // dd($data);
+        return view('admin.page.dashboard.grafik.print.iklan', compact('data'));
+    }
+
     public function updateVerifyOrNot(Request $request)
     {
         $validator = Validator::make($request->all(), [

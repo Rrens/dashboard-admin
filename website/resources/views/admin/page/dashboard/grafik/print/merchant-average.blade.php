@@ -481,7 +481,7 @@
     {{-- <p style="text-align:right">Total: Rp.</p> --}}
 
     <script>
-        // window.print();
+        window.print();
     </script>
 
 </body>

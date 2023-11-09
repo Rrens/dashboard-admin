@@ -46,6 +46,9 @@ Route::group([
         Route::post('delete-count-rating', [DashboardIklanController::class, 'deleteCountRating'])->name('ads.delete-count-rating');
         Route::post('delete-favorite-ads', [DashboardIklanController::class, 'deleteFavoriteAds'])->name('ads.delete-favorite-ads');
         Route::post('delete-verify', [DashboardIklanController::class, 'deleteVerify'])->name('ads.delete-verify');
+        Route::get('print-rating/{month}', [DashboardIklanController::class, 'print_rating_ads'])->name('print.rating-ads');
+        Route::get('print-verify/{status}', [DashboardIklanController::class, 'print_verify_ads'])->name('print.rating-ads');
+        Route::get('print-ads-favorite/{category}', [DashboardIklanController::class, 'print_ads_favorite'])->name('print.rating-ads');
     });
 });
 

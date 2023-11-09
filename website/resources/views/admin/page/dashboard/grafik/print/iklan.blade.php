@@ -474,18 +474,18 @@
         @foreach ($data as $item)
             <tr class="odd">
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $item->name }}</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>{{ $item['name'] }}</td>
+                <td>{{ $item['merchant_id'] }}</td>
+                <td>{{ $item['category_id'] }}</td>
+                <td>{{ $item['merchant'][0]['province'] }}</td>
+                <td>{{ $item['merchant'][0]['city'] }}</td>
+                <td>{{ $item['description'] }}</td>
+                <td>{{ $item['notes'] }}</td>
+                <td>{{ $item['price'] }}</td>
+                <td>{{ $item['merchant'][0]['profile_picture'] }}</td>
+                <td>{{ $item['count_order'] }}</td>
+                <td>{{ $item['rating'] }}</td>
+                <td>{{ $item['count_view'] }}</td>
             </tr>
         @endforeach
 
@@ -495,7 +495,7 @@
     {{-- <p style="text-align:right">Total: Rp.</p> --}}
 
     <script>
-        // window.print();
+        window.print();
     </script>
 
 </body>

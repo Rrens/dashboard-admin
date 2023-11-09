@@ -76,6 +76,10 @@
                     var datasetIndex = item[0]._datasetIndex;
                     var index = item[0]._index;
                     var month = this.data.datasets[datasetIndex].month[index];
+                    $("#rating-ads").empty();
+                    $("#rating-ads").append(
+                        `<a href="{{ env('APP_WEBSITE') . 'dashboard/iklan/print-rating/${month}' }}" target="_blank" class="btn btn-primary">Print</a>`
+                    );
                     $.ajax({
                         url: `{{ env('API_URL') . 'dashboard/iklan/data-rating-ads-periode/${month}' }}`,
                         method: 'GET',
@@ -221,6 +225,10 @@
                     var index = item[0]._index;
                     // var chartData = this.data.datasets[datasetIndex].data[index];
                     var id = this.data.datasets[datasetIndex].id[index];
+                    $("#favorite-ads").empty();
+                    $("#favorite-ads").append(
+                        `<a href="{{ env('APP_WEBSITE') . 'dashboard/iklan/print-ads-favorite/${id}' }}" target="_blank" class="btn btn-primary">Print</a>`
+                    );
 
                     // Iklan Favorite Berdasarkan kategori
                     $.ajax({
@@ -347,10 +355,17 @@
                         success: function(data) {
                             // console.log(data.data)
                             let data_api = null
+                            $("#verify-ads").empty();
                             if (label == 'active') {
                                 data_api = data.data;
+                                $("#verify-ads").append(
+                                    `<a href="{{ env('APP_WEBSITE') . 'dashboard/iklan/print-verify/approve' }}" target="_blank" class="btn btn-primary">Print</a>`
+                                );
                             } else {
                                 data_api = data.data_not_active;
+                                $("#verify-ads").append(
+                                    `<a href="{{ env('APP_WEBSITE') . 'dashboard/iklan/print-verify/not-approve' }}" target="_blank" class="btn btn-primary">Print</a>`
+                                );
                             }
                             let newRow = null;
                             $('#table_data_verify tbody').empty();

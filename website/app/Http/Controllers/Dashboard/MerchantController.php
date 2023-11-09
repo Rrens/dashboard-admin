@@ -121,14 +121,12 @@ class MerchantController extends Controller
     {
         $_URL_AVERAGE_TRANSACTION = env('API_URL') . 'dashboard/merchant/data-average-transaction-merchant-periode/' . $month . '/' . $year;
         $data_average_transaction = collect(Http::get($_URL_AVERAGE_TRANSACTION)->json());
-        // dd($data_average_transaction);
         if (!empty($data_average_transaction['data'][0])) {
             $data = array();
             $data = $data_average_transaction['data'];
         } else {
             $data = null;
         }
-        // dd($data);
         return view('admin.page.dashboard.grafik.print.merchant-average', compact('data'));
     }
 
