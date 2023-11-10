@@ -131,10 +131,6 @@
                                                 data-bs-toggle="modal" data-bs-target="#modalEdit">
                                                 <i class="bi bi-pencil-fill"></i>
                                             </button>
-                                            <button class="btn btn-light-danger btn-sm" data-bs-toggle="modal"
-                                                onclick="countRatingdelete(${value.id})" data-bs-target="#modalDelete">
-                                                <i class="bi bi-trash-fill"></i>
-                                            </button>
                                         </td>
                                     </tr>
                                 `;
@@ -283,10 +279,6 @@
                                                 data-bs-toggle="modal" data-bs-target="#modalEdit">
                                                 <i class="bi bi-pencil-fill"></i>
                                             </button>
-                                            <button class="btn btn-light-danger btn-sm" data-bs-toggle="modal"
-                                                onclick="favoriteAdsdelete(${value.id})" data-bs-target="#modalDelete">
-                                                <i class="bi bi-trash-fill"></i>
-                                            </button>
                                         </td>
                                     </tr>
                                 `;
@@ -411,10 +403,6 @@
                                             <button class="btn btn-light-warning btn-sm" onclick="verifyOrNotEdit(${value.id})"
                                                 data-bs-toggle="modal" data-bs-target="#modalEdit">
                                                 <i class="bi bi-pencil-fill"></i>
-                                            </button>
-                                            <button class="btn btn-light-danger btn-sm" data-bs-toggle="modal"
-                                                onclick="verifyOrNotdelete(${value.id})" data-bs-target="#modalDelete">
-                                                <i class="bi bi-trash-fill"></i>
                                             </button>
                                         </td>
                                     </tr>
