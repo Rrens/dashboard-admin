@@ -1,14 +1,15 @@
-@extends('tenant.auth.components.master')
-@section('title', 'LOGIN')
+@extends('admin.auth.components.master')
+@section('title', 'FORGOT PASSWORD')
 
 @section('container')
     <h1 class="auth-title">Forgot Password</h1>
     {{-- <p class="auth-subtitle mb-5">Input your email and we will send you reset password link.</p> --}}
 
-    <form action="" method="POST">
+    <form action="{{ route('forgot-post-password') }}" method="POST">
         @csrf
         <div class="form-group position-relative has-icon-left mb-4">
-            <input name="email" type="email" class="form-control form-control-xl" placeholder="Email">
+            <input name="email" type="email" class="form-control form-control-xl" value="{{ old('email') }}"
+                placeholder="Email">
             <div class="form-control-icon">
                 <i class="bi bi-envelope"></i>
             </div>

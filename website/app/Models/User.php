@@ -30,6 +30,7 @@ class User extends Authenticatable
         'role',
         'npwp',
         'last_login',
+        'is_forgot_password',
     ];
 
     /**

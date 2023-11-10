@@ -55,4 +55,34 @@ class AuthController extends Controller
         Auth::logout();
         return redirect()->route('login');
     }
+
+    public function forgot_password()
+    {
+        return view('admin.auth.forgot-password');
+    }
+
+    public function forgot_post(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email'
+        ]);
+
+        if ($validator->fails()) {
+            Alert::toast($validator->messages()->all(), 'error');
+            return back()->withInput();
+        }
+
+        $data = User::where('email', $request->email)->first();
+
+        if (empty($data)) {
+            Alert::toast('Email Not Found', 'error');
+            return back()->withInput();
+        }
+
+        $data->is_forgot_password = 1;
+        $data->save();
+
+        Alert::toast('Success Request Password to Superadmin', 'success');
+        return back();
+    }
 }

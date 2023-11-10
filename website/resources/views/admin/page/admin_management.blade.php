@@ -81,6 +81,55 @@
                             </div>
                         </div>
                     </div>
+
+                    @if (!empty($data_forgot_password[0]))
+                        <div class="col-12">
+                            <div class="card" style="margin-top:2.2rem">
+                                <div class="card-body">
+                                    <p>Request New Password</p>
+                                    <table class="table " id="table1">
+                                        <thead>
+                                            <tr>
+                                                <th>ID Admin</th>
+                                                <th>Nama</th>
+                                                <th>Email</th>
+                                                <th>Role</th>
+                                                <th>Last Login</th>
+                                                <th>Manage Admin</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($data_forgot_password as $item)
+                                                <tr>
+                                                    <td class="text-bold-500">
+                                                        {{ $item->id }}
+                                                    </td>
+                                                    <td class="text-bold-500">
+                                                        {{ $item->name }}
+                                                    </td>
+                                                    <td class="text-bold-500">
+                                                        {{ $item->email }}
+                                                    </td>
+                                                    <td class="text-bold-500">
+                                                        {{ $item->role == 'superadmin' ? 'Super Admin' : 'Admin' }}
+                                                    </td>
+                                                    <td class="text-bold-500">
+                                                        {{ empty($item->last_login) ? '-' : $item->last_login }}
+                                                    </td>
+                                                    <td>
+                                                        <button class="btn btn-light-warning btn-sm" data-bs-toggle="modal"
+                                                            data-bs-target="#modalUpdatePassword{{ $item->id }}">Update
+                                                            Password
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
 
@@ -142,7 +191,7 @@
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah FAQ</h1>
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Update Admin</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form action="{{ route('admin.update') }}" method="post">
@@ -218,6 +267,39 @@
         </div>
     @endforeach
 
+    @foreach ($data_forgot_password as $item)
+        <div class="modal fade" id="modalUpdatePassword{{ $item->id }}" tabindex="-1"
+            aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Update Password</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="{{ route('admin.update-password') }}" method="post">
+                        @csrf
+                        <div class="modal-body">
+                            <div class="form-group mb-3">
+                                <label for="Password">New Password</label>
+                                <input type="number" value="{{ $item->id }}" name="id" hidden>
+                                <input type="text" class="form-control mt-3" id="Password" name="password">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                <i class="bx bx-x d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">Close</span>
+                            </button>
+                            <button type="submit" class="btn btn-primary ml-1"> <i
+                                    class="bx bx-check d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">Save</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endforeach
 @endsection
 
 @push('scripts')

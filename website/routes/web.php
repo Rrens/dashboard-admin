@@ -15,6 +15,8 @@ Route::redirect('/', 'dashboard/merchant');
 Route::get('login', [AuthController::class, 'login'])->name('login');
 Route::post('post-login', [AuthController::class, 'post_login'])->name('post-login');
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('forgot-password', [AuthController::class, 'forgot_password'])->name('forgot-password');
+Route::post('forgot-password', [AuthController::class, 'forgot_post'])->name('forgot-post-password');
 
 Route::group([
     'prefix' => 'dashboard',
@@ -63,6 +65,7 @@ Route::group([
         Route::post('', [AdminManageController::class, 'store'])->name('admin.store');
         Route::post('update', [AdminManageController::class, 'update'])->name('admin.update');
         Route::post('delete', [AdminManageController::class, 'delete'])->name('admin.delete');
+        Route::post('update-password', [AdminManageController::class, 'update_password'])->name('admin.update-password');
     });
 
     Route::group([

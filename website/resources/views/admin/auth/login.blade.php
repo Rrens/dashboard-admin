@@ -23,5 +23,8 @@
             </div>
             <button type="submit" class="btn btn-primary btn-block btn-lg shadow-lg mt-5">Log in</button>
         </form>
+        <div class="text-center mt-5 text-lg fs-4">
+            <p><a class="" href="{{ route('forgot-password') }}">Forgot password?</a>.</p>
+        </div>
     </div>
 @endsection

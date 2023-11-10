@@ -15,8 +15,11 @@ class AdminManageController extends Controller
     {
         $active = 'admin management';
         $data = User::whereIn('role', ['admin', 'superadmin'])->get();
+        $data_forgot_password = User::whereIn('role', ['admin', 'superadmin'])
+            ->where('is_forgot_password', 1)
+            ->get();
         // User::onlyTrashed()->restore();
-        return view('admin.page.admin_management', compact('active', 'data'));
+        return view('admin.page.admin_management', compact('active', 'data', 'data_forgot_password'));
     }
 
     public function store(Request $request)
@@ -139,6 +142,27 @@ class AdminManageController extends Controller
         $data->save();
 
         Alert::toast('Update Profile Successfully', 'success');
+        return back();
+    }
+
+    public function update_password(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'password' => 'required',
+            'id' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            Alert::error($validator->messages()->all());
+            return back();
+        }
+
+        $data = User::findOrFail($request->id);
+        $data->password = Hash::make($request->password);
+        $data->is_forgot_password = 0;
+        $data->save();
+
+        Alert::toast('Change Password Successfully', 'success');
         return back();
     }
 }
