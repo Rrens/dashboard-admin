@@ -41,11 +41,17 @@
         </div>
         <div class="sidebar-menu">
             <ul class="menu">
+                <li class="sidebar-item {{ $active == 'home' ? 'active' : '' }}">
+                    <a href="{{ route('home') }}" class="sidebar-link">
+                        <i class="bi bi-house-fill"></i>
+                        <span>Home</span>
+                    </a>
+                </li>
                 <li class="sidebar-title">Admin</li>
-                <li class="sidebar-item {{ $active == 'profile' ? 'active' : '' }}">
+                <li class="sidebar-item {{ $active == 'forgot-password' ? 'active' : '' }}">
                     <a href="{{ route('admin.profile') }}" class="sidebar-link">
                         <i class="bi bi-person-fill"></i>
-                        <span>Home</span>
+                        <span>Reset Password</span>
                     </a>
                 </li>
                 @if (auth()->user()->role == 'superadmin')

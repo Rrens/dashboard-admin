@@ -302,7 +302,7 @@
     var mypieAdsApproveAndNotApprove = new Chart(pieAdsApproveAndNotApprove, {
         type: 'pie',
         data: {
-            labels: ["Approve", "Not Approve"],
+            labels: ["Lolos", "Tidak"],
             datasets: [{
                 label: 'Iklan Verifikasi dan tidak',
                 backgroundColor: [chartColors.orange, chartColors.blue],

@@ -7,6 +7,7 @@ use App\Http\Controllers\Dashboard\MerchantController as DashboardMerchantContro
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Verifikasi\IklanController;
 use App\Http\Controllers\Verifikasi\MerchantController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 
@@ -83,3 +84,10 @@ Route::group([
     Route::get('merchant', [MerchantController::class, 'index'])->name('verifikasi.merchant.index');
     Route::get('iklan', [IklanController::class, 'index'])->name('verifikasi.iklan.index');
 });
+
+Route::get('home', function () {
+
+    $data = Auth::user();
+    $active = 'home';
+    return view('admin.page.home', compact('data', 'active'));
+})->name('home')->middleware('auth', 'role:admin,superadmin');

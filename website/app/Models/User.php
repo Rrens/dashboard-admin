@@ -62,4 +62,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Merchant::class);
     }
+
+    public function log_login()
+    {
+        return $this->belongsTo(Log_login::class);
+    }
 }

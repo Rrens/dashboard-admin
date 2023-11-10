@@ -170,7 +170,7 @@
     let myPieMerchantVerify = new Chart(pieMerchantVerify, {
         type: 'pie',
         data: {
-            labels: ["Approve", "Not Approve"],
+            labels: ["Verifikasi", "Tidak"],
             datasets: [{
                 label: 'Merchant Verifikasi dan tidak',
                 backgroundColor: [chartColors.orange, chartColors.blue],
@@ -289,7 +289,7 @@
     let myPieUserActiveAndNo = new Chart(pieUserActiveAndNo, {
         type: 'pie',
         data: {
-            labels: ["ACTIVE", "NOT ACTIVE"],
+            labels: ["Aktif", "Tidak"],
             datasets: [{
                 label: 'Pengguna Aktif dan tidak',
                 backgroundColor: [chartColors.orange, chartColors],

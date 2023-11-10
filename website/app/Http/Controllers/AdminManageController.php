@@ -102,32 +102,38 @@ class AdminManageController extends Controller
 
     public function profile()
     {
-        $active = 'profile';
+        $active = 'forgot-password';
         $data = Auth::user();
         return view('admin.page.profile', compact('active', 'data'));
     }
 
     public function profile_store(Request $request)
     {
-        if ($request->password == null) {
-            $validator = Validator::make($request->all(), [
-                'name' => 'required|string',
-                'id' => 'required',
-                'email' => 'required|email',
-            ]);
-        } else {
-            $validator = Validator::make($request->all(), [
-                'name' => 'required|string',
-                'id' => 'required',
-                'email' => 'required|email',
-                'password' => 'required',
-            ]);
-        }
+        // if ($request->password == null) {
+        //     $validator = Validator::make($request->all(), [
+        //         'name' => 'required|string',
+        //         'id' => 'required',
+        //         'email' => 'required|email',
+        //     ]);
+        // } else {
+        //     $validator = Validator::make($request->all(), [
+        //         'name' => 'required|string',
+        //         'id' => 'required',
+        //         'email' => 'required|email',
+        //         'password' => 'required',
+        //     ]);
+        // }
+
+        // $validator = Validator::make($request->all(), [
+        //     'name' => 'required|string',
+        //     'id' => 'required',
+        //     'email' => 'required|email',
+        // ]);
 
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string',
+            'old_password' => 'required',
+            'new_password' => 'required',
             'id' => 'required',
-            'email' => 'required|email',
         ]);
 
         if ($validator->fails()) {
@@ -135,10 +141,15 @@ class AdminManageController extends Controller
             return back()->withInput();
         }
 
+
         $data = User::findOrFail($request->id);
-        $data->name = $request->name;
-        $data->email = $request->email;
-        $request->password != null ? $data->password = Hash::make($request->password) : '';
+        if (!Hash::check($request->new_password, $data->password)) {
+            Alert::toast('Password Tidak Cocok', 'error');
+            return back()->withInput();
+        }
+        // $data->name = $request->name;
+        // $data->email = $request->email;
+        $request->password != null ? $data->password = Hash::make($request->new_password) : '';
         $data->save();
 
         Alert::toast('Update Profile Successfully', 'success');

@@ -22,7 +22,7 @@
 @section('container')
     <div class="page-heading d-flex justify-content-between">
         <div class="flex-start">
-            <h3>Profile</h3>
+            <h3>Forgot Password</h3>
         </div>
     </div>
     <div class="page-content">
@@ -34,7 +34,7 @@
                             <div class="card-body">
                                 <form action="{{ route('profile.store') }}" method="post">
                                     @csrf
-                                    <div class="form-group mb-3">
+                                    {{-- <div class="form-group mb-3">
                                         <label for="name">Nama</label>
                                         <input type="text" class="form-control mt-3" id="name"
                                             name="name"value="{{ $data->name }}" required>
@@ -44,11 +44,16 @@
                                         <label for="email">Email</label>
                                         <input type="email" class="form-control mt-3" id="email"
                                             name="email"value="{{ $data->email }}" required>
+                                    </div> --}}
+                                    <div class="form-group mb-3">
+                                        <label for="Password">Old Password</label>
+                                        <input type="text" class="form-control mt-3" id="Password" name="old_password"
+                                            value="{{ old('old_password') }}">
+                                        <input type="number" value="{{ $data->id }}" name="id" hidden>
                                     </div>
                                     <div class="form-group mb-3">
-                                        <label for="Password">Password</label>
-                                        <input type="text" class="form-control mt-3" id="Password"
-                                            name="password"value="{{ old('password') }}">
+                                        <label for="Password">New Password</label>
+                                        <input type="text" class="form-control mt-3" id="Password" name="new_password">
                                     </div>
                                     <div class="form-group mb-3">
                                         <label for="last_login">Last Login</label>

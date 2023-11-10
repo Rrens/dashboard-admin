@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Log_login;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -44,9 +45,18 @@ class AuthController extends Controller
         }
 
         $id = Auth::user()->id;
-        $data = User::findOrFail($id);
-        $data->last_login = Carbon::now();
-        $data->save();
+        $log_login = new Log_login();
+        $log_login->user_id = $id;
+        $log_login->ip_address = request()->getClientIp();
+        $log_login->last_login = Carbon::now();
+        $log_login->save();
+        $log_login = Log_login::latest()->get();
+        if (!empty($log_login[1])) {
+            $data = User::findOrFail($id);
+            $data->last_login = $log_login[0]->last_login;
+            $data->save();
+        }
+
         return redirect()->route('admin.profile');
     }
 
