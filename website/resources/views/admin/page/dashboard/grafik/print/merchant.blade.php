@@ -480,7 +480,6 @@
                 <td>{{ $item['address'] }}</td>
                 <td>{{ $item['city'] }}</td>
                 <td>{{ $item['province'] }}</td>
-                <td>{{ $item['profile_picture'] }}</td>
                 <td>{{ $item['id_card_number'] }}</td>
                 <td>{{ $item['npwp'] }}</td>
                 <td>{{ $item['last_login'] }}</td>

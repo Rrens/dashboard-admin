@@ -482,7 +482,6 @@
                 <td>{{ $item['description'] }}</td>
                 <td>{{ $item['notes'] }}</td>
                 <td>{{ $item['price'] }}</td>
-                <td>{{ $item['merchant'][0]['profile_picture'] }}</td>
                 <td>{{ $item['count_order'] }}</td>
                 <td>{{ $item['rating'] }}</td>
                 <td>{{ $item['count_view'] }}</td>

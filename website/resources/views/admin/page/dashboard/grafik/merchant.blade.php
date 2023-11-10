@@ -248,9 +248,6 @@
                                             ${value.province}
                                         </td>
                                         <td class="text-bold-500">
-                                            ${value.profile_picture}
-                                        </td>
-                                        <td class="text-bold-500">
                                             ${value.id_card_number}
                                         </td>
                                         <td class="text-bold-500">
@@ -371,9 +368,6 @@
                                         </td>
                                         <td class="text-bold-500">
                                             ${value.province}
-                                        </td>
-                                        <td class="text-bold-500">
-                                            ${value.profile_picture}
                                         </td>
                                         <td class="text-bold-500">
                                             ${value.id_card_number}

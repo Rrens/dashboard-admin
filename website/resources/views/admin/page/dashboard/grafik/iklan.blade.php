@@ -115,9 +115,6 @@
                                             ${value.price}
                                         </td>
                                         <td class="text-bold-500">
-                                            ${value.picture}
-                                        </td>
-                                        <td class="text-bold-500">
                                             ${value.count_order}
                                         </td>
                                         <td class="text-bold-500">
@@ -263,9 +260,6 @@
                                             ${value.price}
                                         </td>
                                         <td class="text-bold-500">
-                                            ${value.picture}
-                                        </td>
-                                        <td class="text-bold-500">
                                             ${value.count_order}
                                         </td>
                                         <td class="text-bold-500">
@@ -386,9 +380,6 @@
                                         </td>
                                         <td class="text-bold-500">
                                             ${value.price}
-                                        </td>
-                                        <td class="text-bold-500">
-                                            ${value.picture}
                                         </td>
                                         <td class="text-bold-500">
                                             ${value.count_order}
