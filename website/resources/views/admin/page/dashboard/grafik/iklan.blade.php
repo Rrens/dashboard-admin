@@ -242,7 +242,6 @@
                             data_api.forEach(value => {
                                 newRow += `
                                     <tr>
-
                                         <td class="text-bold-500">
                                             ${value.name}
                                         </td>
@@ -372,7 +371,6 @@
                             data_api.forEach(value => {
                                 newRow += `
                                     <tr>
-
                                         <td class="text-bold-500">
                                             ${value.name}
                                         </td>

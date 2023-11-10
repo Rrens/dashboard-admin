@@ -134,16 +134,17 @@ class MerchantController extends Controller
     {
         // dd($request->all());
         $validator = Validator::make($request->all(), [
-            'name_edit_verify' => 'required|string',
-            'id_edit_verify' => 'required',
-            'email_edit_verify' => 'required|email',
-            'telp_edit_verify' => 'required|numeric',
-            'address_edit_verify' => 'required',
-            'city_edit_verify' => 'required|string',
-            'province_edit_verify' => 'required|string',
-            'id_card_edit_verify' => 'required|numeric',
-            'npwp_edit_verify' => 'required',
-            'last_login_edit_verify' => 'required',
+            'name_edit' => 'required|string',
+            'id_edit' => 'required',
+            'email_edit' => 'required|email',
+            'telp_edit' => 'required|numeric',
+            'address_edit' => 'required',
+            'city_edit' => 'required|string',
+            'province_edit' => 'required|string',
+            'id_card_edit' => 'required|numeric',
+            'npwp_edit' => 'required',
+            'last_login_edit' => 'required',
+            'picture_edit' => 'image|mimes:png,jpg,jpg|max:2048',
         ]);
 
         if ($validator->fails()) {
@@ -152,25 +153,35 @@ class MerchantController extends Controller
         }
 
         $data = [
-            'name' => $request->name_edit_verify,
-            'id' => $request->id_edit_verify,
-            'email' => $request->email_edit_verify,
-            'telp' => $request->telp_edit_verify,
-            'address' => $request->address_edit_verify,
-            'city' => $request->city_edit_verify,
-            'province' => $request->province_edit_verify,
-            'id_card' => $request->id_card_edit_verify,
-            'npwp' => $request->npwp_edit_verify,
-            'last_login' => $request->last_login_edit_verify,
+            'name' => $request->name_edit,
+            'id' => $request->id_edit,
+            'email' => $request->email_edit,
+            'telp' => $request->telp_edit,
+            'address' => $request->address_edit,
+            'city' => $request->city_edit,
+            'province' => $request->province_edit,
+            'id_card' => $request->id_card_edit,
+            'npwp' => $request->npwp_edit,
+            'last_login' => $request->last_login_edit,
+            'image' => $request->picture_edit,
         ];
+
+        // $formData = new \GuzzleHttp\Psr7\MultipartStream([
+        //     [
+        //         'name'     => 'image',
+        //         'contents' => fopen($request->file('picture_edit')->path(), 'r'),
+        //     ],
+        // ]);
 
         $_URL = env('API_URL') . 'dashboard/merchant/update-verify';
 
         try {
-            $response = Http::post($_URL, [
-                $data
+            $response = Http::withHeaders([
+                // 'Content-Type' => 'multipart/form-data',
+            ])->post($_URL, [
+                $data,
             ]);
-        } catch (Exception $error) {
+        } catch (\Exception $error) {
             dd($error->getMessage());
         }
 
@@ -189,16 +200,16 @@ class MerchantController extends Controller
     public function updateActiveOrNot(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name_edit_active_or_not' => 'required|string',
-            'id_edit_active_or_not' => 'required',
-            'email_edit_active_or_not' => 'required|email',
-            'telp_edit_active_or_not' => 'required|numeric',
-            'address_edit_active_or_not' => 'required',
-            'city_edit_active_or_not' => 'required|string',
-            'province_edit_active_or_not' => 'required|string',
-            'id_card_edit_active_or_not' => 'required|numeric',
-            'npwp_edit_active_or_not' => 'required',
-            'last_login_edit_active_or_not' => 'required',
+            'name_edit' => 'required|string',
+            'id_edit' => 'required',
+            'email_edit' => 'required|email',
+            'telp_edit' => 'required|numeric',
+            'address_edit' => 'required',
+            'city_edit' => 'required|string',
+            'province_edit' => 'required|string',
+            'id_card_edit' => 'required|numeric',
+            'npwp_edit' => 'required',
+            'last_login_edit' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -207,16 +218,16 @@ class MerchantController extends Controller
         }
 
         $data = [
-            'name' => $request->name_edit_active_or_not,
-            'id' => $request->id_edit_active_or_not,
-            'email' => $request->email_edit_active_or_not,
-            'telp' => $request->telp_edit_active_or_not,
-            'address' => $request->address_edit_active_or_not,
-            'city' => $request->city_edit_active_or_not,
-            'province' => $request->province_edit_active_or_not,
-            'id_card' => $request->id_card_edit_active_or_not,
-            'npwp' => $request->npwp_edit_active_or_not,
-            'last_login' => $request->last_login_edit_active_or_not,
+            'name' => $request->name_edit,
+            'id' => $request->id_edit,
+            'email' => $request->email_edit,
+            'telp' => $request->telp_edit,
+            'address' => $request->address_edit,
+            'city' => $request->city_edit,
+            'province' => $request->province_edit,
+            'id_card' => $request->id_card_edit,
+            'npwp' => $request->npwp_edit,
+            'last_login' => $request->last_login_edit,
         ];
 
         $_URL = env('API_URL') . 'dashboard/merchant/update-active-or-not';
@@ -235,6 +246,7 @@ class MerchantController extends Controller
             return back();
         } else {
             $errorMessage = $response->json();
+            dd($errorMessage);
             Alert::error($errorMessage['meta']['message']);
             return back();
         }
@@ -243,16 +255,16 @@ class MerchantController extends Controller
     public function updateAvgTransaction(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name_edit_average_detail' => 'required|string',
-            'id_edit_average_detail' => 'required',
-            'email_edit_average_detail' => 'required|email',
-            'telp_edit_average_detail' => 'required|numeric',
-            'address_edit_average_detail' => 'required',
-            'city_edit_average_detail' => 'required|string',
-            'province_edit_average_detail' => 'required|string',
-            'id_card_edit_average_detail' => 'required|numeric',
-            'npwp_edit_average_detail' => 'required',
-            'last_login_edit_average_detail' => 'required',
+            'name_edit' => 'required|string',
+            'id_edit' => 'required',
+            'email_edit' => 'required|email',
+            'telp_edit' => 'required|numeric',
+            'address_edit' => 'required',
+            'city_edit' => 'required|string',
+            'province_edit' => 'required|string',
+            'id_card_edit' => 'required|numeric',
+            'npwp_edit' => 'required',
+            'last_login_edit' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -261,16 +273,16 @@ class MerchantController extends Controller
         }
 
         $data = [
-            'name' => $request->name_edit_average_detail,
-            'id' => $request->id_edit_average_detail,
-            'email' => $request->email_edit_average_detail,
-            'telp' => $request->telp_edit_average_detail,
-            'address' => $request->address_edit_average_detail,
-            'city' => $request->city_edit_average_detail,
-            'province' => $request->province_edit_average_detail,
-            'id_card' => $request->id_card_edit_average_detail,
-            'npwp' => $request->npwp_edit_average_detail,
-            'last_login' => $request->last_login_edit_average_detail,
+            'name' => $request->name_edit,
+            'id' => $request->id_edit,
+            'email' => $request->email_edit,
+            'telp' => $request->telp_edit,
+            'address' => $request->address_edit,
+            'city' => $request->city_edit,
+            'province' => $request->province_edit,
+            'id_card' => $request->id_card_edit,
+            'npwp' => $request->npwp_edit,
+            'last_login' => $request->last_login_edit,
         ];
 
         $_URL = env('API_URL') . 'dashboard/merchant/update-average';

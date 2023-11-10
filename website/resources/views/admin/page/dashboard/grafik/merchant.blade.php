@@ -361,7 +361,6 @@
                             data_api.forEach(value => {
                                 newRow += `
                                     <tr>
-
                                         <td class="text-bold-500">
                                             ${value.id}
                                         </td>

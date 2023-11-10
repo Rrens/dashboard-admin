@@ -32,7 +32,7 @@
                     <div class="col-12">
                         <div class="card" style="margin-top:2.2rem">
                             <div class="card-body table-responsive">
-                                <table class="table table-striped" id="table1">
+                                <table class="table " id="table1">
                                     <thead>
                                         <tr>
                                             <th>ID User</th>
@@ -113,7 +113,7 @@
                             @csrf
                             <div class="modal-body">
                                 <div class="card-body table-responsive">
-                                    <table class="table table-striped" id="table1">
+                                    <table class="table " id="table1">
                                         <thead>
                                             <tr>
                                                 <th>Name</th>

@@ -9,26 +9,13 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class MerchantController extends Controller
 {
     public function data_verify_merchant_and_not()
     {
-        // $data = Merchant::select(DB::raw('
-        //         SUM(CASE WHEN is_approve = "approve" THEN 1 ELSE 0 END) as approve,
-        //         SUM(CASE WHEN is_approve = "not_approve" THEN 1 ELSE 0 END) as not_approve
-        //     '))
-        //     ->where('deleted_at', null)
-        //     ->get();
-
-        // $data = Merchant::select(DB::raw('
-        //         (SUM(CASE WHEN is_approve = "approve" THEN 1 ELSE 0 END) / COUNT(*)) * 100 as approve,
-        //         (SUM(CASE WHEN is_approve = "not_approve" THEN 1 ELSE 0 END) / COUNT(*)) * 100 as not_approve
-        //     '))
-        //     ->where('deleted_at', null)
-        //     ->get();
-
         $data = Merchant::select(DB::raw('
                 (SUM(CASE WHEN is_approve = "approve" THEN 1 ELSE 0 END) / COUNT(*)) * 100 as approve,
                 (SUM(CASE WHEN is_approve = "not_approve" THEN 1 ELSE 0 END) / COUNT(*)) * 100 as not_approve,
@@ -240,6 +227,8 @@ class MerchantController extends Controller
 
     public function update_verify(Request $request)
     {
+
+
         $data_request = [
             'name' => $request[0]['name'],
             'id' => $request[0]['id'],
@@ -251,7 +240,10 @@ class MerchantController extends Controller
             'id_card' => $request[0]['id_card'],
             'npwp' => $request[0]['npwp'],
             'last_login' => $request[0]['last_login'],
+            'image' => $request[0]['image'],
         ];
+
+
 
         $validator = Validator::make($data_request, [
             'name' => 'required|string',
@@ -286,6 +278,13 @@ class MerchantController extends Controller
                         'message' => 'Data Not Found'
                     ],
                 ], 404);
+            }
+
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $image_name = bin2hex(time() . '-merchant-' . $request->name) . '.' . $image->getClientOriginalExtension();
+                Storage::putFileAs('public/uploads/merchant/', $image, $image_name);
+                $data->profile_picture = $image_name;
             }
 
             $data->name = $data_request['name'];
@@ -333,6 +332,7 @@ class MerchantController extends Controller
         $validator = Validator::make($data_request, [
             'name' => 'required|string',
             'id' => 'required',
+            'image' => 'image|mimes:png,jpg,jpg|max:2048',
             'email' => 'required|email',
             'telp' => 'required|numeric',
             'address' => 'required',
@@ -409,6 +409,7 @@ class MerchantController extends Controller
 
         $validator = Validator::make($data_request, [
             'name' => 'required|string',
+            'image' => 'image|mimes:png,jpg,jpg|max:2048',
             'id' => 'required',
             'email' => 'required|email',
             'telp' => 'required|numeric',
@@ -426,6 +427,7 @@ class MerchantController extends Controller
                     'status' => 'Error',
                     'message' => 'Bad Request'
                 ],
+                'data' => $validator->messages()->all()
             ], 400);
         }
 
@@ -438,7 +440,7 @@ class MerchantController extends Controller
                     'meta' => [
                         'status' => 'Error',
                         'message' => 'Data Not Found'
-                    ],
+                    ]
                 ], 404);
             }
 

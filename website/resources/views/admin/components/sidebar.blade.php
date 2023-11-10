@@ -45,7 +45,7 @@
                 <li class="sidebar-item {{ $active == 'profile' ? 'active' : '' }}">
                     <a href="{{ route('admin.profile') }}" class="sidebar-link">
                         <i class="bi bi-person-fill"></i>
-                        <span>Profile</span>
+                        <span>Home</span>
                     </a>
                 </li>
                 @if (auth()->user()->role == 'superadmin')

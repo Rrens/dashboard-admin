@@ -72,7 +72,7 @@
                 </div>
                 <div class="modal-body table-responsive">
                     <div class="card-body ">
-                        <table class="table table-striped" id="table_data_verify">
+                        <table class="table " id="table_data_verify">
                             <thead>
                                 <tr>
                                     <th>ID Merchant</th>
@@ -120,7 +120,7 @@
                 </div>
                 <div class="modal-body table-responsive">
                     <div class="card-body ">
-                        <table class="table table-striped" id="table_data_active_and_not">
+                        <table class="table " id="table_data_active_and_not">
                             <thead>
                                 <tr>
                                     <th>ID Merchant</th>
@@ -170,7 +170,7 @@
                     <div class="card-body ">
                         <p id="year"></p>
                         <p id="month"></p>
-                        <table class="table table-striped" id="table_data_average_per_periode">
+                        <table class="table " id="table_data_average_per_periode">
                             <thead>
                                 <tr>
                                     <th>Transaction ID</th>

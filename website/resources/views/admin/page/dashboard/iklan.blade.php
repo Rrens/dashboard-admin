@@ -62,7 +62,7 @@
                 </div>
                 <div class="modal-body table-responsive">
                     <div class="card-body ">
-                        <table class="table table-striped" id="table_data_verify">
+                        <table class="table " id="table_data_verify">
                             <thead>
                                 <tr>
                                     <th>Nama</th>
@@ -109,7 +109,7 @@
                 </div>
                 <div class="modal-body table-responsive">
                     <div class="card-body ">
-                        <table class="table table-striped" id="table_data_verify">
+                        <table class="table " id="table_data_verify">
                             <thead>
                                 <tr>
                                     <th>Nama</th>
@@ -156,7 +156,7 @@
                 </div>
                 <div class="modal-body table-responsive">
                     <div class="card-body ">
-                        <table class="table table-striped" id="table_data_verify">
+                        <table class="table " id="table_data_verify">
                             <thead>
                                 <tr>
                                     <th>Nama</th>
