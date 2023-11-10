@@ -464,7 +464,6 @@
             <th>Alamat</th>
             <th>Kota</th>
             <th>Provinsi</th>
-            <th>Profile Picture</th>
             <th>ID Card Number</th>
             <th>NPWP</th>
             <th>Last Login</th>

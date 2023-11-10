@@ -465,7 +465,6 @@
             <th>Deskripsi</th>
             <th>Notes</th>
             <th>Prices</th>
-            <th>Pictures</th>
             <th>Jumlah Pesanan</th>
             <th>Rating</th>
             <th>Jumlah View</th>

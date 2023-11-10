@@ -73,7 +73,6 @@
                                     <th>Deskripsi</th>
                                     <th>Notes</th>
                                     <th>Price</th>
-                                    <th>Picture</th>
                                     <th>Jumlah Pesanan</th>
                                     <th>Rating</th>
                                     <th>Jumlah View</th>
@@ -167,7 +166,6 @@
                                     <th>Deskripsi</th>
                                     <th>Notes</th>
                                     <th>Price</th>
-                                    <th>Picture</th>
                                     <th>Jumlah Pesanan</th>
                                     <th>Rating</th>
                                     <th>Jumlah View</th>
