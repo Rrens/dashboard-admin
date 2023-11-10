@@ -120,10 +120,17 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($item['sub_category'] as $row)
+                                            @php
+                                                $for_data = [];
+                                                foreach ($data_categories as $key) {
+                                                    $key['category_id'] == $item['category_id'] ? array_push($for_data, $key) : '';
+                                                }
+                                            @endphp
+                                            @foreach ($for_data as $row)
                                                 <tr>
                                                     <td class="text-bold-500">
                                                         {{ $row['name'] }}
+
                                                     </td>
                                                 </tr>
                                             @endforeach

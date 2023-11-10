@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\Verify;
 
 use App\Http\Controllers\Controller;
 use App\Models\Ads;
+use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -11,14 +12,17 @@ class AdsController extends Controller
 {
     public function index()
     {
-        $data = Ads::with('sub_category.sub_category_and_categories')->where('is_approve', null)->get();
+        // $data = Ads::with('sub_category.sub_category_and_categories')->where('is_approve', null)->get();
+        $data = Ads::where('is_approve', null)->get();
+        $data_category = SubCategory::all();
         if (!empty($data[0])) {
             return response()->json([
                 'meta' => [
                     'status' => 'success',
                     'message' => 'Successfully fetch data'
                 ],
-                'data' => $data
+                'data' => $data,
+                'categories' => $data_category
             ], 200);
         }
 

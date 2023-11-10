@@ -18,7 +18,7 @@ class AdsFactory extends Factory
     {
         return [
             'merchant_id' => $this->faker->numberBetween(1, 100),
-            'category_id' => $this->faker->numberBetween(1, 15),
+            'category_id' => $this->faker->numberBetween(1, 4),
             'name' => $this->faker->sentence(5),
             'description' => $this->faker->realText(),
             'notes'  => $this->faker->realText(),

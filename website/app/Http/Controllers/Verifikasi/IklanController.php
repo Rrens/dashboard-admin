@@ -18,12 +18,14 @@ class IklanController extends Controller
             // dd($data_from_api['data'][0]);
             if (!empty($data_from_api['data'][0])) {
                 $data = $data_from_api['data'];
+                $data_categories = $data_from_api['categories'];
             } else {
                 $data = null;
+                $data_categories = null;
             }
         } catch (Exception $error) {
             dd($error->getMessage());
         }
-        return view('admin.page.verifikasi.iklan', compact('active', 'data'));
+        return view('admin.page.verifikasi.iklan', compact('active', 'data', 'data_categories'));
     }
 }
