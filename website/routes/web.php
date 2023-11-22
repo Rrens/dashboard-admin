@@ -8,9 +8,15 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Verifikasi\IklanController;
 use App\Http\Controllers\Verifikasi\MerchantController;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
+Route::get('cek', function () {
+    $_URL = 'http://127.0.0.1:5000/api/sales-data';
 
+    $data = collect(Http::get($_URL)->json());
+    dd($data);
+});
 Route::redirect('/', 'dashboard/merchant');
 
 Route::get('login', [AuthController::class, 'login'])->name('login');

@@ -189,6 +189,20 @@
                     display: true,
                     text: "Jumlah Merchant Verifikasi Atau tidak"
                 },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            var label = context.dataset.label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            if (context.parsed.y !== null) {
+                                label += context.parsed.y + '%';
+                            }
+                            return label;
+                        }
+                    }
+                }
             },
             'onClick': function(evt, item) {
                 if (item && item.length > 0) {
@@ -198,9 +212,9 @@
 
                     let label = null;
                     if (this.data.labels[index] == 'Approve') {
-                        label = 'active'
+                        label = 'Verifikasi'
                     } else {
-                        label = 'not_active'
+                        label = 'tidak'
                     }
 
                     $.ajax({
@@ -317,10 +331,10 @@
                     // console.log(this.data.labels[index])
                     let label = null;
                     if (this.data.labels[index] == 'ACTIVE') {
-                        label = 'active'
+                        label = 'Aktif'
 
                     } else {
-                        label = 'not_active'
+                        label = 'Tidak'
                     }
                     // Pengguna Aktif dan tidak
                     $.ajax({

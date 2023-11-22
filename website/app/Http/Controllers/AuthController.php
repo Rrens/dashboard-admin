@@ -16,7 +16,7 @@ class AuthController extends Controller
     public function login()
     {
         if (Auth::check()) {
-            return redirect()->route('admin.profile');
+            return redirect()->route('home');
         }
         return view('admin.auth.login');
     }
@@ -57,7 +57,7 @@ class AuthController extends Controller
             $data->save();
         }
 
-        return redirect()->route('admin.profile');
+        return redirect()->route('home');
     }
 
     public function logout()
