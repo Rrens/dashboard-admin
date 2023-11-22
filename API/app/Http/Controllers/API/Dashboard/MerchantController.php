@@ -16,13 +16,20 @@ class MerchantController extends Controller
 {
     public function data_verify_merchant_and_not()
     {
+        $approve = Merchant::where('deleted_at', null)
+            ->where('is_approve', 'approve')->count();
+        $not_approve =
+            Merchant::where('deleted_at', null)
+            ->where('is_approve', 'not_approve')->count();
+        $count_approve_add_not_approve = $approve + $not_approve;
         $data = Merchant::select(DB::raw('
-                (SUM(CASE WHEN is_approve = "approve" THEN 1 ELSE 0 END) / COUNT(*)) * 100 as approve,
-                (SUM(CASE WHEN is_approve = "not_approve" THEN 1 ELSE 0 END) / COUNT(*)) * 100 as not_approve,
-                SUM(CASE WHEN is_approve IS NULL THEN 1 ELSE 0 END) as null_count, COUNT(*) * 100 as total_count
-            '))
+        (SUM(CASE WHEN is_approve = "approve" THEN 1 ELSE 0 END) / ' . $count_approve_add_not_approve . ') * 100 as approve,
+        (SUM(CASE WHEN is_approve = "not_approve" THEN 1 ELSE 0 END) / ' . $count_approve_add_not_approve . ') * 100 as not_approve,
+        SUM(CASE WHEN is_approve IS NULL THEN 1 ELSE 0 END) as null_count, COUNT(*) * 100 as total_count
+        '))
             ->where('deleted_at', null)
             ->get();
+        // return response()->json($data);
 
         if (!empty($data[0])) {
             return response()->json([
@@ -72,6 +79,12 @@ class MerchantController extends Controller
         $threeMonthsAgo = Carbon::now()->subMonths(3);
 
         // return response()->json($threeMonthsAgo);
+        $approve = Merchant::where('deleted_at', null)
+            ->where('is_approve', 'approve')->count();
+        $not_approve =
+            Merchant::where('deleted_at', null)
+            ->where('is_approve', 'not_approve')->count();
+        $count_approve_add_not_approve = $approve + $not_approve;
         $data = Merchant::selectRaw('
             (SUM(CASE WHEN last_login >= ? THEN 1 ELSE 0 END) / COUNT(*)) * 100 as active,
             (SUM(CASE WHEN last_login < ? THEN 1 ELSE 0 END) / COUNT(*)) * 100 as not_active,

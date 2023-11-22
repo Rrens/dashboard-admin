@@ -13,9 +13,16 @@ class AdsController extends Controller
 {
     public function data_verify_ads_and_not()
     {
+        $approve = Ads::where('deleted_at', null)
+            ->where('is_approve', 'approve')->count();
+        $not_approve =
+            Ads::where('deleted_at', null)
+            ->where('is_approve', 'not_approve')->count();
+        $count_approve_add_not_approve = $approve + $not_approve;
+
         $data = Ads::select(DB::raw('
-                (SUM(CASE WHEN is_approve = "approve" THEN 1 ELSE 0 END) / COUNT(*)) * 100 as approve,
-                (SUM(CASE WHEN is_approve = "not_approve" THEN 1 ELSE 0 END) / COUNT(*)) * 100 as not_approve
+                (SUM(CASE WHEN is_approve = "approve" THEN 1 ELSE 0 END) / ' . $count_approve_add_not_approve . ') * 100 as approve,
+                (SUM(CASE WHEN is_approve = "not_approve" THEN 1 ELSE 0 END) / ' . $count_approve_add_not_approve . ') * 100 as not_approve
             '))
             ->whereHas('merchant', function ($query) {
                 $query->whereNull('deleted_at');
