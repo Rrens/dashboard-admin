@@ -25,15 +25,6 @@
         input[type=number] {
             -moz-appearance: textfield;
         }
-
-        footer {
-            position: fixed;
-            bottom: 0;
-            width: 81%;
-            /* Warna latar belakang */
-            padding: 20px;
-            /* Atur jarak di dalam footer */
-        }
     </style>
     @stack('head')
 </head>

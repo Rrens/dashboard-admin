@@ -15,6 +15,141 @@
         silver: 'rgb(192, 192, 192)'
     };
 
+    // PIE MERCHANT VERIFY
+    let pieMerchantVerify = document.getElementById("pieMerchantVerify").getContext("2d");
+    let gradientMerchantVerify = pieMerchantVerify.createLinearGradient(0, 0, 0, 400);
+    gradientMerchantVerify.addColorStop(0, 'rgba(50, 69, 209,1)');
+    gradientMerchantVerify.addColorStop(1, 'rgba(265, 177, 249,0)');
+
+    let gradient2MerchantVerify = pieMerchantVerify.createLinearGradient(0, 0, 0, 400);
+    gradient2MerchantVerify.addColorStop(0, 'rgba(255, 91, 92,1)');
+    gradient2MerchantVerify.addColorStop(1, 'rgba(265, 177, 249,0)');
+
+    let myPieMerchantVerify = new Chart(pieMerchantVerify, {
+        type: 'pie',
+        data: {
+            labels: ["Verifikasi", "Tidak"],
+            datasets: [{
+                label: 'Merchant Verifikasi dan tidak',
+                backgroundColor: [chartColors.orange, chartColors.blue],
+                data: [{{ $data_verify_and_not[0]['approve'] }},
+                    {{ $data_verify_and_not[0]['not_approve'] }}
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: "Jumlah Merchant Verifikasi Atau tidak"
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            var label = context.dataset.label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            if (context.parsed.y !== null) {
+                                label += context.parsed.y + '%';
+                            }
+                            return label;
+                        }
+                    }
+                }
+            },
+            'onClick': function(evt, item) {
+                if (item && item.length > 0) {
+                    let datasetIndex = item[0]._datasetIndex;
+                    let index = item[0]._index;
+                    let id = this.data.datasets[datasetIndex].data[index];
+
+                    let label = null;
+                    if (this.data.labels[index] == 'Approve') {
+                        window.location.href = '{{ route('merchant.detail', 'verify') }}';
+                        label = 'Verifikasi'
+                    } else {
+                        window.location.href = '{{ route('merchant.detail', 'not-verify') }}';
+                        label = 'tidak'
+                    }
+
+                    // $.ajax({
+                    //     url: "{{ env('API_URL') . 'dashboard/merchant/data-verify' }}",
+                    //     method: 'GET',
+                    //     success: function(data) {
+                    //         let data_api = null
+                    //         $("#verify-merchant").empty()
+                    //         if (label == 'active') {
+                    //             data_api = data.data;
+                    //             $("#verify-merchant").append(
+                    //                 `<a href="{{ route('print.verify-merchant', 'verify') }}" target="_blank" class="btn btn-primary">Print</a>`
+                    //             );
+                    //         } else {
+                    //             data_api = data.data_not_active;
+                    //             $("#verify-merchant").append(
+                    //                 `<a href="{{ route('print.verify-merchant', 'not-verify') }}" target="_blank" class="btn btn-primary">Print</a>`
+                    //             );
+                    //         }
+                    //         let newRow = null;
+
+                    //         $('#table_data_verify tbody').empty();
+                    //         data_api.forEach(value => {
+                    //             newRow += `
+                    //                 <tr>
+                    //                     <td class="text-bold-500">
+                    //                         ${value.id}
+                    //                     </td>
+                    //                     <td class="text-bold-500">
+                    //                         ${value.name}
+                    //                     </td>
+                    //                     <td class="text-bold-500">
+                    //                         ${value.email}
+                    //                     </td>
+                    //                     <td class="text-bold-500">
+                    //                         ${value.phone_number}
+                    //                     </td>
+                    //                     <td class="text-bold-500">
+                    //                         ${value.address}
+                    //                     </td>
+                    //                     <td class="text-bold-500">
+                    //                         ${value.city}
+                    //                     </td>
+                    //                     <td class="text-bold-500">
+                    //                         ${value.province}
+                    //                     </td>
+                    //                     <td class="text-bold-500">
+                    //                         ${value.id_card_number}
+                    //                     </td>
+                    //                     <td class="text-bold-500">
+                    //                         ${value.npwp}
+                    //                     </td>
+                    //                     <td class="text-bold-500">
+                    //                         ${value.last_login}
+                    //                     </td>
+                    //                     <td>
+                    //                         <button class="btn btn-light-warning btn-sm" onclick="VerifyEdit(${value.id})"
+                    //                             data-bs-toggle="modal" data-bs-target="#modalEdit">
+                    //                             <i class="bi bi-pencil-fill"></i>
+                    //                         </button>
+                    //                     </td>
+                    //                 </tr>
+                    //             `;
+                    //         });
+
+                    //         $('#table_data_verify tbody').append(newRow);
+                    //     }
+                    // })
+                    // $("#modalViewVerifyAndNot").modal("show");
+                    // $("#modalChartSecondVerify").modal("show");
+                }
+            },
+        },
+    });
+
     // AVERAGE MERCHANT PERIODE
     let ctxBarAverageMerchantPeriode = document.getElementById("barAverageMerchantPeriode").getContext("2d");
     const data_month = [{{ $month }}]
@@ -157,139 +292,6 @@
     });
 
 
-    // PIE MERCHANT VERIFY
-    let pieMerchantVerify = document.getElementById("pieMerchantVerify").getContext("2d");
-    let gradientMerchantVerify = pieMerchantVerify.createLinearGradient(0, 0, 0, 400);
-    gradientMerchantVerify.addColorStop(0, 'rgba(50, 69, 209,1)');
-    gradientMerchantVerify.addColorStop(1, 'rgba(265, 177, 249,0)');
-
-    let gradient2MerchantVerify = pieMerchantVerify.createLinearGradient(0, 0, 0, 400);
-    gradient2MerchantVerify.addColorStop(0, 'rgba(255, 91, 92,1)');
-    gradient2MerchantVerify.addColorStop(1, 'rgba(265, 177, 249,0)');
-
-    let myPieMerchantVerify = new Chart(pieMerchantVerify, {
-        type: 'pie',
-        data: {
-            labels: ["Verifikasi", "Tidak"],
-            datasets: [{
-                label: 'Merchant Verifikasi dan tidak',
-                backgroundColor: [chartColors.orange, chartColors.blue],
-                data: [{{ $data_verify_and_not[0]['approve'] }},
-                    {{ $data_verify_and_not[0]['not_approve'] }}
-                ]
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'top',
-                },
-                title: {
-                    display: true,
-                    text: "Jumlah Merchant Verifikasi Atau tidak"
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            var label = context.dataset.label || '';
-                            if (label) {
-                                label += ': ';
-                            }
-                            if (context.parsed.y !== null) {
-                                label += context.parsed.y + '%';
-                            }
-                            return label;
-                        }
-                    }
-                }
-            },
-            'onClick': function(evt, item) {
-                if (item && item.length > 0) {
-                    let datasetIndex = item[0]._datasetIndex;
-                    let index = item[0]._index;
-                    let id = this.data.datasets[datasetIndex].data[index];
-
-                    let label = null;
-                    if (this.data.labels[index] == 'Approve') {
-                        label = 'Verifikasi'
-                    } else {
-                        label = 'tidak'
-                    }
-
-                    $.ajax({
-                        url: "{{ env('API_URL') . 'dashboard/merchant/data-verify' }}",
-                        method: 'GET',
-                        success: function(data) {
-                            let data_api = null
-                            $("#verify-merchant").empty()
-                            if (label == 'active') {
-                                data_api = data.data;
-                                $("#verify-merchant").append(
-                                    `<a href="{{ route('print.verify-merchant', 'verify') }}" target="_blank" class="btn btn-primary">Print</a>`
-                                );
-                            } else {
-                                data_api = data.data_not_active;
-                                $("#verify-merchant").append(
-                                    `<a href="{{ route('print.verify-merchant', 'not-verify') }}" target="_blank" class="btn btn-primary">Print</a>`
-                                );
-                            }
-                            let newRow = null;
-
-                            $('#table_data_verify tbody').empty();
-                            data_api.forEach(value => {
-                                newRow += `
-                                    <tr>
-                                        <td class="text-bold-500">
-                                            ${value.id}
-                                        </td>
-                                        <td class="text-bold-500">
-                                            ${value.name}
-                                        </td>
-                                        <td class="text-bold-500">
-                                            ${value.email}
-                                        </td>
-                                        <td class="text-bold-500">
-                                            ${value.phone_number}
-                                        </td>
-                                        <td class="text-bold-500">
-                                            ${value.address}
-                                        </td>
-                                        <td class="text-bold-500">
-                                            ${value.city}
-                                        </td>
-                                        <td class="text-bold-500">
-                                            ${value.province}
-                                        </td>
-                                        <td class="text-bold-500">
-                                            ${value.id_card_number}
-                                        </td>
-                                        <td class="text-bold-500">
-                                            ${value.npwp}
-                                        </td>
-                                        <td class="text-bold-500">
-                                            ${value.last_login}
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-light-warning btn-sm" onclick="VerifyEdit(${value.id})"
-                                                data-bs-toggle="modal" data-bs-target="#modalEdit">
-                                                <i class="bi bi-pencil-fill"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                `;
-                            });
-
-                            $('#table_data_verify tbody').append(newRow);
-                        }
-                    })
-                    $("#modalViewVerifyAndNot").modal("show");
-                }
-            },
-        },
-    });
-
-
     // USER ACTIVE AND NO
     let pieUserActiveAndNo = document.getElementById("pieUserActiveAndNo").getContext("2d");
     let gradientUserActiveAndNo = pieUserActiveAndNo.createLinearGradient(0, 0, 0, 400);
@@ -331,9 +333,11 @@
                     // console.log(this.data.labels[index])
                     let label = null;
                     if (this.data.labels[index] == 'ACTIVE') {
+                        window.location.href = '{{ route('merchant.detail', 'aktif') }}';
                         label = 'Aktif'
 
                     } else {
+                        window.location.href = '{{ route('merchant.detail', 'tidak') }}';
                         label = 'Tidak'
                     }
                     // Pengguna Aktif dan tidak

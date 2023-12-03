@@ -634,15 +634,141 @@ class MerchantController extends Controller
         }
     }
 
-    public function test($id)
+    // public function test($id)
+    // {
+    //     $data = Merchant::findOrFail($id);
+    //     $data->delete();
+    //     return response()->json([
+    //         'meta' => [
+    //             'status' => 'success',
+    //             'message' => 'Successfully Delete data'
+    //         ], 'data' => $data
+    //     ], 200);
+    // }
+
+    public function verifyDetailPerMonth($status)
     {
-        $data = Merchant::findOrFail($id);
-        $data->delete();
+        $month = Merchant::groupBy('month')
+            ->orderBy('month', 'asc')
+            ->whereNull('deleted_at')
+            ->pluck('month');
+
+        if ($status == 'verify') {
+            $status = 'approve';
+        }
+
+        if ($status == 'not-verify') {
+            $status = 'not_approve';
+        }
+
+        $data = DB::table('merchants')
+            ->select(
+                'year',
+                'month',
+                DB::raw('SUM(CASE WHEN is_approve = "' . $status . '" THEN 1 ELSE 0 END) as data')
+            )
+            ->groupBy('month')
+            ->whereNull('deleted_at')
+            ->get();
+
+        if (!empty($data[0])) {
+            return response()->json([
+                'meta' => [
+                    'status' => 'success',
+                    'message' => 'Successfully fetch data'
+                ],
+                'data' => $data,
+                'month' => $month,
+            ], 200);
+        }
+
         return response()->json([
             'meta' => [
-                'status' => 'success',
-                'message' => 'Successfully Delete data'
-            ], 'data' => $data
-        ], 200);
+                'status' => 'failed',
+                'message' => 'Data Not Found'
+            ],
+        ], 404);
+    }
+
+    public function verifyActiveOrNotPerMonth($status)
+    {
+        $month = Merchant::groupBy('month')
+            ->orderBy('month', 'asc')
+            ->whereNull('deleted_at')
+            ->pluck('month');
+
+        $data = null;
+        $threeMonthsAgo = Carbon::now()->subMonths(3);
+        // dd($threeMonthsAgo);
+        if ($status == 'aktif') {
+            $data = DB::table('merchants')
+                ->select(
+                    'year',
+                    'month',
+                    DB::raw(
+                        'COUNT(last_login) as data'
+                    )
+                )
+                ->whereDate('last_login', '>=', $threeMonthsAgo)
+                ->groupBy('month')
+                ->whereNull('deleted_at')
+                ->get();
+        }
+
+        if ($status == 'tidak') {
+            $data = DB::table('merchants')
+                ->select(
+                    'year',
+                    'month',
+                    DB::raw(
+                        'COUNT(last_login) as data'
+                    )
+                )
+                ->whereDate('last_login', '<', $threeMonthsAgo)
+                ->groupBy('month')
+                ->whereNull('deleted_at')
+                ->get();
+        }
+
+        // dd($data);
+
+
+        if (!empty($data[0])) {
+            return response()->json([
+                'meta' => [
+                    'status' => 'success',
+                    'message' => 'Successfully fetch data'
+                ],
+                'data' => $data,
+                'month' => $month,
+            ], 200);
+        }
+
+        return response()->json([
+            'meta' => [
+                'status' => 'failed',
+                'message' => 'Data Not Found'
+            ],
+        ], 404);
+    }
+
+    public function avgTransactionMerchantPerMonth($month)
+    {
+        $month = Merchant::groupBy('month')
+            ->orderBy('month', 'asc')
+            ->whereNull('deleted_at')
+            ->pluck('month');
+
+        $data = Transaction::join('merchants as m', 'transaction.merchant_id', '=', 'm.id')
+            ->select(
+                DB::raw('transaction.year'),
+                DB::raw('transaction.month'),
+                DB::raw('SUM(transaction.total_transaction) as total_transaction'),
+                DB::raw('m.id')
+            )
+            ->groupBy('year', 'month')
+            ->orderBy('month', 'asc')
+            ->where('m.deleted_at', null)
+            ->get();
     }
 }

@@ -73,13 +73,19 @@
             },
             'onClick': function(evt, item) {
                 if (item && item.length > 0) {
-                    var datasetIndex = item[0]._datasetIndex;
-                    var index = item[0]._index;
-                    var month = this.data.datasets[datasetIndex].month[index];
+                    let datasetIndex = item[0]._datasetIndex;
+                    let index = item[0]._index;
+                    let month = this.data.datasets[datasetIndex].month[index];
+                    let monthName = this.data.labels[index]
+
                     $("#rating-ads").empty();
                     $("#rating-ads").append(
                         `<a href="{{ env('APP_WEBSITE') . 'dashboard/iklan/print-rating/${month}' }}" target="_blank" class="btn btn-primary">Print</a>`
                     );
+
+                    let for_month = monthName ? monthName : 'Jan';
+                    window.location.href =
+                        `{{ route('ads.detail', ':for_month') }}`.replace(':for_month', for_month);
                     $.ajax({
                         url: `{{ env('API_URL') . 'dashboard/iklan/data-rating-ads-periode/${month}' }}`,
                         method: 'GET',
@@ -161,7 +167,7 @@
         }
     });
 
-    // PIE MERCHANT VERIFY
+    // PIE ADS VERIFY
     var pieFavoriteAdsPerCategory = document.getElementById("pieFavoriteAdsPerCategory").getContext("2d");
     var gradientMerchantVerify = pieFavoriteAdsPerCategory.createLinearGradient(0, 0, 0, 400);
     gradientMerchantVerify.addColorStop(0, 'rgba(50, 69, 209,1)');
@@ -222,6 +228,9 @@
                     $("#favorite-ads").append(
                         `<a href="{{ env('APP_WEBSITE') . 'dashboard/iklan/print-ads-favorite/${id}' }}" target="_blank" class="btn btn-primary">Print</a>`
                     );
+                    let id_category = id ? id : 0;
+                    window.location.href =
+                        `{{ route('ads.detail', ':id_category') }}`.replace(':id_category', id_category);
 
                     // Iklan Favorite Berdasarkan kategori
                     $.ajax({
@@ -329,8 +338,12 @@
                     var id = this.data.datasets[datasetIndex].data[index];
                     let label = null;
                     if (this.data.labels[index] == 'Approve') {
+                        window.location.href =
+                            '{{ route('ads.detail', 'verify') }}';
                         label = 'active'
                     } else {
+                        window.location.href =
+                            '{{ route('ads.detail', 'not verify') }}';
                         label = 'not_active'
                     }
 

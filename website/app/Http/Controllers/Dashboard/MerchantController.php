@@ -71,6 +71,52 @@ class MerchantController extends Controller
         ));
     }
 
+    public function detail($status)
+    {
+        $active = 'dashboard';
+        $_URL = null;
+        if ($status == 'verify' || $status == 'not-verify') {
+            $_URL = env('API_URL') . 'dashboard/merchant/detail/verify/' . $status;
+        }
+
+        if ($status == 'aktif' || $status == 'tidak') {
+            $_URL = env('API_URL') . 'dashboard/merchant/detail/active-or-not/' . $status;
+        }
+
+        $data_api = collect(Http::get($_URL)->json());
+        if (!empty($data_api['data'][0])) {
+            $data = array();
+            $data = $data_api['data'];
+
+            $array_is_approve = [];
+            foreach ($data_api['data'] as $value) {
+                $array_is_approve[] = (int) $value['data'];
+            }
+            $is_approve = implode(', ', $array_is_approve);
+
+            $array = [];
+            foreach ($data_api['month'] as $value) {
+                $array[] = (int) $value;
+            }
+            $month = implode(', ', $array);
+
+            $array_year = [];
+            foreach ($data_api['data'] as $value) {
+                $array_year[] = (int) $value['year'];
+            }
+            $year = implode(', ', $array_year);
+        } else {
+            $data = null;
+        }
+        return view('admin.page.dashboard.detail.merchant', compact(
+            'active',
+            'status',
+            'is_approve',
+            'month',
+            'year'
+        ));
+    }
+
     public function print_verify($approve)
     {
         $_URL_MERCHANT_ACTIVE_OR_NOT = env('API_URL') . 'dashboard/merchant/data-verify';

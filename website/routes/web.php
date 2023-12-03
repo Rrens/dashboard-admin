@@ -34,6 +34,7 @@ Route::group([
         'prefix' => 'merchant',
     ], function () {
         Route::get('', [DashboardMerchantController::class, 'index'])->name('merchant.dashboard');
+        Route::get('detail/{status}', [DashboardMerchantController::class, 'detail'])->name('merchant.detail');
         Route::post('update-verify-or-not', [DashboardMerchantController::class, 'updateVerifyOrNot'])->name('merchant.update-verify');
         Route::post('update-average-detail', [DashboardMerchantController::class, 'updateAvgTransaction'])->name('merchant.update-average');
         Route::post('update-active-or-not', [DashboardMerchantController::class, 'updateActiveOrNot'])->name('merchant.update-active-or-not');
@@ -49,6 +50,8 @@ Route::group([
         'prefix' => 'iklan',
     ], function () {
         Route::get('', [DashboardIklanController::class, 'index'])->name('iklan.dashboard');
+        Route::get('detail/{status}', [DashboardIklanController::class, 'detail'])->name('ads.detail');
+        Route::post('update', [DashboardIklanController::class, 'update'])->name('ads.update');
         Route::post('update-verify-or-not', [DashboardIklanController::class, 'updateVerifyOrNot'])->name('ads.update-verify');
         Route::post('update-ads-favorite', [DashboardIklanController::class, 'updateAdsFavorite'])->name('ads.update-favorite');
         Route::post('update-count-rating', [DashboardIklanController::class, 'updateCountRating'])->name('ads.update-count-rating');

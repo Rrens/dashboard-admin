@@ -4,6 +4,8 @@ namespace App\Http\Controllers\API\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Ads;
+use App\Models\Categories;
+use App\Models\Transaction;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -47,18 +49,21 @@ class AdsController extends Controller
         ], 404);
     }
 
-    public function data_verify_ads()
+    public function data_verify_ads($status, $month, $year)
     {
+        // $data = Ads::with('merchant')
+        //     ->whereHas('merchant', function ($query) {
+        //         $query->whereNull('deleted_at');
+        //     })
+        //     ->where('is_approve', 'approve')
+        //     ->get();
+        // dd($status);
         $data = Ads::with('merchant')
             ->whereHas('merchant', function ($query) {
                 $query->whereNull('deleted_at');
-            })
-            ->where('is_approve', 'approve')
-            ->get();
-        $data_not_active = Ads::with('merchant')
-            ->whereHas('merchant', function ($query) {
-                $query->whereNull('deleted_at');
-            })->where('is_approve', 'not_approve')
+            })->where('is_approve', $status)
+            ->where('month', $month)
+            ->where('year', $year)
             ->get();
         if (!empty($data[0])) {
             return response()->json([
@@ -67,7 +72,6 @@ class AdsController extends Controller
                     'message' => 'Successfully fetch data'
                 ],
                 'data' => $data,
-                'data_not_active' => $data_not_active
             ], 200);
         }
 
@@ -127,14 +131,17 @@ class AdsController extends Controller
         ], 404);
     }
 
-    public function data_favorite_ads_per_categories($id)
+    public function data_favorite_ads_per_categories($status, $month, $year)
     {
         $data = Ads::with('merchant')
-            ->where('category_id', $id)
             ->whereHas('merchant', function ($query) {
                 $query->whereNull('deleted_at');
             })
+            ->where('category_id', $status)
+            ->where('month', $month)
+            ->where('year', $year)
             ->get();
+
 
         if (!empty($data[0])) {
             return response()->json([
@@ -205,13 +212,24 @@ class AdsController extends Controller
         ], 404);
     }
 
-    public function data_rating_ads_per_periode($month)
+    public function data_rating_ads_per_periode($category)
     {
-        $data = Ads::with('merchant')
-            ->where('month', $month)
-            ->whereHas('merchant', function ($query) {
-                $query->whereNull('deleted_at');
-            })
+        // $data = Ads::with('merchant')
+        //     ->whereHas('categories', function ($query) use ($category) {
+        //         $query->where('name', $category);
+        //     })
+        //     ->whereHas('merchant', function ($query) {
+        //         $query->whereNull('deleted_at');
+        //     })
+        //     ->get();
+
+        $data = DB::table('transaction as t')
+            ->join('ads as ad', 'ad.id', '=', 't.ads_id')
+            ->join('merchants as m', 'm.id', '=', 't.merchant_id')
+            ->join('categories as c', 'ad.category_id', '=', 'c.id')
+            ->where('c.name', $category)
+            ->whereNull('m.deleted_at')
+            ->whereNull('ad.deleted_at')
             ->get();
 
         if (!empty($data[0])) {
@@ -643,6 +661,245 @@ class AdsController extends Controller
                 'meta' => [
                     'status' => 'success',
                     'message' => 'Successfully Delete data'
+                ],
+            ], 200);
+        } catch (Exception $error) {
+            return response()->json([
+                'meta' => [
+                    'status' => 'Error',
+                    'message' => 'Internal Server Error'
+                ],
+                'data' => $error
+            ], 500);
+        }
+    }
+
+    public function ads_verify_per_month($status)
+    {
+
+        $month = Ads::groupBy('month')
+            ->orderBy('month', 'asc')
+            ->whereNull('deleted_at')
+            ->pluck('month');
+
+        $value = null;
+
+        if ($status == 'verify') {
+            $value = 'approve';
+        }
+        if ($status == 'not verify') {
+            $value = 'not_approve';
+        }
+
+        $data = DB::table('ads')
+            ->select(
+                'year',
+                'month',
+                DB::raw('SUM(CASE WHEN is_approve = "' . $value . '" THEN 1 ELSE 0 END) as data')
+            )
+            ->groupBy('month')
+            ->whereNull('deleted_at')
+            ->get();
+
+        if (!empty($data[0])) {
+            return response()->json([
+                'meta' => [
+                    'status' => 'success',
+                    'message' => 'Successfully fetch data'
+                ],
+                'data' => $data,
+                'month' => $month,
+            ], 200);
+        }
+
+        return response()->json([
+            'meta' => [
+                'status' => 'failed',
+                'message' => 'Data Not Found'
+            ],
+        ], 404);
+    }
+
+    public function ads_favorite_per_month($status)
+    {
+        $month = Ads::groupBy('month')
+            ->orderBy('month', 'asc')
+            ->whereNull('deleted_at')
+            ->pluck('month');
+
+        $averageRating = Ads::average('rating');
+
+        $data = null;
+
+        $data = DB::table('ads')
+            ->select(
+                'year',
+                'month',
+                DB::raw('SUM(CASE WHEN rating > "' . $averageRating . '" THEN 1 ELSE 0 END) as data')
+            )
+            ->groupBy('month')
+            ->where('category_id', $status)
+            ->whereNull('deleted_at')
+            ->get();
+
+
+        if (!empty($data[0])) {
+            return response()->json([
+                'meta' => [
+                    'status' => 'success',
+                    'message' => 'Successfully fetch data'
+                ],
+                'data' => $data,
+                'month' => $month,
+            ], 200);
+        }
+
+        return response()->json([
+            'meta' => [
+                'status' => 'failed',
+                'message' => 'Data Not Found'
+            ],
+        ], 404);
+    }
+
+    public function ads_rating_ads_per_category($status)
+    {
+        $monthNumbers = [
+            'Jan' => 1,
+            'Feb' => 2,
+            'Mar' => 3,
+            'Apr' => 4,
+            'Mei' => 5,
+            'Jun' => 6,
+            'Jul' => 7,
+            'Ags' => 8,
+            'Sep' => 9,
+            'Okt' => 10,
+            'Nov' => 11,
+            'Des' => 12,
+        ];
+
+        $selectedMonth = $status;
+        $monthNumber = $monthNumbers[$selectedMonth];
+        // return response()->json($monthNumber);
+
+        $averageRating = Ads::average('rating');
+
+        $data = null;
+
+        $array_category_id = array();
+
+        $data = DB::table('ads')
+            ->select(
+                'year',
+                'category_id',
+                'month',
+                DB::raw('SUM(CASE WHEN rating > "' . $averageRating . '" THEN 1 ELSE 0 END) as data')
+            )
+            ->groupBy('category_id')
+            // ->where('category_id', $status)
+            ->whereNull('deleted_at')
+            ->where('month', $monthNumber)
+            ->get();
+
+        foreach ($data as $key) {
+            array_push($array_category_id, $key->category_id);
+        }
+
+        $month = Categories::whereIn('id', $array_category_id)
+            ->whereNull('deleted_at')
+            ->pluck('name');
+
+        if (!empty($data[0])) {
+            return response()->json([
+                'meta' => [
+                    'status' => 'success',
+                    'message' => 'Successfully fetch data'
+                ],
+                'data' => $data,
+                'month' => $month,
+            ], 200);
+        }
+
+        return response()->json([
+            'meta' => [
+                'status' => 'failed',
+                'message' => 'Data Not Found'
+            ],
+        ], 404);
+    }
+
+    public function update(Request $request)
+    {
+        $data_request = [
+            'name' => $request[0]['name'],
+            'id' => $request[0]['id'],
+            'id_merchant' => $request[0]['id_merchant'],
+            'city' => $request[0]['city'],
+            'province' => $request[0]['province'],
+            'id_category' => $request[0]['id_category'],
+            'description' => $request[0]['description'],
+            'notes' => $request[0]['notes'],
+            'price' => $request[0]['price'],
+            'count_order' => $request[0]['count_order'],
+            'rating' => $request[0]['rating'],
+            'count_view' => $request[0]['count_view'],
+        ];
+
+        $validator = Validator::make($data_request, [
+            'name' => 'required|string',
+            'id' => 'required',
+            'id_merchant' => 'required',
+            'id_category' => 'required',
+            'description' => 'required',
+            'city' => 'required|string',
+            'province' => 'required|string',
+            'notes' => 'required',
+            'price' => 'required',
+            'count_order' => 'required',
+            'rating' => 'required',
+            'count_view' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'meta' => [
+                    'status' => 'Error',
+                    'message' => 'Bad Request'
+                ],
+            ], 400);
+        }
+
+        try {
+            $data = Ads::findOrFail($data_request['id']);
+
+            if (empty($data)) {
+
+                return response()->json([
+                    'meta' => [
+                        'status' => 'Error',
+                        'message' => 'Data Not Found'
+                    ],
+                ], 404);
+            }
+
+            $data->name = $data_request['name'];
+            $data->merchant_id = $data_request['id_merchant'];
+            $data->category_id = $data_request['id_category'];
+            $data->description = $data_request['description'];
+            $data->city = $data_request['city'];
+            $data->province = $data_request['province'];
+            $data->notes = $data_request['notes'];
+            $data->price = $data_request['price'];
+            $data->count_order = $data_request['count_order'];
+            $data->rating = $data_request['rating'];
+            $data->count_view = $data_request['count_view'];
+            $data->save();
+
+            return response()->json([
+                'meta' => [
+                    'status' => 'success',
+                    'message' => 'Successfully Update data'
                 ],
             ], 200);
         } catch (Exception $error) {

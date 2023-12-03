@@ -89,6 +89,129 @@ class IklanController extends Controller
         ));
     }
 
+    public function detail($status)
+    {
+        $active = "dashboard";
+        $_URL = null;
+
+        $month_name = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'];
+
+        if (in_array($status, $month_name)) {
+            $_URL = env('API_URL') . "dashboard/iklan/detail/rating-periode/$status";
+            // dd($month, $_URL);
+        }
+
+        if ($status == 'verify' || $status == 'not verify') {
+            $_URL = env('API_URL') . "dashboard/iklan/detail/verify/$status";
+        }
+
+
+        if ($status == 'verify' && $status == 'not verify') {
+            $_URL = env('API_URL') . "dashboard/iklan/detail/favorite/$status";
+        }
+
+
+        $data_api = collect(Http::get($_URL)->json());
+        if (!empty($data_api['data'][0])) {
+            $data = array();
+            $data = $data_api['data'];
+
+            $array_is_approve = [];
+            foreach ($data_api['data'] as $value) {
+                $array_is_approve[] = (int) $value['data'];
+            }
+            $is_approve = implode(', ', $array_is_approve);
+
+            $array = [];
+            foreach ($data_api['month'] as $value) {
+                if (in_array($status, $month_name)) {
+                    $array[] = json_encode($value);
+                } else {
+                    $array[] = (int) $value;
+                }
+            }
+            $month = implode(', ',  $array);
+
+            $array_year = [];
+            foreach ($data_api['data'] as $value) {
+                $array_year[] = (int) $value['year'];
+            }
+            $year = implode(', ', $array_year);
+        } else {
+            $data = null;
+        }
+        // dd($is_approve);
+        return view('admin.page.dashboard.detail.iklan', compact(
+            'active',
+            'status',
+            'is_approve',
+            'month',
+            'year'
+        ));
+    }
+
+    public function update(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string',
+            'id_ads' => 'required',
+            'id_merchant' => 'required',
+            'city' => 'required|string',
+            'province' => 'required|string',
+            'id_category' => 'required',
+            'description' => 'required',
+            'notes' => 'required',
+            'price' => 'required',
+            'count_order' => 'required',
+            'rating' => 'required',
+            'count_view' => 'required',
+        ]);
+
+        // dd($request->all(), $validator->messages()->all());
+
+        if ($validator->fails()) {
+            Alert::error($validator->messages()->all());
+            return back();
+        }
+
+        $data = [
+            'name' => $request->name,
+            'id' => $request->id_ads,
+            'id_merchant' => $request->id_merchant,
+            'city' => $request->city,
+            'province' => $request->province,
+            'id_category' => $request->id_category,
+            'description' => $request->description,
+            'notes' => $request->notes,
+            'price' => $request->price,
+            'count_order' => $request->count_order,
+            'rating' => $request->rating,
+            'count_view' => $request->count_view,
+        ];
+
+        // dd($request->all(), $data);
+        $_URL = env('API_URL') . 'dashboard/iklan/update';
+
+        try {
+            $response = Http::post($_URL, [
+                $data
+            ]);
+        } catch (Exception $error) {
+            dd($error->getMessage());
+        }
+
+        if ($response->status() == 200) {
+
+            $responseData = $response->json();
+            Alert::toast($responseData['meta']['message'], 'success');
+            return back();
+        } else {
+            $errorMessage = $response->json();
+            Alert::error($errorMessage['meta']['message']);
+            return back();
+        }
+    }
+
     public function print_rating_ads($month)
     {
         $_URL_RATING_ADS = env('API_URL') . 'dashboard/iklan/data-rating-ads-periode/' . $month;

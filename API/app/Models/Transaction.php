@@ -27,7 +27,7 @@ class Transaction extends Model
 
     public function ads()
     {
-        return $this->hasMany(User::class, 'id', 'ads_id');
+        return $this->hasMany(Ads::class, 'id', 'ads_id');
     }
 
     public function merchant()
