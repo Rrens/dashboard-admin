@@ -57,7 +57,7 @@
         </section>
     </div>
 
-    @include('admin.page.dashboard.modal-tables')
+    {{-- @include('admin.page.dashboard.modal-tables') --}}
 
     {{-- MODAL GRAFIK 2 --}}
 

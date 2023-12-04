@@ -18,7 +18,7 @@ class MerchantFactory extends Factory
     public function definition(): array
     {
 
-        $startDate = '2022-01-01';
+        $startDate = '2023-01-01';
         $endDate = '2023-12-31';
         return [
             'name' => $this->faker->company(),

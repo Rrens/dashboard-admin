@@ -4,11 +4,11 @@
             <div class="modal-header d-flex justify-content-between align-items-center">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">
                     @if ($status == 'verify')
-                        VERIFY ADS
+                        VERIFY
                     @elseif ($status == 'not verify')
-                        NOT VERIFY ADS
+                        NOT VERIFY
                     @elseif ($status != 'verify' && $status != 'not verify')
-                        ADS KATEGORI
+                        KATEGORI
                     @endif
                 </h1>
                 <div>
@@ -93,7 +93,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="modalViewTransactionMerchantPerPeriode" tabindex="-1" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="modalViewMerchantPerPeriode" tabindex="-1" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-fullscreen">
         <div class="modal-content">
@@ -110,14 +110,19 @@
                 <div class="card-body ">
                     <p id="year"></p>
                     <p id="month"></p>
-                    <table class="table " id="table_data_average_per_periode">
+                    <table class="table " id="table_data_merchant_per_periode">
                         <thead>
                             <tr>
-                                <th>Transaction ID</th>
-                                <th>Merchant ID</th>
-                                <th>ADS ID</th>
-                                <th>Total Transaksi</th>
-                                <th>Bulan</th>
+                                <th>ID Merchant</th>
+                                <th>Nama</th>
+                                <th>Email</th>
+                                <th>No Telp</th>
+                                <th>Alamat</th>
+                                <th>Kota</th>
+                                <th>Provinsi</th>
+                                <th>ID Card Number</th>
+                                <th>NPWP</th>
+                                <th>Last Login</th>
                                 <th>Manage</th>
                             </tr>
                         </thead>

@@ -69,7 +69,8 @@
                     let id = this.data.datasets[datasetIndex].data[index];
 
                     let label = null;
-                    if (this.data.labels[index] == 'Approve') {
+                    // console.log(this.data.labels[index])
+                    if (this.data.labels[index] == 'Verifikasi') {
                         window.location.href = '{{ route('merchant.detail', 'verify') }}';
                         label = 'Verifikasi'
                     } else {

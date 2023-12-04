@@ -117,6 +117,63 @@ class MerchantController extends Controller
         ));
     }
 
+    public function update(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string',
+            'id' => 'required',
+            'email' => 'required|email',
+            'telp' => 'required',
+            'address' => 'required',
+            'city' => 'required|string',
+            'province' => 'required|string',
+            'id_card' => 'required',
+            'npwp' => 'required',
+            'last_login' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            Alert::error($validator->messages()->all());
+            return back();
+        }
+
+        $data = [
+            'name' => $request->name,
+            'id' => $request->id,
+            'email' => $request->email,
+            'telp' => $request->telp,
+            'address' => $request->address,
+            'city' => $request->city,
+            'province' => $request->province,
+            'id_card' => $request->id_card,
+            'npwp' => $request->npwp,
+            'last_login' => $request->last_login,
+        ];
+
+        $_URL = env('API_URL') . 'dashboard/merchant/update';
+        // dd($data);
+        try {
+            $response = Http::post($_URL, [
+                $data
+            ]);
+        } catch (Exception $error) {
+            dd($error->getMessage());
+        }
+
+        if ($response->status() == 200) {
+
+            $responseData = $response->json();
+            Alert::toast($responseData['meta']['message'], 'success');
+            return back();
+        } else {
+            $errorMessage = $response->json();
+            dd($errorMessage);
+            Alert::error($errorMessage['meta']['message']);
+            return back();
+        }
+    }
+
     public function print_verify($approve)
     {
         $_URL_MERCHANT_ACTIVE_OR_NOT = env('API_URL') . 'dashboard/merchant/data-verify';

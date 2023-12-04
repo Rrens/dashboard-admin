@@ -49,12 +49,21 @@ class MerchantController extends Controller
         ], 404);
     }
 
-    public function data_verify_merchant()
+    public function data_verify_merchant($status, $month, $year)
     {
-        $data = Merchant::where('is_approve', 'approve')
-            ->where('deleted_at', null)
-            ->get();
-        $data_not_active = Merchant::where('is_approve', 'not_approve')->get();
+        if ($status == 'verify') {
+            $data = Merchant::where('is_approve', 'approve')
+                ->where('deleted_at', null)
+                ->where('month', $month)
+                ->where('year', $year)
+                ->get();
+        } else {
+            $data = Merchant::where('is_approve', 'not_approve')
+                ->where('deleted_at', null)
+                ->where('month', $month)
+                ->where('year', $year)
+                ->get();
+        }
         if (!empty($data[0])) {
             return response()->json([
                 'meta' => [
@@ -62,7 +71,6 @@ class MerchantController extends Controller
                     'message' => 'Successfully fetch data'
                 ],
                 'data' => $data,
-                'data_not_active' => $data_not_active
             ], 200);
         }
 
@@ -111,21 +119,28 @@ class MerchantController extends Controller
         ], 404);
     }
 
-    public function data_active_merchant()
+    public function data_active_merchant($status, $month, $year)
     {
         $threeMonthsAgo = Carbon::now()->subMonths(3);
 
         // Merchant yang aktif dalam 3 bulan terakhir
-        $data = Merchant::whereNotNull('last_login')
-            ->whereDate('last_login', '>=', $threeMonthsAgo)
-            ->where('deleted_at', null)
-            ->get();
+        if ($status == 'aktif') {
 
-        $data_not_active =
-            Merchant::whereNotNull('last_login')
-            ->whereDate('last_login', '<', $threeMonthsAgo)
-            ->where('deleted_at', null)
-            ->get();
+            $data = Merchant::whereNotNull('last_login')
+                ->whereDate('last_login', '>=', $threeMonthsAgo)
+                ->where('deleted_at', null)
+                ->where('month', $month)
+                ->where('year', $year)
+                ->get();
+        } else {
+            $data =
+                Merchant::whereNotNull('last_login')
+                ->whereDate('last_login', '<', $threeMonthsAgo)
+                ->where('deleted_at', null)
+                ->where('month', $month)
+                ->where('year', $year)
+                ->get();
+        }
 
         if (!empty($data[0])) {
             return response()->json([
@@ -134,7 +149,6 @@ class MerchantController extends Controller
                     'message' => 'Successfully fetch data'
                 ],
                 'data' => $data,
-                'data_not_active' => $data_not_active
             ], 200);
         }
 
@@ -669,6 +683,7 @@ class MerchantController extends Controller
             )
             ->groupBy('month')
             ->whereNull('deleted_at')
+            ->where('year', 2023)
             ->get();
 
         if (!empty($data[0])) {
@@ -712,6 +727,7 @@ class MerchantController extends Controller
                 ->whereDate('last_login', '>=', $threeMonthsAgo)
                 ->groupBy('month')
                 ->whereNull('deleted_at')
+                ->where('year', 2023)
                 ->get();
         }
 
@@ -727,6 +743,7 @@ class MerchantController extends Controller
                 ->whereDate('last_login', '<', $threeMonthsAgo)
                 ->groupBy('month')
                 ->whereNull('deleted_at')
+                ->where('year', 2023)
                 ->get();
         }
 
@@ -770,5 +787,96 @@ class MerchantController extends Controller
             ->orderBy('month', 'asc')
             ->where('m.deleted_at', null)
             ->get();
+    }
+
+    public function update(Request $request)
+    {
+        $data_request = [
+            'name' => $request[0]['name'],
+            'id' => $request[0]['id'],
+            'email' => $request[0]['email'],
+            'telp' => $request[0]['telp'],
+            'address' => $request[0]['address'],
+            'city' => $request[0]['city'],
+            'province' => $request[0]['province'],
+            'id_card' => $request[0]['id_card'],
+            'npwp' => $request[0]['npwp'],
+            'last_login' => $request[0]['last_login'],
+        ];
+
+        $validator = Validator::make($data_request, [
+            'name' => 'required|string',
+            'id' => 'required',
+            'email' => 'required|email',
+            'telp' => 'required',
+            'address' => 'required',
+            'city' => 'required|string',
+            'province' => 'required|string',
+            'id_card' => 'required',
+            'npwp' => 'required',
+            'last_login' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'meta' => [
+                    'status' => 'Error',
+                    'message' => 'Bad Request'
+                ],
+            ], 400);
+        }
+
+        try {
+            $data = Merchant::findOrFail($data_request['id']);
+
+            if (empty($data)) {
+
+                return response()->json([
+                    'meta' => [
+                        'status' => 'Error',
+                        'message' => 'Data Not Found'
+                    ],
+                ], 404);
+            }
+
+            $data_request = [
+                'name' => $request[0]['name'],
+                'id' => $request[0]['id'],
+                'email' => $request[0]['email'],
+                'telp' => $request[0]['telp'],
+                'address' => $request[0]['address'],
+                'city' => $request[0]['city'],
+                'province' => $request[0]['province'],
+                'id_card' => $request[0]['id_card'],
+                'npwp' => $request[0]['npwp'],
+                'last_login' => $request[0]['last_login'],
+            ];
+
+            $data->name = $data_request['name'];
+            $data->email = $data_request['email'];
+            $data->phone_number = $data_request['telp'];
+            $data->address = $data_request['address'];
+            $data->city = $data_request['city'];
+            $data->province = $data_request['province'];
+            $data->id_card_number = $data_request['id_card'];
+            $data->npwp = $data_request['npwp'];
+            $data->last_login = $data_request['last_login'];
+            $data->save();
+
+            return response()->json([
+                'meta' => [
+                    'status' => 'success',
+                    'message' => 'Successfully Update data'
+                ],
+            ], 200);
+        } catch (Exception $error) {
+            return response()->json([
+                'meta' => [
+                    'status' => 'Error',
+                    'message' => 'Internal Server Error'
+                ],
+                'data' => $error
+            ], 500);
+        }
     }
 }

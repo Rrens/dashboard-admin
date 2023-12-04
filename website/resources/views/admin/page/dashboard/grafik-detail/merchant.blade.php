@@ -86,20 +86,37 @@
                     let month_ajax = month
                     let year_ajax = year
                     let newRow = null;
-                    if (month != null && year != null) {
-                        $("#average-merchant").empty();
-                        $("#average-merchant").append(
-                            `<a href="{{ env('APP_WEBSITE') . '/dashboard/merchant/print-average-transaction/${month}/${year}' }}" target="_blank" class="btn btn-primary">Print</a>`
-                        );
-                    }
+                    // if (month != null && year != null) {
+                    //     $("#average-merchant").empty();
+                    //     $("#average-merchant").append(
+                    //         `<a href="{{ env('APP_WEBSITE') . '/dashboard/merchant/print-average-transaction/${month}/${year}' }}" target="_blank" class="btn btn-primary">Print</a>`
+                    //     );
+                    // }
                     // modalViewTransactionMerchantPerPeriode
+                    let status = '{{ $status }}';
+                    _url = null;
+
+                    if (status != 'verify' || status != 'not-verify') {
+                        _url =
+                            `dashboard/merchant/data-verify/${status}/${month}/${year}`
+                        console.log(status)
+                    }
+
+                    if (status == 'aktif' || status == 'tidak') {
+                        _url =
+                            `dashboard/merchant/data-merchant-active/${status}/${month}/${year}`;
+                    }
+
+                    let url = _url ? _url : null;
+                    url =
+                        `{{ env('API_URL') . ':url' }}`.replace(':url', url);
                     $.ajax({
-                        url: `{{ env('API_URL') . 'dashboard/merchant/data-average-transaction-merchant-periode/${month}/${year}' }}`,
+                        url: `${url}`,
                         method: 'GET',
                         success: function(data) {
                             const data_api = data.data;
-
-                            $('#table_data_average_per_periode tbody').empty();
+                            console.log(data_api);
+                            $('#table_data_merchant_per_periode tbody').empty();
                             data_api.forEach(value => {
                                 newRow += `
                                     <tr>
@@ -107,19 +124,34 @@
                                             ${value.id}
                                         </td>
                                         <td class="text-bold-500">
-                                            ${value.merchant_id}
+                                            ${value.name}
                                         </td>
                                         <td class="text-bold-500">
-                                            ${value.ads_id}
+                                            ${value.email}
                                         </td>
                                         <td class="text-bold-500">
-                                            ${value.total_transaction}
+                                            ${value.phone_number}
                                         </td>
                                         <td class="text-bold-500">
-                                            ${monthNames[value.month]}
+                                            ${value.address}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.city}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.province}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.id_card_number}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.npwp}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.last_login}
                                         </td>
                                         <td>
-                                            <button class="btn btn-light-warning btn-sm" onclick="averageEdit(${value.merchant_id})"
+                                            <button class="btn btn-light-warning btn-sm" onclick="editMerchant(${value.id})"
                                                 data-bs-toggle="modal" data-bs-target="#modalEdit">
                                                 <i class="bi bi-pencil-fill"></i>
                                             </button>
@@ -128,12 +160,12 @@
                                 `;
                             });
 
-                            $('#table_data_average_per_periode tbody').append(newRow);
+                            $('#table_data_merchant_per_periode tbody').append(
+                                newRow);
                         }
                     })
 
-                    $("#modalViewTransactionMerchantPerPeriode").modal("show");
-                    // alert(`data yang di kik ${id}`)
+                    $("#modalViewMerchantPerPeriode").modal("show");
 
                 }
             },

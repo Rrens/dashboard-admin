@@ -57,6 +57,7 @@
     </div>
 
     @include('admin.page.dashboard.modal-tables')
+    @include('admin.page.dashboard.script.index')
 
     @push('scripts')
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"

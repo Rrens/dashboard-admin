@@ -17,9 +17,6 @@
 </script>
 
 @if (in_array($status, $month_name))
-    @php
-        // dd($month);
-    @endphp
     <script>
         var ctxbarCountRatingAdsPerPeriode = document.getElementById("pieRateAdsPeriode").getContext("2d");
         var mybarCountRatingAdsPerPeriode = new Chart(ctxbarCountRatingAdsPerPeriode, {
