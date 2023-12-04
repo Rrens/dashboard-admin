@@ -152,7 +152,6 @@ class MerchantController extends Controller
         ];
 
         $_URL = env('API_URL') . 'dashboard/merchant/update';
-        // dd($data);
         try {
             $response = Http::post($_URL, [
                 $data

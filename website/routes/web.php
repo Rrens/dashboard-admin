@@ -24,6 +24,8 @@ Route::post('post-login', [AuthController::class, 'post_login'])->name('post-log
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('forgot-password', [AuthController::class, 'forgot_password'])->name('forgot-password');
 Route::post('forgot-password', [AuthController::class, 'forgot_post'])->name('forgot-post-password');
+Route::get('change-password/{token}', [AuthController::class, 'change_password'])->name('change-password');
+Route::post('change-password', [AuthController::class, 'store_change_password'])->name('change-password.store');
 
 Route::group([
     'prefix' => 'dashboard',

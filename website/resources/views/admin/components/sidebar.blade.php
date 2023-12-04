@@ -47,13 +47,13 @@
                         <span>Home</span>
                     </a>
                 </li>
-                <li class="sidebar-title">Admin</li>
+                {{-- <li class="sidebar-title">Admin</li>
                 <li class="sidebar-item {{ $active == 'forgot-password' ? 'active' : '' }}">
                     <a href="{{ route('admin.profile') }}" class="sidebar-link">
                         <i class="bi bi-person-fill"></i>
                         <span>Reset Password</span>
                     </a>
-                </li>
+                </li> --}}
                 @if (auth()->user()->role == 'superadmin')
                     <li class="sidebar-item {{ $active == 'admin management' ? 'active' : '' }}">
                         <a href="{{ route('admin.index') }}" class="sidebar-link">
