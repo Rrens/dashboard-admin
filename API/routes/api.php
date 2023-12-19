@@ -50,9 +50,11 @@ Route::group([
         Route::get('data-verify/{status}/{month}/{year}', [DashboardMerchantController::class, 'data_verify_merchant']);
         Route::get('check-merchant-active-or-not', [DashboardMerchantController::class, 'data_active_merchant_and_not']);
         Route::get('data-merchant-active/{status}/{month}/{year}', [DashboardMerchantController::class, 'data_active_merchant']);
+        Route::get('data-merchant-category/{month}/{category}', [DashboardMerchantController::class, 'data_dashboard_merchant_category']);
         Route::get('average-transaction-merchant-periode', [DashboardMerchantController::class, 'avgTransactionMerchantPerPeriod']);
         Route::get('data-average-transaction-merchant-periode/{month}/{year}', [DashboardMerchantController::class, 'dataAvgTransactionMerchantPerPeriod']);
         Route::get('merchant-detail/{id}', [DashboardMerchantController::class, 'merchant_detail']);
+        Route::get('average-transaction-merchant-per-month/{status}', [DashboardMerchantController::class, 'average_transaction_merchant_per_month']);
         Route::post('update-verify', [DashboardMerchantController::class, 'update_verify']);
         Route::post('update-average', [DashboardMerchantController::class, 'update_average']);
         Route::post('update-active-or-not', [DashboardMerchantController::class, 'update_active_or_not']);

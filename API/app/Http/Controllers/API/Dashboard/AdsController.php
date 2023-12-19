@@ -722,6 +722,12 @@ class AdsController extends Controller
 
     public function ads_favorite_per_month($status)
     {
+
+        $monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'];
+
+        // Menggunakan metode array_search untuk mencari indeks nama bulan
+        $monthNumber = array_search($status, $monthNames) + 1;
+
         $month = Ads::groupBy('month')
             ->orderBy('month', 'asc')
             ->whereNull('deleted_at')
@@ -738,10 +744,9 @@ class AdsController extends Controller
                 DB::raw('SUM(CASE WHEN rating > "' . $averageRating . '" THEN 1 ELSE 0 END) as data')
             )
             ->groupBy('month')
-            ->where('category_id', $status)
+            ->where('category_id', $monthNumber)
             ->whereNull('deleted_at')
             ->get();
-
 
         if (!empty($data[0])) {
             return response()->json([

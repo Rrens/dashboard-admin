@@ -160,6 +160,45 @@ class MerchantController extends Controller
         ], 404);
     }
 
+    public function data_dashboard_merchant_category($month, $category)
+    {
+        $data = Transaction::join('merchants as m', 'transaction.merchant_id', '=', 'm.id')
+            ->join('categories as c', 'c.id', '=', 'm.category_id')
+            ->join('sub_category as sc', 'c.id', '=', 'sc.category_id')
+            // ->select(
+            //     DB::raw('transaction.year'),
+            //     DB::raw('transaction.month'),
+            //     DB::raw('COUNT(c.name) as data'),
+            //     DB::raw('m.id')
+            // )
+            ->where(function ($query) use ($month) {
+                $query->where('transaction.month', $month);
+            })
+            ->where('transaction.month', $month)
+            // ->groupBy('c.id')
+            // ->orderBy('c.id', 'asc')
+            ->where('sc.name', $category)
+            ->where('m.deleted_at', null)
+            ->get();
+
+        if (!empty($data[0])) {
+            return response()->json([
+                'meta' => [
+                    'status' => 'success',
+                    'message' => 'Successfully fetch data'
+                ],
+                'data' => $data,
+            ], 200);
+        }
+
+        return response()->json([
+            'meta' => [
+                'status' => 'failed',
+                'message' => 'Data Not Found'
+            ],
+        ], 404);
+    }
+
     public function avgTransactionMerchantPerPeriod()
     {
 
@@ -787,6 +826,62 @@ class MerchantController extends Controller
             ->orderBy('month', 'asc')
             ->where('m.deleted_at', null)
             ->get();
+    }
+
+    public function average_transaction_merchant_per_month($status)
+    {
+        // $month = Transaction::groupBy('month')
+        //     ->orderBy('month', 'asc')
+        //     ->with('merchant')
+        //     ->whereHas('merchant', function ($query) {
+        //         $query->whereNull('deleted_at');
+        //     })
+        //     ->pluck('month');
+        $month = Transaction::join('merchants as m', 'transaction.merchant_id', '=', 'm.id')
+            ->join('sub_category as sc', 'm.category_id', '=', 'sc.category_id')
+            ->select('sc.name')
+            ->groupBy('sc.category_id')
+            ->orderBy('sc.category_id', 'asc')
+            ->where('m.deleted_at', null)
+            ->where(function ($query) use ($status) {
+                $query->where('transaction.month', $status);
+            })
+            ->get();
+        // return response()->json($month);
+        $data = Transaction::join('merchants as m', 'transaction.merchant_id', '=', 'm.id')
+            ->join('categories as c', 'c.id', '=', 'm.category_id')
+            ->join('sub_category as sc', 'c.id', '=', 'sc.category_id')
+            ->select(
+                DB::raw('transaction.year'),
+                DB::raw('transaction.month'),
+                DB::raw('COUNT(c.name) as data'),
+                DB::raw('m.id')
+            )
+            ->where(function ($query) use ($status) {
+                $query->where('transaction.month', $status);
+            })
+            ->groupBy('c.id')
+            ->orderBy('c.id', 'asc')
+            ->where('m.deleted_at', null)
+            ->get();
+
+        if (!empty($data[0])) {
+            return response()->json([
+                'meta' => [
+                    'status' => 'success',
+                    'message' => 'Successfully fetch data'
+                ],
+                'data' => $data,
+                'month' => $month,
+            ], 200);
+        }
+
+        return response()->json([
+            'meta' => [
+                'status' => 'failed',
+                'message' => 'Data Not Found'
+            ],
+        ], 404);
     }
 
     public function update(Request $request)

@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\API\Verify;
 
 use App\Http\Controllers\Controller;
+use App\Mail\MessageNotApprove;
 use App\Models\Ads;
 use App\Models\SubCategory;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class AdsController extends Controller
@@ -38,7 +41,8 @@ class AdsController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'data' => 'required|in:approve,not_approve',
-            'id' => 'required'
+            'id' => 'required',
+            'message' => 'nullable',
         ]);
 
         if ($validator->fails()) {
@@ -49,6 +53,19 @@ class AdsController extends Controller
                 ],
                 'data' => $validator->messages()->all()
             ], 400);
+        }
+
+        if ($request['data'] == 'not_approve') {
+            $date = Carbon::now();
+            $formattedDate = $date->formatLocalized('%A, %d %B %Y');
+            $request["date"] = $formattedDate;
+
+            // $data = User::where('email', $request->email)->first();
+            $data_email = Ads::with('merchant')->where('id', $request['id'])->first();
+            $request['email'] = $data_email->merchant[0]->email;
+            $request['name'] = $data_email->merchant[0]->name;
+
+            Mail::send(new MessageNotApprove($request));
         }
 
         $data = Ads::findOrFail($request['id']);

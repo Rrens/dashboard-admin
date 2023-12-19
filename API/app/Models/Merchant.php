@@ -28,6 +28,7 @@ class Merchant extends Model
         'month',
         'year',
         'id_card_number',
+        'category_id',
         'created_at',
         'updated_at',
     ];
@@ -41,5 +42,10 @@ class Merchant extends Model
     public function ads()
     {
         return $this->belongsTo(Ads::class);
+    }
+
+    public function category()
+    {
+        return $this->hasMany(Categories::class, 'id', 'category_id',);
     }
 }

@@ -3,15 +3,21 @@
 namespace App\Http\Controllers\API\Verify;
 
 use App\Http\Controllers\Controller;
+use App\Mail\MessageNotApprove;
 use App\Models\Merchant;
+use App\Models\SubCategory;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class MerchantController extends Controller
 {
     public function index()
     {
         $data = Merchant::where('is_approve', null)->get();
+        $data_category = SubCategory::all();
 
         if (!empty($data[0])) {
             return response()->json([
@@ -19,7 +25,8 @@ class MerchantController extends Controller
                     'status' => 'success',
                     'message' => 'Successfully fetch data'
                 ],
-                'data' => $data
+                'data' => $data,
+                'categories' => $data_category
             ], 200);
         }
 
@@ -70,7 +77,8 @@ class MerchantController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'data' => 'required|in:approve,not_approve',
-            'id' => 'required'
+            'id' => 'required',
+            'message' => 'nullable',
         ]);
 
         if ($validator->fails()) {
@@ -81,6 +89,19 @@ class MerchantController extends Controller
                 ],
                 'data' => $validator->messages()->all()
             ], 400);
+        }
+
+        if ($request['data'] == 'not_approve') {
+            $date = Carbon::now();
+            $formattedDate = $date->formatLocalized('%A, %d %B %Y');
+            $request["date"] = $formattedDate;
+
+            // $data = User::where('email', $request->email)->first();
+            $data_email = Merchant::findOrFail($request['id']);
+            $request['email'] = $data_email->email;
+            $request['name'] = $data_email->name;
+
+            Mail::send(new MessageNotApprove($request));
         }
 
         $data = Merchant::findOrFail($request['id']);
