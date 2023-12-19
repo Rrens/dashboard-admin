@@ -28,6 +28,7 @@ class Merchant extends Model
         'month',
         'year',
         'id_card_number',
+        'category_id',
         'created_at',
         'updated_at',
     ];

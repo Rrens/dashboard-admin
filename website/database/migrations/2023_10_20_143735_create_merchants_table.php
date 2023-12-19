@@ -29,6 +29,8 @@ return new class extends Migration
             // $table->string('token');
             // $table->string('refresh_token');
             $table->dateTime('last_login')->nullable();
+            $table->unsignedBigInteger('category_id')->nullable();
+            $table->foreign('category_id')->references('id')->on('categories');
             $table->softDeletes();
             $table->timestamps();
         });

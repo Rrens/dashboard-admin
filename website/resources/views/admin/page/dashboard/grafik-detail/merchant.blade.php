@@ -34,7 +34,7 @@
         11: "Nov",
         12: "Des",
     };
-    let myBarAverageMerchantPeriode = new Chart(ctxBarAverageMerchantPeriode, {
+    let myBarAverageMerchantCategory = new Chart(ctxBarAverageMerchantPeriode, {
         type: 'bar',
         data: {
             labels: data_month.map(function(value) {
@@ -43,18 +43,28 @@
             datasets: [{
                 label: 'Rata-rata transaksi merchant berdasarkan periode',
                 backgroundColor: [
-                    chartColors.orange,
-                    chartColors.yellow,
-                    chartColors.green,
-                    chartColors.grey,
-                    chartColors.info,
-                    chartColors.blue,
-                    chartColors.purple,
-                    chartColors.teal,
-                    chartColors.pink,
-                    chartColors.lavender,
-                    chartColors.gold,
-                    chartColors.silver
+                    // chartColors.orange,
+                    // chartColors.yellow,
+                    // chartColors.green,
+                    // chartColors.grey,
+                    // chartColors.info,
+                    // chartColors.blue,
+                    // chartColors.purple,
+                    // chartColors.teal,
+                    // chartColors.pink,
+                    // chartColors.lavender,
+                    // chartColors.gold,
+                    chartColors.silver,
+                    chartColors.silver,
+                    chartColors.silver,
+                    chartColors.silver,
+                    chartColors.silver,
+                    chartColors.silver,
+                    chartColors.silver,
+                    chartColors.silver,
+                    chartColors.silver,
+                    chartColors.silver,
+                    chartColors.silver,
                 ],
                 data: [{{ $is_approve }}],
                 month: data_month,
@@ -190,6 +200,144 @@
         }
     });
 </script>
-{{-- @endif --}}
-<script></script>
-<script></script>
+
+<script>
+    // PIE MERCHANT VERIFY
+    let ctxBarAverageMerchantCategory = document.getElementById("merchantCategory").getContext("2d");
+
+    let myBarAverageMerchantCategoryAgain = new Chart(ctxBarAverageMerchantCategory, {
+        type: 'bar',
+        data: {
+            labels: [{!! $month !!}],
+            datasets: [{
+                label: 'Rata-rata transaksi merchant berdasarkan periode',
+                backgroundColor: [
+                    chartColors.orange,
+                    chartColors.yellow,
+                    chartColors.green,
+                    chartColors.grey,
+                    chartColors.info,
+                    chartColors.blue,
+                    chartColors.purple,
+                    chartColors.teal,
+                    chartColors.pink,
+                    chartColors.lavender,
+                    chartColors.gold,
+                    chartColors.silver,
+                ],
+                data: [{{ $is_approve }}],
+                month: [{!! $month !!}],
+                year: [{{ $year }}],
+            }]
+        },
+        options: {
+            responsive: true,
+            barRoundness: 1,
+            title: {
+                display: true,
+                text: "Rata-rata transaksi merchant berdasarkan periode"
+            },
+            legend: {
+                display: false
+            },
+            'onClick': function(evt, item) {
+                // console.log ('legend onClick', evt);
+                // console.log('legd item', item);
+                if (item && item.length > 0) {
+                    // Ambil data dari data poin yang diklik
+                    let datasetIndex = item[0]._datasetIndex;
+                    let index = item[0]._index;
+                    // let chartData = this.data.datasets[datasetIndex].data[index];
+                    let data = this.data.datasets[datasetIndex].data[index];
+                    let month = this.data.datasets[datasetIndex].month[index];
+                    let year = this.data.datasets[datasetIndex].year[index];
+
+                    let month_ajax = month
+                    let year_ajax = year
+                    let newRow = null;
+                    console.log(month)
+                    let status = '{{ $status }}';
+                    _url = null;
+
+                    if (status == 'verify' || status == 'not-verify') {
+                        _url =
+                            `dashboard/merchant/data-verify/${status}/${month}/${year}`
+                    } else if (status == 'aktif' || status == 'tidak') {
+                        _url =
+                            `dashboard/merchant/data-merchant-active/${status}/${month}/${year}`;
+                    } else {
+                        _url =
+                            `dashboard/merchant/data-merchant-category/${status}/${month}`;
+                        console.log(status)
+                    }
+
+                    let url = _url ? _url : null;
+                    url =
+                        `{{ env('API_URL') . ':url' }}`.replace(':url', url);
+                    console.log(url)
+
+                    $.ajax({
+                        url: `${url}`,
+                        method: 'GET',
+                        success: function(data) {
+                            const data_api = data.data;
+                            console.log(data_api);
+                            $('#table_data_rate_ads_category tbody').empty();
+                            data_api.forEach(value => {
+                                newRow += `
+                                    <tr>
+                                        <td class="text-bold-500">
+                                            ${value.id}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.merchant_id}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.ads_id}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.total_transaction}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.month}
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-light-warning btn-sm" onclick="editMerchant(${value.merchant_id})"
+                                                data-bs-toggle="modal" data-bs-target="#modalEdit">
+                                                <i class="bi bi-pencil-fill"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                `;
+                            });
+
+                            $('#table_data_rate_ads_category tbody').append(
+                                newRow);
+                        }
+                    })
+
+                    $("#modalRateAdsCategory").modal("show");
+
+                }
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        suggestedMax: 40 + 20,
+                        padding: 10,
+                    },
+                    gridLines: {
+                        drawBorder: false,
+                    }
+                }],
+                xAxes: [{
+                    gridLines: {
+                        display: false,
+                        drawBorder: false
+                    }
+                }]
+            }
+        }
+    });
+</script>

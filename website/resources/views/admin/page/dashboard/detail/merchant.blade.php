@@ -7,28 +7,49 @@
             <div class="row">
                 <div class="col-12 col-md-6 order-md-1 order-last">
                     <h3>Dashboard Merchant</h3>
+
                 </div>
             </div>
         </div>
         <section class="section">
             <div class="row">
                 {{-- @if ($status == 'not-verify' || $status == 'verify') --}}
-                <div class="col-10">
-                    <div class="card">
-                        <div class="card-header">
-                            @if ($status == 'not-verify' || $status == 'verify')
-                                <h4 class="card-title">Merchant Verifikasi dan tidak</h4>
-                            @elseif ($status == 'aktif' || $status == 'tidak')
-                                <h4 class="card-title">Merchant Aktif dan tidak</h4>
-                            @endif
-                        </div>
-                        <div class="card-body">
-                            <canvas id="pieMerchantDetail"></canvas>
+                @if (($status != 'verify' && $status != 'not-verify' && $status != 'aktif') || $status != 'tidak')
+
+                    <div class="col-10">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="d-flex justify-content-between">
+                                    <h4 class="card-title">Merchant Aktif dan tidak</h4>
+                                    <a href="{{ route('merchant.dashboard') }}" class="btn btn-primary">Kembali</a>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="merchantCategory"></canvas>
+                            </div>
                         </div>
                     </div>
-                </div>
-                {{-- @endif --}}
+                @else
+                    <div class="col-10">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="d-flex justify-content-between">
+                                    @if ($status == 'not-verify' || $status == 'verify')
+                                        <h4 class="card-title">Merchant Verifikasi dan tidak</h4>
+                                    @elseif ($status == 'aktif' || $status == 'tidak')
+                                        <h4 class="card-title">Merchant Aktif dan tidak</h4>
+                                    @endif
+                                    <a href="{{ route('merchant.dashboard') }}" class="btn btn-primary">Kembali</a>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="pieMerchantDetail"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                @endif
 
+                {{-- @endif --}}
                 {{-- @if ($status == 'aktif' || $status == 'tidak')
                     <div class="col-md-6">
                         <div class="card">

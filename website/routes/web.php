@@ -36,8 +36,8 @@ Route::group([
         'prefix' => 'merchant',
     ], function () {
         Route::get('', [DashboardMerchantController::class, 'index'])->name('merchant.dashboard');
-        Route::get('detail/{status}', [DashboardMerchantController::class, 'detail'])->name('merchant.detail');
         Route::post('', [DashboardMerchantController::class, 'update'])->name('merchant.update');
+        Route::get('detail/{status}', [DashboardMerchantController::class, 'detail'])->name('merchant.detail');
         Route::post('update-verify-or-not', [DashboardMerchantController::class, 'updateVerifyOrNot'])->name('merchant.update-verify');
         Route::post('update-average-detail', [DashboardMerchantController::class, 'updateAvgTransaction'])->name('merchant.update-average');
         Route::post('update-active-or-not', [DashboardMerchantController::class, 'updateActiveOrNot'])->name('merchant.update-active-or-not');

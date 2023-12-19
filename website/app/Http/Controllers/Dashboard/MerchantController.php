@@ -77,10 +77,11 @@ class MerchantController extends Controller
         $_URL = null;
         if ($status == 'verify' || $status == 'not-verify') {
             $_URL = env('API_URL') . 'dashboard/merchant/detail/verify/' . $status;
-        }
-
-        if ($status == 'aktif' || $status == 'tidak') {
+        } elseif ($status == 'aktif' || $status == 'tidak') {
             $_URL = env('API_URL') . 'dashboard/merchant/detail/active-or-not/' . $status;
+            # code...
+        } else {
+            $_URL = env('API_URL') . 'dashboard/merchant/average-transaction-merchant-per-month/' . $status;
         }
 
         $data_api = collect(Http::get($_URL)->json());
@@ -95,8 +96,15 @@ class MerchantController extends Controller
             $is_approve = implode(', ', $array_is_approve);
 
             $array = [];
-            foreach ($data_api['month'] as $value) {
-                $array[] = (int) $value;
+            if ($status != 'verify' && $status != 'not-verify' && $status != 'aktif' && $status != 'tidak') {
+                foreach ($data_api['month'] as $value) {
+                    $array[] = json_encode($value['name']);
+                    // dd($value['name']);
+                }
+            } else {
+                foreach ($data_api['month'] as $value) {
+                    $array[] = (int) $value;
+                }
             }
             $month = implode(', ', $array);
 

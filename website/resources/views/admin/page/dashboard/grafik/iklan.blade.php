@@ -143,7 +143,7 @@
                         }
                     })
 
-                    $("#modalbarCountRatingAdsPerPeriode").modal("show");
+                    // $("#modalbarCountRatingAdsPerPeriode").modal("show");
                 }
             },
             scales: {

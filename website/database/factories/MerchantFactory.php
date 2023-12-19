@@ -21,6 +21,7 @@ class MerchantFactory extends Factory
         $startDate = '2023-01-01';
         $endDate = '2023-12-31';
         return [
+            'category_id' => $this->faker->numberBetween(1, 4),
             'name' => $this->faker->company(),
             'email'  => $this->faker->unique()->safeEmail,
             'phone_number' =>  '628' .  $this->faker->randomNumber(9, true),
@@ -29,8 +30,8 @@ class MerchantFactory extends Factory
             'province' => $this->faker->state,
             'id_card_number' => $this->faker->numerify('###########'),
             'npwp' => $this->faker->numerify('##.###.###.#-###.###'),
-            // 'is_approve' => $this->faker->randomElement(['approve', 'not_approve', null]),
-            'is_approve' => $this->faker->randomElement(['approve', 'not_approve']),
+            'is_approve' => $this->faker->randomElement(['approve', 'not_approve', null]),
+            // 'is_approve' => $this->faker->randomElement(['approve', 'not_approve']),
             'last_login' => $this->faker->dateTimeBetween($startDate, $endDate),
             'month' => $this->faker->numberBetween(1, 12),
             'year' => $this->faker->numberBetween(2020, 2023),

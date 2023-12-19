@@ -186,6 +186,12 @@
                     <h5 class="modal-title" id="exampleModalScrollableTitle">Tidak Approve Merchant</h5>
                 </div>
                 <form id="myForm" method="post">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="message" class="mb-3">Pesan</label>
+                            <textarea id="message" class="form-control" cols="30" rows="10"></textarea>
+                        </div>
+                    </div>
                     <div class="modal-footer d-flex justify-content-center">
                         <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
                             <i class="bx bx-x d-block d-sm-none"></i>

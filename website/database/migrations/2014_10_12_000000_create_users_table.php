@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('profile_picture')->nullable();
             $table->string('role');
             $table->dateTime('last_login')->nullable();
-            $table->longText('is_forgot_password')->default(0);
+            $table->longText('is_forgot_password')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

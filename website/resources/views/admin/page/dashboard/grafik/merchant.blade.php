@@ -177,17 +177,28 @@
             datasets: [{
                 label: 'Rata-rata transaksi merchant berdasarkan periode',
                 backgroundColor: [
-                    chartColors.orange,
-                    chartColors.yellow,
-                    chartColors.green,
-                    chartColors.grey,
-                    chartColors.info,
-                    chartColors.blue,
-                    chartColors.purple,
-                    chartColors.teal,
-                    chartColors.pink,
-                    chartColors.lavender,
-                    chartColors.gold,
+                    // chartColors.orange,
+                    // chartColors.yellow,
+                    // chartColors.green,
+                    // chartColors.grey,
+                    // chartColors.info,
+                    // chartColors.blue,
+                    // chartColors.purple,
+                    // chartColors.teal,
+                    // chartColors.pink,
+                    // chartColors.lavender,
+                    // chartColors.gold,
+                    chartColors.silver,
+                    chartColors.silver,
+                    chartColors.silver,
+                    chartColors.silver,
+                    chartColors.silver,
+                    chartColors.silver,
+                    chartColors.silver,
+                    chartColors.silver,
+                    chartColors.silver,
+                    chartColors.silver,
+                    chartColors.silver,
                     chartColors.silver
                 ],
                 data: [{{ $totalTransactionsString }}],
@@ -226,47 +237,55 @@
                             `<a href="{{ env('APP_WEBSITE') . '/dashboard/merchant/print-average-transaction/${month}/${year}' }}" target="_blank" class="btn btn-primary">Print</a>`
                         );
                     }
+                    // console.log(this.data.labels[index]);
+                    let for_month = month ? month : 1;
+                    window.location.href =
+                        `{{ route('merchant.detail', ':for_month') }}`.replace(':for_month', for_month);
+                    // if (this.data.labels[index] != null) {
+
+                    // }
+                    // console.log(month);
                     // modalViewTransactionMerchantPerPeriode
-                    $.ajax({
-                        url: `{{ env('API_URL') . 'dashboard/merchant/data-average-transaction-merchant-periode/${month}/${year}' }}`,
-                        method: 'GET',
-                        success: function(data) {
-                            const data_api = data.data;
+                    // $.ajax({
+                    //     url: `{{ env('API_URL') . 'dashboard/merchant/data-average-transaction-merchant-periode/${month}/${year}' }}`,
+                    //     method: 'GET',
+                    //     success: function(data) {
+                    //         const data_api = data.data;
 
-                            $('#table_data_average_per_periode tbody').empty();
-                            data_api.forEach(value => {
-                                newRow += `
-                                    <tr>
-                                        <td class="text-bold-500">
-                                            ${value.id}
-                                        </td>
-                                        <td class="text-bold-500">
-                                            ${value.merchant_id}
-                                        </td>
-                                        <td class="text-bold-500">
-                                            ${value.ads_id}
-                                        </td>
-                                        <td class="text-bold-500">
-                                            ${value.total_transaction}
-                                        </td>
-                                        <td class="text-bold-500">
-                                            ${monthNames[value.month]}
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-light-warning btn-sm" onclick="averageEdit(${value.merchant_id})"
-                                                data-bs-toggle="modal" data-bs-target="#modalEdit">
-                                                <i class="bi bi-pencil-fill"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                `;
-                            });
+                    //         $('#table_data_average_per_periode tbody').empty();
+                    //         data_api.forEach(value => {
+                    //             newRow += `
+                    //                 <tr>
+                    //                     <td class="text-bold-500">
+                    //                         ${value.id}
+                    //                     </td>
+                    //                     <td class="text-bold-500">
+                    //                         ${value.merchant_id}
+                    //                     </td>
+                    //                     <td class="text-bold-500">
+                    //                         ${value.ads_id}
+                    //                     </td>
+                    //                     <td class="text-bold-500">
+                    //                         ${value.total_transaction}
+                    //                     </td>
+                    //                     <td class="text-bold-500">
+                    //                         ${monthNames[value.month]}
+                    //                     </td>
+                    //                     <td>
+                    //                         <button class="btn btn-light-warning btn-sm" onclick="averageEdit(${value.merchant_id})"
+                    //                             data-bs-toggle="modal" data-bs-target="#modalEdit">
+                    //                             <i class="bi bi-pencil-fill"></i>
+                    //                         </button>
+                    //                     </td>
+                    //                 </tr>
+                    //             `;
+                    //         });
 
-                            $('#table_data_average_per_periode tbody').append(newRow);
-                        }
-                    })
+                    //         $('#table_data_average_per_periode tbody').append(newRow);
+                    //     }
+                    // })
 
-                    $("#modalViewTransactionMerchantPerPeriode").modal("show");
+                    // $("#modalViewTransactionMerchantPerPeriode").modal("show");
                     // alert(`data yang di kik ${id}`)
 
                 }
@@ -309,7 +328,7 @@
             labels: ["Aktif", "Tidak"],
             datasets: [{
                 label: 'Pengguna Aktif dan tidak',
-                backgroundColor: [chartColors.orange, chartColors],
+                backgroundColor: [chartColors.silver, chartColors.gold],
                 data: [{{ $data_merchant_active_or_not[0]['active'] }},
                     {{ $data_merchant_active_or_not[0]['not_active'] }}
                 ]

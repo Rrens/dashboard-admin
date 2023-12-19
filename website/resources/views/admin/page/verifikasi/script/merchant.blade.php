@@ -12,6 +12,7 @@
         // console.log('approve');
         let data = $('#approve').val();
         let id = $('#id_approve').val();
+
         // console.log(data, id)
 
         $.ajax({
@@ -35,6 +36,8 @@
     $('#btn_confirm_not_approve').on('click', function() {
         let id = $('#id_not_approve').val();
         let data = $('#not_approve').val();
+        let message = $('#message').val();
+        // console.log(message)
 
         $.ajax({
             url: _URL,
@@ -43,6 +46,7 @@
             data: {
                 data: data,
                 id: id,
+                message: message,
                 _token: '{{ csrf_token() }}'
             },
             success: function(response) {

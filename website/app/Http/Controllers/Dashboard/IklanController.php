@@ -99,19 +99,17 @@ class IklanController extends Controller
         if (in_array($status, $month_name)) {
             $_URL = env('API_URL') . "dashboard/iklan/detail/rating-periode/$status";
             // dd($month, $_URL);
-        }
-
-        if ($status == 'verify' || $status == 'not verify') {
+        } elseif ($status == 'verify' || $status == 'not verify') {
+            # code...
             $_URL = env('API_URL') . "dashboard/iklan/detail/verify/$status";
-        }
+        } else {
 
-
-        if ($status == 'verify' && $status == 'not verify') {
             $_URL = env('API_URL') . "dashboard/iklan/detail/favorite/$status";
         }
 
 
         $data_api = collect(Http::get($_URL)->json());
+        // dd($data_api);
         if (!empty($data_api['data'][0])) {
             $data = array();
             $data = $data_api['data'];

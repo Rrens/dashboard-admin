@@ -20,13 +20,16 @@ class MerchantController extends Controller
             $data_from_api = collect(Http::get($_URL)->json());
             if (!empty($data_from_api['data'][0])) {
                 $data = $data_from_api['data'];
+                $data_categories = $data_from_api['categories'];
             } else {
                 $data = null;
+                $data_categories = null;
             }
         } catch (Exception $error) {
             dd($error->getMessage());
         }
+        // dd($data_categories);
 
-        return view('admin.page.verifikasi.merchant', compact('active', 'data'));
+        return view('admin.page.verifikasi.merchant', compact('active', 'data', 'data_categories'));
     }
 };
