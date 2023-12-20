@@ -350,9 +350,9 @@
                     let datasetIndex = item[0]._datasetIndex;
                     let index = item[0]._index;
                     let id = this.data.datasets[datasetIndex].data[index];
-                    // console.log(this.data.labels[index])
+                    console.log(this.data.labels[index])
                     let label = null;
-                    if (this.data.labels[index] == 'ACTIVE') {
+                    if (this.data.labels[index] == 'Aktif') {
                         window.location.href = '{{ route('merchant.detail', 'aktif') }}';
                         label = 'Aktif'
 

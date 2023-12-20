@@ -160,44 +160,7 @@ class MerchantController extends Controller
         ], 404);
     }
 
-    public function data_dashboard_merchant_category($month, $category)
-    {
-        $data = Transaction::join('merchants as m', 'transaction.merchant_id', '=', 'm.id')
-            ->join('categories as c', 'c.id', '=', 'm.category_id')
-            ->join('sub_category as sc', 'c.id', '=', 'sc.category_id')
-            // ->select(
-            //     DB::raw('transaction.year'),
-            //     DB::raw('transaction.month'),
-            //     DB::raw('COUNT(c.name) as data'),
-            //     DB::raw('m.id')
-            // )
-            ->where(function ($query) use ($month) {
-                $query->where('transaction.month', $month);
-            })
-            ->where('transaction.month', $month)
-            // ->groupBy('c.id')
-            // ->orderBy('c.id', 'asc')
-            ->where('sc.name', $category)
-            ->where('m.deleted_at', null)
-            ->get();
 
-        if (!empty($data[0])) {
-            return response()->json([
-                'meta' => [
-                    'status' => 'success',
-                    'message' => 'Successfully fetch data'
-                ],
-                'data' => $data,
-            ], 200);
-        }
-
-        return response()->json([
-            'meta' => [
-                'status' => 'failed',
-                'message' => 'Data Not Found'
-            ],
-        ], 404);
-    }
 
     public function avgTransactionMerchantPerPeriod()
     {
@@ -699,114 +662,9 @@ class MerchantController extends Controller
     //     ], 200);
     // }
 
-    public function verifyDetailPerMonth($status)
-    {
-        $month = Merchant::groupBy('month')
-            ->orderBy('month', 'asc')
-            ->whereNull('deleted_at')
-            ->pluck('month');
-
-        if ($status == 'verify') {
-            $status = 'approve';
-        }
-
-        if ($status == 'not-verify') {
-            $status = 'not_approve';
-        }
-
-        $data = DB::table('merchants')
-            ->select(
-                'year',
-                'month',
-                DB::raw('SUM(CASE WHEN is_approve = "' . $status . '" THEN 1 ELSE 0 END) as data')
-            )
-            ->groupBy('month')
-            ->whereNull('deleted_at')
-            ->where('year', 2023)
-            ->get();
-
-        if (!empty($data[0])) {
-            return response()->json([
-                'meta' => [
-                    'status' => 'success',
-                    'message' => 'Successfully fetch data'
-                ],
-                'data' => $data,
-                'month' => $month,
-            ], 200);
-        }
-
-        return response()->json([
-            'meta' => [
-                'status' => 'failed',
-                'message' => 'Data Not Found'
-            ],
-        ], 404);
-    }
-
-    public function verifyActiveOrNotPerMonth($status)
-    {
-        $month = Merchant::groupBy('month')
-            ->orderBy('month', 'asc')
-            ->whereNull('deleted_at')
-            ->pluck('month');
-
-        $data = null;
-        $threeMonthsAgo = Carbon::now()->subMonths(3);
-        // dd($threeMonthsAgo);
-        if ($status == 'aktif') {
-            $data = DB::table('merchants')
-                ->select(
-                    'year',
-                    'month',
-                    DB::raw(
-                        'COUNT(last_login) as data'
-                    )
-                )
-                ->whereDate('last_login', '>=', $threeMonthsAgo)
-                ->groupBy('month')
-                ->whereNull('deleted_at')
-                ->where('year', 2023)
-                ->get();
-        }
-
-        if ($status == 'tidak') {
-            $data = DB::table('merchants')
-                ->select(
-                    'year',
-                    'month',
-                    DB::raw(
-                        'COUNT(last_login) as data'
-                    )
-                )
-                ->whereDate('last_login', '<', $threeMonthsAgo)
-                ->groupBy('month')
-                ->whereNull('deleted_at')
-                ->where('year', 2023)
-                ->get();
-        }
-
-        // dd($data);
 
 
-        if (!empty($data[0])) {
-            return response()->json([
-                'meta' => [
-                    'status' => 'success',
-                    'message' => 'Successfully fetch data'
-                ],
-                'data' => $data,
-                'month' => $month,
-            ], 200);
-        }
 
-        return response()->json([
-            'meta' => [
-                'status' => 'failed',
-                'message' => 'Data Not Found'
-            ],
-        ], 404);
-    }
 
     public function avgTransactionMerchantPerMonth($month)
     {
@@ -842,7 +700,7 @@ class MerchantController extends Controller
             ->select('sc.name')
             ->groupBy('sc.category_id')
             ->orderBy('sc.category_id', 'asc')
-            ->where('m.deleted_at', null)
+            ->whereNull('m.deleted_at')
             ->where(function ($query) use ($status) {
                 $query->where('transaction.month', $status);
             })
@@ -860,8 +718,8 @@ class MerchantController extends Controller
             ->where(function ($query) use ($status) {
                 $query->where('transaction.month', $status);
             })
-            ->groupBy('c.id')
-            ->orderBy('c.id', 'asc')
+            ->groupBy('sc.name')
+            ->orderBy('sc.name', 'asc')
             ->where('m.deleted_at', null)
             ->get();
 

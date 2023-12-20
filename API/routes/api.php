@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\Dashboard\AdsController as DashboardAdsController;
+use App\Http\Controllers\API\Dashboard\Detail\MerchantController as DetailMerchantController;
 use App\Http\Controllers\API\Dashboard\MerchantController as DashboardMerchantController;
 use App\Http\Controllers\API\Verify\AdsController;
 use App\Http\Controllers\API\Verify\MerchantController;
@@ -50,22 +51,23 @@ Route::group([
         Route::get('data-verify/{status}/{month}/{year}', [DashboardMerchantController::class, 'data_verify_merchant']);
         Route::get('check-merchant-active-or-not', [DashboardMerchantController::class, 'data_active_merchant_and_not']);
         Route::get('data-merchant-active/{status}/{month}/{year}', [DashboardMerchantController::class, 'data_active_merchant']);
-        Route::get('data-merchant-category/{month}/{category}', [DashboardMerchantController::class, 'data_dashboard_merchant_category']);
         Route::get('average-transaction-merchant-periode', [DashboardMerchantController::class, 'avgTransactionMerchantPerPeriod']);
         Route::get('data-average-transaction-merchant-periode/{month}/{year}', [DashboardMerchantController::class, 'dataAvgTransactionMerchantPerPeriod']);
         Route::get('merchant-detail/{id}', [DashboardMerchantController::class, 'merchant_detail']);
-        Route::get('average-transaction-merchant-per-month/{status}', [DashboardMerchantController::class, 'average_transaction_merchant_per_month']);
         Route::post('update-verify', [DashboardMerchantController::class, 'update_verify']);
         Route::post('update-average', [DashboardMerchantController::class, 'update_average']);
         Route::post('update-active-or-not', [DashboardMerchantController::class, 'update_active_or_not']);
         Route::post('destroy-verify', [DashboardMerchantController::class, 'destroy_verify']);
         Route::post('destroy-average', [DashboardMerchantController::class, 'destroy_average']);
         Route::post('destroy-active', [DashboardMerchantController::class, 'destroy_active']);
+        Route::get('average-transaction-merchant-per-month/{status}', [DashboardMerchantController::class, 'average_transaction_merchant_per_month']);
         Route::group([
             'prefix' => 'detail',
         ], function () {
-            Route::get('verify/{status}', [DashboardMerchantController::class, 'verifyDetailPerMonth']);
-            Route::get('active-or-not/{status}', [DashboardMerchantController::class, 'verifyActiveOrNotPerMonth']);
+            // Route::get('data-merchant-category/{month}/{category}', [DashboardMerchantController::class, 'data_dashboard_merchant_category']);
+            Route::get('data-merchant-category/{month}/{category}', [DetailMerchantController::class, 'data_dashboard_merchant_category']);
+            Route::get('verify/{status}', [DetailMerchantController::class, 'verifyDetailPerMonth']);
+            Route::get('active-or-not/{status}', [DetailMerchantController::class, 'verifyActiveOrNotPerMonth']);
         });
         // Route::get('/test-destroy/{id}', [DashboardMerchantController::class, 'test']);
     });

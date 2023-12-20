@@ -99,7 +99,6 @@ class MerchantController extends Controller
             if ($status != 'verify' && $status != 'not-verify' && $status != 'aktif' && $status != 'tidak') {
                 foreach ($data_api['month'] as $value) {
                     $array[] = json_encode($value['name']);
-                    // dd($value['name']);
                 }
             } else {
                 foreach ($data_api['month'] as $value) {
@@ -116,6 +115,7 @@ class MerchantController extends Controller
         } else {
             $data = null;
         }
+        // dd($month, $data);
         return view('admin.page.dashboard.detail.merchant', compact(
             'active',
             'status',
