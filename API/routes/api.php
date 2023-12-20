@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\Dashboard\AdsController as DashboardAdsController;
+use App\Http\Controllers\API\Dashboard\Detail\IklanController;
 use App\Http\Controllers\API\Dashboard\Detail\MerchantController as DetailMerchantController;
 use App\Http\Controllers\API\Dashboard\MerchantController as DashboardMerchantController;
 use App\Http\Controllers\API\Verify\AdsController;
@@ -81,7 +82,7 @@ Route::group([
         Route::get('average-favorite-ads', [DashboardAdsController::class, 'favorite_ads_per_categories']);
         Route::get('data-average-favorite-ads/{status}/{month}/{year}', [DashboardAdsController::class, 'data_favorite_ads_per_categories']);
         Route::get('rating-ads-periode', [DashboardAdsController::class, 'rating_ads_per_periode']);
-        Route::get('data-rating-ads-periode/{category}', [DashboardAdsController::class, 'data_rating_ads_per_periode']);
+        Route::get('data-rating-ads-periode/{month}/{category}', [DashboardAdsController::class, 'data_rating_ads_per_periode']);
         Route::get('ads-detail/{id}', [DashboardAdsController::class, 'ads_detail']);
         Route::post('update-verify', [DashboardAdsController::class, 'update_verify']);
         Route::post('update-ads-favorite', [DashboardAdsController::class, 'update_ads_favorite']);
@@ -93,9 +94,9 @@ Route::group([
         Route::group([
             'prefix' => 'detail',
         ], function () {
-            Route::get('verify/{status}', [DashboardAdsController::class, 'ads_verify_per_month']);
-            Route::get('favorite/{status}', [DashboardAdsController::class, 'ads_favorite_per_month']);
-            Route::get('rating-periode/{status}', [DashboardAdsController::class, 'ads_rating_ads_per_category']);
+            Route::get('verify/{status}', [IklanController::class, 'ads_verify_per_month']);
+            Route::get('favorite/{status}', [IklanController::class, 'ads_favorite_per_month']);
+            Route::get('rating-periode/{status}', [IklanController::class, 'ads_rating_ads_per_category']);
         });
     });
 });

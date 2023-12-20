@@ -75,7 +75,7 @@ class IklanController extends Controller
             $data_favorite_per_periode = null;
         }
 
-        // dd($rating_periode);
+        // dd($_URL_VERIFY_FAVORITE_PER_PERIODE);
         return view('admin.page.dashboard.iklan', compact(
             'active',
             'data_verify_and_not',

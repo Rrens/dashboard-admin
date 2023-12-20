@@ -61,10 +61,14 @@ class AdsController extends Controller
         $data = Ads::with('merchant')
             ->whereHas('merchant', function ($query) {
                 $query->whereNull('deleted_at');
-            })->where('is_approve', $status)
+            })
+            ->where('is_approve', $status)
             ->where('month', $month)
             ->where('year', $year)
+            ->whereNull('deleted_at')
+            ->orderBy('month', 'asc')
             ->get();
+
         if (!empty($data[0])) {
             return response()->json([
                 'meta' => [
@@ -107,10 +111,12 @@ class AdsController extends Controller
                 'ad.count_order',
                 'ad.rating',
                 'ad.count_view',
+                'ad.month',
                 DB::raw('AVG(ad.rating) as average_rating')
             )
             ->whereNull('mc.deleted_at')
             ->groupBy('ad.category_id')
+            ->orderBy('month', 'asc')
             ->get();
 
         if (!empty($data[0])) {
@@ -133,15 +139,23 @@ class AdsController extends Controller
 
     public function data_favorite_ads_per_categories($status, $month, $year)
     {
+        $averageRating = Ads::average('rating');
+        // dd($status);
+
         $data = Ads::with('merchant')
-            ->whereHas('merchant', function ($query) {
-                $query->whereNull('deleted_at');
-            })
+            // ->whereHas('merchant', function ($query) {
+            //     $query->whereNull('deleted_at');
+            // })
+            // ->having(DB::raw('COUNT(rating)'), '>', $averageRating)
+            // ->groupBy('month')
+            ->where('rating', '>', $averageRating)
             ->where('category_id', $status)
             ->where('month', $month)
             ->where('year', $year)
+            ->whereNull('deleted_at')
+            ->orderBy('month', 'asc')
             ->get();
-
+        // return response()->json($data);
 
         if (!empty($data[0])) {
             return response()->json([
@@ -166,6 +180,7 @@ class AdsController extends Controller
         $averageRating = Ads::average('rating');
 
         $data = DB::table('ads as ad')
+            ->join('transaction as t', 't.ads_id', 'ad.id')
             ->join('categories as ct', 'ct.id', '=', 'ad.category_id')
             ->join('merchants as mc', 'mc.id', '=', 'ad.merchant_id')
             ->where('ad.rating', '>', $averageRating)
@@ -212,7 +227,7 @@ class AdsController extends Controller
         ], 404);
     }
 
-    public function data_rating_ads_per_periode($category)
+    public function data_rating_ads_per_periode($month, $category)
     {
         // $data = Ads::with('merchant')
         //     ->whereHas('categories', function ($query) use ($category) {
@@ -222,15 +237,43 @@ class AdsController extends Controller
         //         $query->whereNull('deleted_at');
         //     })
         //     ->get();
+        $averageRating = Ads::average('rating');
 
-        $data = DB::table('transaction as t')
-            ->join('ads as ad', 'ad.id', '=', 't.ads_id')
-            ->join('merchants as m', 'm.id', '=', 't.merchant_id')
+        // $data = DB::table('transaction as t')
+        //     ->select(
+        //         't.id as id',
+        //         'm.id as merchant_id',
+        //         'ad.id as ads_id',
+        //         't.total_transaction as total_transaction',
+        //         't.month as month',
+        //         'ad.category_id',
+        //         'ad.rating'
+        //     )
+        //     ->join('ads as ad', 'ad.id', '=', 't.ads_id')
+        //     ->join('merchants as m', 'm.id', '=', 't.merchant_id')
+        //     ->join('categories as c', 'ad.category_id', '=', 'c.id')
+        //     ->where('c.name', $category)
+        //     ->where('t.month', $month)
+        //     ->where('ad.rating', '>', $averageRating)
+        //     ->whereNull('m.deleted_at')
+        //     ->whereNull('ad.deleted_at')
+        //     ->whereNull('c.deleted_at')
+        //     ->whereNull('t.deleted_at')
+        //     ->orderBy('c.name', 'asc')
+        //     // ->groupBy('t.merchant_id')
+        //     ->get();
+
+        $data = DB::table('ads as ad')
+            ->join('transaction as t', 't.ads_id', 'ad.id')
             ->join('categories as c', 'ad.category_id', '=', 'c.id')
-            ->where('c.name', $category)
-            ->whereNull('m.deleted_at')
+            ->where('ad.rating', '>', $averageRating)
             ->whereNull('ad.deleted_at')
+            ->where('ad.month', $month)
+            ->where("c.name", $category)
+            ->orderBy('ad.category_id', 'asc')
+            ->groupBy('t.id')
             ->get();
+        // return response()->json($averageRating);
 
         if (!empty($data[0])) {
             return response()->json([
@@ -672,166 +715,6 @@ class AdsController extends Controller
                 'data' => $error
             ], 500);
         }
-    }
-
-    public function ads_verify_per_month($status)
-    {
-
-        $month = Ads::groupBy('month')
-            ->orderBy('month', 'asc')
-            ->whereNull('deleted_at')
-            ->pluck('month');
-
-        $value = null;
-
-        if ($status == 'verify') {
-            $value = 'approve';
-        }
-        if ($status == 'not verify') {
-            $value = 'not_approve';
-        }
-
-        $data = DB::table('ads')
-            ->select(
-                'year',
-                'month',
-                DB::raw('SUM(CASE WHEN is_approve = "' . $value . '" THEN 1 ELSE 0 END) as data')
-            )
-            ->groupBy('month')
-            ->whereNull('deleted_at')
-            ->get();
-
-        if (!empty($data[0])) {
-            return response()->json([
-                'meta' => [
-                    'status' => 'success',
-                    'message' => 'Successfully fetch data'
-                ],
-                'data' => $data,
-                'month' => $month,
-            ], 200);
-        }
-
-        return response()->json([
-            'meta' => [
-                'status' => 'failed',
-                'message' => 'Data Not Found'
-            ],
-        ], 404);
-    }
-
-    public function ads_favorite_per_month($status)
-    {
-
-        $monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'];
-
-        // Menggunakan metode array_search untuk mencari indeks nama bulan
-        $monthNumber = array_search($status, $monthNames) + 1;
-
-        $month = Ads::groupBy('month')
-            ->orderBy('month', 'asc')
-            ->whereNull('deleted_at')
-            ->pluck('month');
-
-        $averageRating = Ads::average('rating');
-
-        $data = null;
-
-        $data = DB::table('ads')
-            ->select(
-                'year',
-                'month',
-                DB::raw('SUM(CASE WHEN rating > "' . $averageRating . '" THEN 1 ELSE 0 END) as data')
-            )
-            ->groupBy('month')
-            ->where('category_id', $monthNumber)
-            ->whereNull('deleted_at')
-            ->get();
-
-        if (!empty($data[0])) {
-            return response()->json([
-                'meta' => [
-                    'status' => 'success',
-                    'message' => 'Successfully fetch data'
-                ],
-                'data' => $data,
-                'month' => $month,
-            ], 200);
-        }
-
-        return response()->json([
-            'meta' => [
-                'status' => 'failed',
-                'message' => 'Data Not Found'
-            ],
-        ], 404);
-    }
-
-    public function ads_rating_ads_per_category($status)
-    {
-        $monthNumbers = [
-            'Jan' => 1,
-            'Feb' => 2,
-            'Mar' => 3,
-            'Apr' => 4,
-            'Mei' => 5,
-            'Jun' => 6,
-            'Jul' => 7,
-            'Ags' => 8,
-            'Sep' => 9,
-            'Okt' => 10,
-            'Nov' => 11,
-            'Des' => 12,
-        ];
-
-        $selectedMonth = $status;
-        $monthNumber = $monthNumbers[$selectedMonth];
-        // return response()->json($monthNumber);
-
-        $averageRating = Ads::average('rating');
-
-        $data = null;
-
-        $array_category_id = array();
-
-        $data = DB::table('ads')
-            ->select(
-                'year',
-                'category_id',
-                'month',
-                DB::raw('SUM(CASE WHEN rating > "' . $averageRating . '" THEN 1 ELSE 0 END) as data')
-            )
-            ->groupBy('category_id')
-            // ->where('category_id', $status)
-            ->whereNull('deleted_at')
-            ->where('month', $monthNumber)
-            ->get();
-
-        foreach ($data as $key) {
-            array_push($array_category_id, $key->category_id);
-        }
-
-        $month = Categories::whereIn('id', $array_category_id)
-            ->whereNull('deleted_at')
-            ->pluck('name');
-
-        if (!empty($data[0])) {
-            return response()->json([
-                'meta' => [
-                    'status' => 'success',
-                    'message' => 'Successfully fetch data'
-                ],
-                'data' => $data,
-                'month' => $month,
-            ], 200);
-        }
-
-        return response()->json([
-            'meta' => [
-                'status' => 'failed',
-                'message' => 'Data Not Found'
-            ],
-        ], 404);
     }
 
     public function update(Request $request)

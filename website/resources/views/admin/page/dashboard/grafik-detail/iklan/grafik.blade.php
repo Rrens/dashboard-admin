@@ -56,17 +56,40 @@
                 },
                 'onClick': function(evt, item) {
                     if (item && item.length > 0) {
+                        let monthNameToNumber = {
+                            'Jan': 1,
+                            'Feb': 2,
+                            'Mar': 3,
+                            'Apr': 4,
+                            'Mei': 5,
+                            'Jun': 6,
+                            'Jul': 7,
+                            'Ags': 8,
+                            'Sep': 9,
+                            'Okt': 10,
+                            'Nov': 11,
+                            'Des': 12
+                        };
+
                         let datasetIndex = item[0]._datasetIndex;
                         let index = item[0]._index;
                         let month = this.data.datasets[datasetIndex].month[index];
-                        let category = this.data.labels[index];
+                        // let category = this.data.datasets[datasetIndex].data[index];
+                        let category = this.data.datasets[datasetIndex].month[index];
+                        let status = "{{ $status }}"
+                        status = monthNameToNumber[status];
+                        console.log(this.data.datasets[datasetIndex].month[index])
+                        // console.log(category)
 
-                        $("#modalRateAdsCategory").empty();
+                        // $("#modalRateAdsCategory").empty();
                         $("#modalRateAdsCategory").append(
                             `<a href="{{ env('APP_WEBSITE') . 'dashboard/iklan/print-rating/${month}' }}" target="_blank" class="btn btn-primary">Print</a>`
                         );
+                        let url =
+                            `{{ env('API_URL') . 'dashboard/iklan/data-rating-ads-periode/${status}/${category}' }}`;
+                        console.log(url)
                         $.ajax({
-                            url: `{{ env('API_URL') . 'dashboard/iklan/data-rating-ads-periode/${month}' }}`,
+                            url: url,
                             method: 'GET',
                             success: function(data) {
                                 const data_api = data.data;
@@ -83,7 +106,7 @@
                                             ${value.merchant_id}
                                         </td>
                                         <td class="text-bold-500">
-                                            ${value.ads_id}
+                                            ${value.id}
                                         </td>
                                         <td class="text-bold-500">
                                             ${value.total_transaction}
