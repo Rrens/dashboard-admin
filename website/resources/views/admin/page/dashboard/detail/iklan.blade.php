@@ -71,13 +71,13 @@
         </section>
     </div>
 
-    @include('admin.page.dashboard.modal-tables')
+    @include('admin.page.dashboard.grafik-detail.iklan.modal-tables')
     @include('admin.page.dashboard.script.index')
 
     @push('scripts')
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"
             integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
         <script src="{{ asset('assets/extensions/chart.js/Chart.min.js') }}"></script>
-        @include('admin.page.dashboard.grafik-detail.iklan')
+        @include('admin.page.dashboard.grafik-detail.iklan.grafik')
     @endpush
 @endsection

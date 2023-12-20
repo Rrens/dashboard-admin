@@ -211,6 +211,7 @@
         11: "Nov",
         12: "Des",
     };
+
     let myBarAverageMerchantVerify = new Chart(ctxBarAverageMerchantVerify, {
         type: 'bar',
         data: {

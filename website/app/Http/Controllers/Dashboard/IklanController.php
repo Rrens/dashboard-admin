@@ -24,6 +24,7 @@ class IklanController extends Controller
 
         $_URL_VERIFY_FAVORITE_PER_CATEGORIES = env('API_URL') . 'dashboard/iklan/average-favorite-ads';
         $data_api_favorite_per_categories = collect(Http::get($_URL_VERIFY_FAVORITE_PER_CATEGORIES)->json());
+        // dd($data_api_favorite_per_categories);
         if (!empty($data_api_favorite_per_categories['data'][0])) {
             $data_favorite_per_categories = $data_api_favorite_per_categories['data'];
             // dd($data_name_categories);
@@ -67,7 +68,7 @@ class IklanController extends Controller
             $array_rating_periode = [];
             foreach ($data_favorite_per_periode as $value) {
                 // dd($data_favorite_per_periode);
-                $array_rating_periode[] = (float) $value['rating'];
+                $array_rating_periode[] =  $value['rating'];
             }
             $rating_periode = implode(', ', $array_rating_periode);
         } else {
@@ -106,8 +107,7 @@ class IklanController extends Controller
 
             $_URL = env('API_URL') . "dashboard/iklan/detail/favorite/$status";
         }
-
-
+        // dd($_URL);
         $data_api = collect(Http::get($_URL)->json());
         // dd($data_api);
         if (!empty($data_api['data'][0])) {
@@ -138,7 +138,7 @@ class IklanController extends Controller
         } else {
             $data = null;
         }
-        // dd($is_approve);
+        // dd($_URL);
         return view('admin.page.dashboard.detail.iklan', compact(
             'active',
             'status',

@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('city');
             $table->string('province');
             $table->integer('count_order')->nullable();
-            $table->string('rating')->nullable();
+            $table->double('rating')->nullable();
             $table->integer('count_view')->nullable();
             $table->string('is_approve')->nullable();
             $table->integer('month')->nullable();

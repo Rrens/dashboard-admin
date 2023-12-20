@@ -61,8 +61,8 @@
                         let month = this.data.datasets[datasetIndex].month[index];
                         let category = this.data.labels[index];
 
-                        $("#rating-ads").empty();
-                        $("#rating-ads").append(
+                        $("#modalRateAdsCategory").empty();
+                        $("#modalRateAdsCategory").append(
                             `<a href="{{ env('APP_WEBSITE') . 'dashboard/iklan/print-rating/${month}' }}" target="_blank" class="btn btn-primary">Print</a>`
                         );
                         $.ajax({
@@ -228,18 +228,15 @@
                         let url = _url ? _url : null;
                         url =
                             `{{ env('API_URL') . ':url' }}`.replace(':url', url);
-
+                        console.log(url)
+                        // if (status != 'verify' && status != 'not verify') {
+                        $('#modalAds tbody').empty();
+                        // }
                         $.ajax({
                             url: `${url}`,
                             method: 'GET',
                             success: function(data) {
                                 const data_api = data.data;
-                                console.log(data_api)
-
-
-                                if (status != 'verify' && status != 'not verify') {
-                                    $('#modalAds tbody').empty();
-                                }
 
                                 data_api.forEach(value => {
 
@@ -276,7 +273,7 @@
                                             ${value.count_view}
                                         </td>
                                         <td>
-                                            <button class="btn btn-light-warning btn-sm" onclick="editAds(${value.id})"
+                                            <button class="btn btn-light-warning btn-sm" onclick="editAds(${value.merchant_id})"
                                                 data-bs-toggle="modal" data-bs-target="#modalEdit">
                                                 <i class="bi bi-pencil-fill"></i>
                                             </button>
@@ -314,5 +311,3 @@
         });
     </script>
 @endif
-
-<script></script>
