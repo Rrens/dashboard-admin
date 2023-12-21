@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\Dashboard\Detail;
 use App\Http\Controllers\Controller;
 use App\Models\Ads;
 use App\Models\Categories;
+use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -12,7 +13,7 @@ class IklanController extends Controller
 {
     public function ads_verify_per_month($status)
     {
-
+        $data_category = SubCategory::all();
         $value = null;
 
         if ($status == 'verify') {
@@ -49,6 +50,7 @@ class IklanController extends Controller
                 ],
                 'data' => $data,
                 'month' => $month,
+                'categories' => $data_category,
             ], 200);
         }
 
@@ -62,7 +64,7 @@ class IklanController extends Controller
 
     public function ads_favorite_per_month($status)
     {
-
+        $data_category = SubCategory::all();
         $monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'];
 
         // Menggunakan metode array_search untuk mencari indeks nama bulan
@@ -106,6 +108,7 @@ class IklanController extends Controller
                 ],
                 'data' => $data,
                 'month' => $month,
+                'categories' => $data_category,
             ], 200);
         }
 
@@ -119,6 +122,7 @@ class IklanController extends Controller
 
     public function ads_rating_ads_per_category($status)
     {
+        $data_category = SubCategory::all();
         $monthNumbers = [
             'Jan' => 1,
             'Feb' => 2,
@@ -175,6 +179,7 @@ class IklanController extends Controller
                 ],
                 'data' => $data,
                 'month' => $month,
+                'categories' => $data_category,
             ], 200);
         }
 

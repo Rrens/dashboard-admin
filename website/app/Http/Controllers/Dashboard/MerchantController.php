@@ -83,6 +83,7 @@ class MerchantController extends Controller
         } else {
             $_URL = env('API_URL') . 'dashboard/merchant/average-transaction-merchant-per-month/' . $status;
         }
+        // dd($_URL);
 
         $data_api = collect(Http::get($_URL)->json());
         if (!empty($data_api['data'][0])) {
@@ -112,8 +113,15 @@ class MerchantController extends Controller
                 $array_year[] = (int) $value['year'];
             }
             $year = implode(', ', $array_year);
+            // dd($data_api);
+
+            $data_categories = $data_api['categories'];
         } else {
             $data = null;
+            $month = null;
+            $year = null;
+            $is_approve = null;
+            $data_categories = null;
         }
         // dd($month, $data);
         return view('admin.page.dashboard.detail.merchant', compact(
@@ -121,7 +129,8 @@ class MerchantController extends Controller
             'status',
             'is_approve',
             'month',
-            'year'
+            'year',
+            'data_categories',
         ));
     }
 

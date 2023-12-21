@@ -19,7 +19,10 @@
                     <div class="col-10">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Rating Iklan Periode</h4>
+                                <div class="d-flex justify-content-between">
+                                    <h4 class="card-title">Rating Iklan Periode</h4>
+                                    <a href="{{ route('iklan.dashboard') }}" class="btn btn-primary">Kembali</a>
+                                </div>
                             </div>
                             <div class="card-body">
                                 <canvas id="pieRateAdsPeriode"></canvas>
@@ -30,11 +33,15 @@
                     <div class="col-10">
                         <div class="card">
                             <div class="card-header">
-                                @if ($status == 'not verify' || $status == 'verify')
-                                    <h4 class="card-title">Iklan Verifikasi dan tidak</h4>
-                                @elseif ($status == 'not favorite' || $status == 'favorite')
-                                    <h4 class="card-title">Iklan Aktif dan tidak</h4>
-                                @endif
+                                <div class="d-flex justify-content-between">
+                                    @if ($status == 'not verify' || $status == 'verify')
+                                        <h4 class="card-title">Iklan Verifikasi dan tidak</h4>
+                                    @elseif ($status == 'not favorite' || $status == 'favorite')
+                                        <h4 class="card-title">Iklan Aktif dan tidak</h4>
+                                    @endif
+                                    <a href="{{ route('iklan.dashboard') }}" class="btn btn-primary">Kembali</a>
+                                </div>
+
                             </div>
                             <div class="card-body">
                                 <canvas id="pieAdsDetail"></canvas>
@@ -70,6 +77,58 @@
             </div>
         </section>
     </div>
+    @if (!empty($data_categories[0]))
+        @foreach ($data_categories as $item)
+            <div class="modal fade" id="modalDetailCategories{{ $item['category_id'] }}" tabindex="-1"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Detail Kategori</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form action="" method="post">
+                            @csrf
+                            <div class="modal-body">
+                                <div class="card-body table-responsive">
+                                    <table class="table " id="table1">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @php
+                                                $for_data = [];
+                                                foreach ($data_categories as $key) {
+                                                    $key['category_id'] == $item['category_id'] ? array_push($for_data, $key) : '';
+                                                }
+                                            @endphp
+                                            @foreach ($for_data as $row)
+                                                <tr>
+                                                    <td class="text-bold-500">
+                                                        {{ $row['name'] }}
+
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                    <i class="bx bx-x d-block d-sm-none"></i>
+                                    <span class="d-none d-sm-block">Close</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    @endif
+
 
     @include('admin.page.dashboard.grafik-detail.iklan.modal-tables')
     @include('admin.page.dashboard.script.index')

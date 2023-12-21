@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Merchant;
+use App\Models\SubCategory;
 use App\Models\Transaction;
 use Carbon\Carbon;
 use Exception;
@@ -52,18 +53,20 @@ class MerchantController extends Controller
     public function data_verify_merchant($status, $month, $year)
     {
         if ($status == 'verify') {
-            $data = Merchant::where('is_approve', 'approve')
-                ->where('deleted_at', null)
-                ->where('month', $month)
-                ->where('year', $year)
-                ->get();
-        } else {
-            $data = Merchant::where('is_approve', 'not_approve')
-                ->where('deleted_at', null)
-                ->where('month', $month)
-                ->where('year', $year)
-                ->get();
+            $status = 'approve';
         }
+
+        if ($status == 'not-verify') {
+            $status = 'not_approve';
+        }
+
+        $data = Merchant::where('is_approve', $status)
+            ->where('deleted_at', null)
+            ->where('month', $month)
+            ->orderBy('month', 'asc')
+            ->where('year', $year)
+            ->get();
+
         if (!empty($data[0])) {
             return response()->json([
                 'meta' => [
@@ -695,6 +698,8 @@ class MerchantController extends Controller
         //         $query->whereNull('deleted_at');
         //     })
         //     ->pluck('month');
+        $data_category = SubCategory::all();
+
         $month = Transaction::join('merchants as m', 'transaction.merchant_id', '=', 'm.id')
             ->join('sub_category as sc', 'm.category_id', '=', 'sc.category_id')
             ->select('sc.name')
@@ -731,6 +736,7 @@ class MerchantController extends Controller
                 ],
                 'data' => $data,
                 'month' => $month,
+                'categories' => $data_category,
             ], 200);
         }
 

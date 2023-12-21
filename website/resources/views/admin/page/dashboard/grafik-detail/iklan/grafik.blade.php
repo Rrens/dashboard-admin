@@ -87,7 +87,6 @@
                         );
                         let url =
                             `{{ env('API_URL') . 'dashboard/iklan/data-rating-ads-periode/${status}/${category}' }}`;
-                        console.log(url)
                         $.ajax({
                             url: url,
                             method: 'GET',
@@ -106,7 +105,11 @@
                                             ${value.merchant_id}
                                         </td>
                                         <td class="text-bold-500">
-                                            ${value.id}
+                                            <a href="#" data-bs-toggle="modal"
+                                                data-bs-target="#modalDetailCategories${value.category_id}">${value.category_id}</a>
+                                        </td>
+                                        <td class="text-bold-500">
+                                            ${value.ads_id}
                                         </td>
                                         <td class="text-bold-500">
                                             ${value.total_transaction}
@@ -272,7 +275,8 @@
                                             ${value.merchant_id}
                                         </td>
                                         <td class="text-bold-500">
-                                            ${value.category_id}
+                                            <a href="#" data-bs-toggle="modal"
+                                                data-bs-target="#modalDetailCategories${value.category_id}">${value.category_id}</a>
                                         </td>
                                         <td class="text-bold-500">
                                             ${value.province}

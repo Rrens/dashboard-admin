@@ -126,6 +126,10 @@
                                             ${value.id}
                                         </td>
                                         <td class="text-bold-500">
+                                            <a href="#" data-bs-toggle="modal"
+                                                data-bs-target="#modalDetailCategories${value.category_id}">${value.category_id}</a>
+                                        </td>
+                                        <td class="text-bold-500">
                                             ${value.name}
                                         </td>
                                         <td class="text-bold-500">
@@ -305,6 +309,10 @@
                                             ${value.id}
                                         </td>
                                         <td class="text-bold-500">
+                                            <a href="#" data-bs-toggle="modal"
+                                                data-bs-target="#modalDetailCategories${value.category_id}">${value.category_id}</a>
+                                        </td>
+                                        <td class="text-bold-500">
                                             ${value.name}
                                         </td>
                                         <td class="text-bold-500">
@@ -452,6 +460,10 @@
                                     <tr>
                                         <td class="text-bold-500">
                                             ${value.id}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            <a href="#" data-bs-toggle="modal"
+                                                data-bs-target="#modalDetailCategories${value.category_id}">${value.category_id}</a>
                                         </td>
                                         <td class="text-bold-500">
                                             ${value.merchant_id}

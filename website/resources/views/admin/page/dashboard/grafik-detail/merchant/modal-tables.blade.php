@@ -18,6 +18,7 @@
                         <thead>
                             <tr>
                                 <th>ID Merchant</th>
+                                <th>ID Category</th>
                                 <th>Nama</th>
                                 <th>Email</th>
                                 <th>No Telp</th>
@@ -66,6 +67,7 @@
                         <thead>
                             <tr>
                                 <th>ID Merchant</th>
+                                <th>ID Category</th>
                                 <th>Nama</th>
                                 <th>Email</th>
                                 <th>No Telp</th>
@@ -113,6 +115,7 @@
                         <thead>
                             <tr>
                                 <th>Transaksi ID</th>
+                                <th>ID Category</th>
                                 <th>User ID</th>
                                 <th>ADS ID</th>
                                 <th>Total Transaksi</th>

@@ -71,6 +71,7 @@
                             <tr>
                                 <th>Transaksi ID</th>
                                 <th>Merchant ID</th>
+                                <th>ID Category</th>
                                 <th>ADS ID</th>
                                 <th>Total Transaksi</th>
                                 <th>Bulan</th>
@@ -114,6 +115,7 @@
                         <thead>
                             <tr>
                                 <th>ID Merchant</th>
+                                <th>ID Category</th>
                                 <th>Nama</th>
                                 <th>Email</th>
                                 <th>No Telp</th>

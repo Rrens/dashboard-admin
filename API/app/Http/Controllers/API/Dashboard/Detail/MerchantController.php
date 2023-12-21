@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\Dashboard\Detail;
 
 use App\Http\Controllers\Controller;
 use App\Models\Merchant;
+use App\Models\SubCategory;
 use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -46,6 +47,7 @@ class MerchantController extends Controller
 
     public function verifyDetailPerMonth($status)
     {
+        $data_category = SubCategory::all();
 
         if ($status == 'verify') {
             $status = 'approve';
@@ -56,17 +58,20 @@ class MerchantController extends Controller
         }
 
         $month = Merchant::groupBy('month')
-            ->orderBy('month', 'asc')
             ->whereNull('deleted_at')
             ->where('is_approve', $status)
+            ->orderBy('month', 'asc')
+            ->where('year', 2023)
             ->pluck('month');
 
         $data = DB::table('merchants')
             ->select(
                 'year',
                 'month',
-                DB::raw('SUM(CASE WHEN is_approve = "' . $status . '" THEN 1 ELSE 0 END) as data')
+                // DB::raw('COUNT(CASE WHEN is_approve = "' . $status . '" THEN 1 ELSE 0 END) as data')
+                DB::raw('COUNT(is_approve) as data')
             )
+            ->where('is_approve', $status)
             ->groupBy('month')
             ->orderBy('month', 'asc')
             ->whereNull('deleted_at')
@@ -81,6 +86,7 @@ class MerchantController extends Controller
                 ],
                 'data' => $data,
                 'month' => $month,
+                'categories' => $data_category
             ], 200);
         }
 
@@ -94,7 +100,7 @@ class MerchantController extends Controller
 
     public function verifyActiveOrNotPerMonth($status)
     {
-
+        $data_category = SubCategory::all();
 
         $data = null;
         $threeMonthsAgo = Carbon::now()->subMonths(3);
@@ -167,6 +173,7 @@ class MerchantController extends Controller
                 ],
                 'data' => $data,
                 'month' => $month,
+                'categories' => $data_category,
             ], 200);
         }
 

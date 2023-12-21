@@ -135,8 +135,13 @@ class IklanController extends Controller
                 $array_year[] = (int) $value['year'];
             }
             $year = implode(', ', $array_year);
+            $data_categories = $data_api['categories'];
         } else {
             $data = null;
+            $is_approve = null;
+            $month = null;
+            $year = null;
+            $data_categories = null;
         }
         // dd($_URL);
         return view('admin.page.dashboard.detail.iklan', compact(
@@ -144,7 +149,8 @@ class IklanController extends Controller
             'status',
             'is_approve',
             'month',
-            'year'
+            'year',
+            'data_categories',
         ));
     }
 
