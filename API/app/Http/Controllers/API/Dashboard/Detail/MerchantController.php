@@ -17,12 +17,22 @@ class MerchantController extends Controller
         $data = Transaction::join('merchants as m', 'transaction.merchant_id', '=', 'm.id')
             ->join('categories as c', 'c.id', '=', 'm.category_id')
             ->join('sub_category as sc', 'c.id', '=', 'sc.category_id')
+            ->select(
+                DB::raw('transaction.id as id'),
+                DB::raw('m.category_id as category_id'),
+                DB::raw('m.id as merchant_id'),
+                DB::raw('transaction.ads_id as ads_id'),
+                DB::raw('transaction.month as month'),
+                DB::raw('transaction.year as year'),
+                DB::raw('transaction.total_transaction as total_transaction'),
+            )
             ->where(function ($query) use ($month) {
-                $query->where('transaction.month', $month);
+                $query->where('transaction.month', $month)
+                    ->where('transaction.year', 2023);
             })
             ->where('transaction.month', $month)
-            // ->groupBy('c.id')
-            // ->orderBy('c.id', 'asc')
+            // ->groupBy('sc.name')
+            ->orderBy('sc.name', 'asc')
             ->where('sc.name', $category)
             ->whereNull('m.deleted_at')
             ->get();

@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-    <title>RUMAH SAKIT MUHAMMADIYAH LAMONGAN</title>
+    <title>DASHBOARD ADMIN</title>
     <style>
         .box {
             display: block;
@@ -60,16 +60,15 @@
 
         /*----------------------------------------------------------
       CONTENT
-----------------------------------------------------------*/
 
 
         .MenuContent {
             margin: 0 auto;
             padding: 0px;
             /*width:940px;*/
-            width: 950px;
-            display: block;
-            /*height: 583px;*/
+        width: 950px;
+        display: block;
+        /*height: 583px;*/
         }
 
         .content {
@@ -427,8 +426,8 @@
     <hr noshade="noshade" style="border-color:black;height: 0px;" size="1" />
 
 
-    <p style="text-align:center;font-weight: bold;font-size: 14px;margin-bottom:3px;padding-bottom:0px ">KOPERASI RUMAH
-        SAKIT MUHAMMADIYAH LAMONGAN
+    <p style="text-align:center;font-weight: bold;font-size: 14px;margin-bottom:3px;padding-bottom:0px ">
+        DASHBOARD ADMIN
     </p>
 
     {{-- <br />
@@ -452,38 +451,26 @@
     </table> --}}
 
     <br /><br />
-    <p>Credit</p>
+    {{-- <p>Credit</p> --}}
 
     <table class="sicycatablemanual">
         <tr>
-            <th>No</th>
-            <th>Nama </th>
-            <th>ID Merchant</th>
+            <th>ID Transaksi</th>
             <th>ID Category</th>
-            <th>Provinsi</th>
-            <th>Kota</th>
-            <th>Deskripsi</th>
-            <th>Notes</th>
-            <th>Prices</th>
-            <th>Jumlah Pesanan</th>
-            <th>Rating</th>
-            <th>Jumlah View</th>
+            <th>ID Merchant</th>
+            <th>ID ADS</th>
+            <th>Total Transaksi</th>
+            <th>Bulan</th>
         </tr>
 
         @foreach ($data as $item)
             <tr class="odd">
-                <td>{{ $loop->iteration }}</td>
-                <td>{{ $item['name'] }}</td>
-                <td>{{ $item['merchant_id'] }}</td>
+                <td>{{ $item['id'] }}</td>
                 <td>{{ $item['category_id'] }}</td>
-                <td>{{ $item['merchant'][0]['province'] }}</td>
-                <td>{{ $item['merchant'][0]['city'] }}</td>
-                <td>{{ $item['description'] }}</td>
-                <td>{{ $item['notes'] }}</td>
-                <td>{{ $item['price'] }}</td>
-                <td>{{ $item['count_order'] }}</td>
-                <td>{{ $item['rating'] }}</td>
-                <td>{{ $item['count_view'] }}</td>
+                <td>{{ $item['merchant_id'] }}</td>
+                <td>{{ $item['ads_id'] }}</td>
+                <td>{{ $item['total_transaction'] }}</td>
+                <td>{{ $item['month'] }}</td>
             </tr>
         @endforeach
 

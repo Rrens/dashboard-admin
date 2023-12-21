@@ -10,9 +10,10 @@
                     @elseif ($status != 'verify' && $status != 'not verify')
                         KATEGORI
                     @endif
+
                 </h1>
                 <div>
-                    <span id="verify-merchant">
+                    <span id="average-transaction">
 
                     </span>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -58,7 +59,7 @@
             <div class="modal-header d-flex justify-content-between align-items-center">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">VERIFY ACTIVE</h1>
                 <div>
-                    <span id="active-merchant">
+                    <span id="rating-print">
 
                     </span>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -101,7 +102,7 @@
             <div class="modal-header d-flex justify-content-between align-items-center">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">AVERAGE TRANSACTIONS PER PERIODE</h1>
                 <div>
-                    <span id="average-merchant">
+                    <span id="verify-ads">
 
                     </span>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

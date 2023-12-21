@@ -337,7 +337,7 @@
                     var index = item[0]._index;
                     var id = this.data.datasets[datasetIndex].data[index];
                     let label = null;
-                    if (this.data.labels[index] == 'Approve') {
+                    if (this.data.labels[index] == 'Lolos') {
                         window.location.href =
                             '{{ route('ads.detail', 'verify') }}';
                         label = 'active'
@@ -354,6 +354,7 @@
                             // console.log(data.data)
                             let data_api = null
                             $("#verify-ads").empty();
+                            // console.log(label)
                             if (label == 'active') {
                                 data_api = data.data;
                                 $("#verify-ads").append(

@@ -78,13 +78,25 @@
                         let category = this.data.datasets[datasetIndex].month[index];
                         let status = "{{ $status }}"
                         status = monthNameToNumber[status];
-                        console.log(this.data.datasets[datasetIndex].month[index])
+                        // console.log(this.data.datasets[datasetIndex].month[index])
                         // console.log(category)
 
                         // $("#modalRateAdsCategory").empty();
-                        $("#modalRateAdsCategory").append(
-                            `<a href="{{ env('APP_WEBSITE') . 'dashboard/iklan/print-rating/${month}' }}" target="_blank" class="btn btn-primary">Print</a>`
-                        );
+                        let linkHref =
+                            `{{ env('APP_WEBSITE') . 'dashboard/iklan/print/rating/${status}/${category}' }}`
+                        let newLink = $('<a/>', {
+                            href: linkHref,
+                            target: '_blank',
+                            class: 'btn btn-primary',
+                            text: 'Print'
+                        });
+                        // console.log(newLink)
+                        $('#rating-print').empty();
+                        $('#rating-print').append(newLink);
+                        // $("#verify-ads").append(
+                        //     `<a href="{{ env('APP_WEBSITE') . 'dashboard/iklan/print-rating/${month}' }}" target="_blank" class="btn btn-primary">Print</a>`
+                        // );
+
                         let url =
                             `{{ env('API_URL') . 'dashboard/iklan/data-rating-ads-periode/${status}/${category}' }}`;
                         $.ajax({
@@ -92,7 +104,7 @@
                             method: 'GET',
                             success: function(data) {
                                 const data_api = data.data;
-                                console.log(data_api)
+                                // console.log(data_api)
                                 let newRow = null;
                                 $('#table_data_rate_ads_category tbody').empty();
                                 data_api.forEach(value => {
@@ -238,23 +250,58 @@
                         if (status == 'not verify') {
                             _url =
                                 `dashboard/iklan/data-verify/not_approve/${month}/${year}`;
+                            let linkHref =
+                                `{{ env('APP_WEBSITE') . 'dashboard/iklan/print/ads-verify/not verify/${month}/${year}' }}`
+
+                            let newLink = $('<a/>', {
+                                href: linkHref,
+                                target: '_blank',
+                                class: 'btn btn-primary',
+                                text: 'Print'
+                            });
+
+                            $('#average-transaction').empty();
+                            $('#average-transaction').append(newLink);
                         }
 
                         if (status == 'verify') {
                             _url =
                                 `dashboard/iklan/data-verify/approve/${month}/${year}`;
+                            let linkHref =
+                                `{{ env('APP_WEBSITE') . 'dashboard/iklan/print/ads-verify/verify/${month}/${year}' }}`
+
+                            let newLink = $('<a/>', {
+                                href: linkHref,
+                                target: '_blank',
+                                class: 'btn btn-primary',
+                                text: 'Print'
+                            });
+
+                            $('#average-transaction').empty();
+                            $('#average-transaction').append(newLink);
                         }
 
                         if (status != 'verify' && status != 'not verify') {
-                            console.log(status)
+                            // console.log(status)
                             _url =
                                 `dashboard/iklan/data-average-favorite-ads/${status}/${month}/${year}`
+                            let linkHref =
+                                `{{ env('APP_WEBSITE') . 'dashboard/iklan/print/average/${status}/${month}/${year}' }}`
+
+                            let newLink = $('<a/>', {
+                                href: linkHref,
+                                target: '_blank',
+                                class: 'btn btn-primary',
+                                text: 'Print'
+                            });
+
+                            $('#average-transaction').empty();
+                            $('#average-transaction').append(newLink);
                         }
 
                         let url = _url ? _url : null;
                         url =
                             `{{ env('API_URL') . ':url' }}`.replace(':url', url);
-                        console.log(url)
                         // if (status != 'verify' && status != 'not verify') {
                         $('#modalAds tbody').empty();
                         // }

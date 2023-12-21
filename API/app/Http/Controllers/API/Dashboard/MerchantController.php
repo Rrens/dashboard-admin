@@ -691,23 +691,18 @@ class MerchantController extends Controller
 
     public function average_transaction_merchant_per_month($status)
     {
-        // $month = Transaction::groupBy('month')
-        //     ->orderBy('month', 'asc')
-        //     ->with('merchant')
-        //     ->whereHas('merchant', function ($query) {
-        //         $query->whereNull('deleted_at');
-        //     })
-        //     ->pluck('month');
         $data_category = SubCategory::all();
 
         $month = Transaction::join('merchants as m', 'transaction.merchant_id', '=', 'm.id')
+            ->join('categories as c', 'c.id', '=', 'm.category_id')
             ->join('sub_category as sc', 'm.category_id', '=', 'sc.category_id')
             ->select('sc.name')
-            ->groupBy('sc.category_id')
-            ->orderBy('sc.category_id', 'asc')
+            ->groupBy('sc.name')
+            ->orderBy('sc.name', 'asc')
             ->whereNull('m.deleted_at')
             ->where(function ($query) use ($status) {
-                $query->where('transaction.month', $status);
+                $query->where('transaction.month', $status)
+                    ->where('transaction.year', 2023);
             })
             ->get();
         // return response()->json($month);
@@ -718,14 +713,16 @@ class MerchantController extends Controller
                 DB::raw('transaction.year'),
                 DB::raw('transaction.month'),
                 DB::raw('COUNT(c.name) as data'),
-                DB::raw('m.id')
+                DB::raw('m.id'),
+                DB::raw('sc.name')
             )
             ->where(function ($query) use ($status) {
-                $query->where('transaction.month', $status);
+                $query->where('transaction.month', $status)
+                    ->where('transaction.year', 2023);
             })
             ->groupBy('sc.name')
             ->orderBy('sc.name', 'asc')
-            ->where('m.deleted_at', null)
+            ->whereNull('m.deleted_at')
             ->get();
 
         if (!empty($data[0])) {

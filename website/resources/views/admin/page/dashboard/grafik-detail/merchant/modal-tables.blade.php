@@ -2,9 +2,9 @@
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-fullscreen">
         <div class="modal-content">
             <div class="modal-header d-flex justify-content-between align-items-center">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">AVERAGE TRANSACTIONS PER PERIODE</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">MERCHANT VERIFY</h1>
                 <div>
-                    <span id="average-merchant">
+                    <span id="merchant-verify">
 
                     </span>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -53,7 +53,7 @@
             <div class="modal-header d-flex justify-content-between align-items-center">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">AVERAGE TRANSACTIONS PER PERIODE</h1>
                 <div>
-                    <span id="average-merchant">
+                    <span id="merchant-active">
 
                     </span>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -103,7 +103,7 @@
             <div class="modal-header d-flex justify-content-between align-items-center">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">VERIFY ACTIVE</h1>
                 <div>
-                    <span id="active-merchant">
+                    <span id="merchant-category">
 
                     </span>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -116,7 +116,7 @@
                             <tr>
                                 <th>Transaksi ID</th>
                                 <th>ID Category</th>
-                                <th>User ID</th>
+                                <th>Merchant ID</th>
                                 <th>ADS ID</th>
                                 <th>Total Transaksi</th>
                                 <th>Bulan</th>

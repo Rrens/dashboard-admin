@@ -44,9 +44,13 @@ Route::group([
         Route::post('destroy-verify-or-not', [DashboardMerchantController::class, 'DestroyVerifyOrNot'])->name('merchant.destroy-verify');
         Route::post('destroy-active-or-not', [DashboardMerchantController::class, 'DestroyActiveOrNot'])->name('merchant.destroy-active');
         Route::post('destroy-average-detail', [DashboardMerchantController::class, 'DestroyAvgTransaction'])->name('merchant.destroy-average');
-        Route::get('print-verify/{approve}', [DashboardMerchantController::class, 'print_verify'])->name('print.verify-merchant');
-        Route::get('print-active-or-not/{status}', [DashboardMerchantController::class, 'print_active_or_not'])->name('print.active-merchant');
-        Route::get('print-average-transaction/{month}/{year}', [DashboardMerchantController::class, 'print_average_transaction'])->name('print.average-merchant');
+        Route::group([
+            'prefix' => 'print',
+        ], function () {
+            Route::get('merchant-verify/{status}/{month}/{year}', [DashboardMerchantController::class, 'print_merchant_verify'])->name('print.verify-merchant');
+            Route::get('merchant-category/{month}/{status}', [DashboardMerchantController::class, 'print_merchant_category'])->name('print.active-merchant');
+            Route::get('merchant-active/{status}/{month}/{year}', [DashboardMerchantController::class, 'print_merchant_active'])->name('print.average-merchant');
+        });
     });
 
     Route::group([
@@ -61,9 +65,13 @@ Route::group([
         Route::post('delete-count-rating', [DashboardIklanController::class, 'deleteCountRating'])->name('ads.delete-count-rating');
         Route::post('delete-favorite-ads', [DashboardIklanController::class, 'deleteFavoriteAds'])->name('ads.delete-favorite-ads');
         Route::post('delete-verify', [DashboardIklanController::class, 'deleteVerify'])->name('ads.delete-verify');
-        Route::get('print-rating/{month}', [DashboardIklanController::class, 'print_rating_ads'])->name('print.rating-ads');
-        Route::get('print-verify/{status}', [DashboardIklanController::class, 'print_verify_ads'])->name('print.rating-ads');
-        Route::get('print-ads-favorite/{category}', [DashboardIklanController::class, 'print_ads_favorite'])->name('print.rating-ads');
+        Route::group([
+            'prefix' => 'print',
+        ], function () {
+            Route::get('rating/{status}/{category}', [DashboardIklanController::class, 'print_rating_ads'])->name('print.rating-ads');
+            Route::get('ads-verify/{status}/{month}/{year}', [DashboardIklanController::class, 'print_verify_ads'])->name('print.rating-ads');
+            Route::get('average/{status}/{month}/{year}', [DashboardIklanController::class, 'print_ads_favorite'])->name('print.rating-ads');
+        });
     });
 });
 

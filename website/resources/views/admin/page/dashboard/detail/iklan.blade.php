@@ -37,7 +37,9 @@
                                     @if ($status == 'not verify' || $status == 'verify')
                                         <h4 class="card-title">Iklan Verifikasi dan tidak</h4>
                                     @elseif ($status == 'not favorite' || $status == 'favorite')
+                                    @else
                                         <h4 class="card-title">Iklan Aktif dan tidak</h4>
+                                        {{-- <h4 class="card-title">Rating Iklan Periode</h4> --}}
                                     @endif
                                     <a href="{{ route('iklan.dashboard') }}" class="btn btn-primary">Kembali</a>
                                 </div>

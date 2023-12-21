@@ -78,74 +78,7 @@
                         label = 'tidak'
                     }
 
-                    // $.ajax({
-                    //     url: "{{ env('API_URL') . 'dashboard/merchant/data-verify' }}",
-                    //     method: 'GET',
-                    //     success: function(data) {
-                    //         let data_api = null
-                    //         $("#verify-merchant").empty()
-                    //         if (label == 'active') {
-                    //             data_api = data.data;
-                    //             $("#verify-merchant").append(
-                    //                 `<a href="{{ route('print.verify-merchant', 'verify') }}" target="_blank" class="btn btn-primary">Print</a>`
-                    //             );
-                    //         } else {
-                    //             data_api = data.data_not_active;
-                    //             $("#verify-merchant").append(
-                    //                 `<a href="{{ route('print.verify-merchant', 'not-verify') }}" target="_blank" class="btn btn-primary">Print</a>`
-                    //             );
-                    //         }
-                    //         let newRow = null;
 
-                    //         $('#table_data_verify tbody').empty();
-                    //         data_api.forEach(value => {
-                    //             newRow += `
-                    //                 <tr>
-                    //                     <td class="text-bold-500">
-                    //                         ${value.id}
-                    //                     </td>
-                    //                     <td class="text-bold-500">
-                    //                         ${value.name}
-                    //                     </td>
-                    //                     <td class="text-bold-500">
-                    //                         ${value.email}
-                    //                     </td>
-                    //                     <td class="text-bold-500">
-                    //                         ${value.phone_number}
-                    //                     </td>
-                    //                     <td class="text-bold-500">
-                    //                         ${value.address}
-                    //                     </td>
-                    //                     <td class="text-bold-500">
-                    //                         ${value.city}
-                    //                     </td>
-                    //                     <td class="text-bold-500">
-                    //                         ${value.province}
-                    //                     </td>
-                    //                     <td class="text-bold-500">
-                    //                         ${value.id_card_number}
-                    //                     </td>
-                    //                     <td class="text-bold-500">
-                    //                         ${value.npwp}
-                    //                     </td>
-                    //                     <td class="text-bold-500">
-                    //                         ${value.last_login}
-                    //                     </td>
-                    //                     <td>
-                    //                         <button class="btn btn-light-warning btn-sm" onclick="VerifyEdit(${value.id})"
-                    //                             data-bs-toggle="modal" data-bs-target="#modalEdit">
-                    //                             <i class="bi bi-pencil-fill"></i>
-                    //                         </button>
-                    //                     </td>
-                    //                 </tr>
-                    //             `;
-                    //         });
-
-                    //         $('#table_data_verify tbody').append(newRow);
-                    //     }
-                    // })
-                    // $("#modalViewVerifyAndNot").modal("show");
-                    // $("#modalChartSecondVerify").modal("show");
                 }
             },
         },
@@ -368,18 +301,6 @@
                             let newRow = null;
                             // console.log(label)
                             let data_api = null
-                            $("#active-merchant").empty()
-                            if (label == 'active') {
-                                data_api = data.data;
-                                $("#active-merchant").append(
-                                    `<a href="{{ route('print.active-merchant', 'active') }}" target="_blank" class="btn btn-primary">Print</a>`
-                                );
-                            } else {
-                                data_api = data.data_not_active;
-                                $("#active-merchant").append(
-                                    `<a href="{{ route('print.active-merchant', 'not-active') }}" target="_blank" class="btn btn-primary">Print</a>`
-                                );
-                            }
                             // console.log(data)
                             $('#table_data_active_and_not tbody').empty();
 

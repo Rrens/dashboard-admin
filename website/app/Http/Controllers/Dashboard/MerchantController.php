@@ -123,7 +123,7 @@ class MerchantController extends Controller
             $is_approve = null;
             $data_categories = null;
         }
-        // dd($month, $data);
+        // dd($_URL, $month);
         return view('admin.page.dashboard.detail.merchant', compact(
             'active',
             'status',
@@ -190,63 +190,58 @@ class MerchantController extends Controller
         }
     }
 
-    public function print_verify($approve)
+    public function print_merchant_verify($status, $month, $year)
     {
-        $_URL_MERCHANT_ACTIVE_OR_NOT = env('API_URL') . 'dashboard/merchant/data-verify';
-        $data_api_merchant_active_or_not = collect(Http::get($_URL_MERCHANT_ACTIVE_OR_NOT)->json());
-        if (!empty($data_api_merchant_active_or_not['data'][0])) {
+        $_URL = env('API_URL') . 'dashboard/merchant/data-verify/' . $status . '/' . $month . '/' . $year;
+        $data_api_verify = collect(Http::get($_URL)->json());
+        if (!empty($data_api_verify['data'][0])) {
             $data = array();
-            if ($approve == 'verify') {
-                if (!empty($data_api_merchant_active_or_not['data'][0])) {
-                    $data = $data_api_merchant_active_or_not['data'];
-                } else {
-                    $data = null;
-                }
+            if (!empty($data_api_verify['data'][0])) {
+                $data = $data_api_verify['data'];
             } else {
-                if (!empty($data_api_merchant_active_or_not['data_not_active'][0])) {
-                    $data = $data_api_merchant_active_or_not['data_not_active'];
-                } else {
-                    $data = null;
-                }
+                $data = null;
             }
         } else {
             $data = null;
         }
-        return view('admin.page.dashboard.grafik.print.merchant', compact('data'));
+        // dd($_URL, $data);
+        return view('admin.page.dashboard.grafik.print.merchant.verify', compact('data'));
     }
 
-    public function print_active_or_not($status)
+    public function print_merchant_category($month, $status)
     {
         // dd($data);
-        $_URL_MERCHANT_ACTIVE_OR_NOT = env('API_URL') . 'dashboard/merchant/data-merchant-active';
-        $data_api_merchant_active_or_not = collect(Http::get($_URL_MERCHANT_ACTIVE_OR_NOT)->json());
-        if ($status == 'active') {
-            if (!empty($data_api_merchant_active_or_not['data'][0])) {
-                $data = $data_api_merchant_active_or_not['data'];
-            } else {
-                $data = null;
-            }
+        $_URL = env('API_URL') . 'dashboard/merchant/detail/data-merchant-category/' . $status . '/' . $month;
+        $data_api = collect(Http::get($_URL)->json());
+        if (!empty($data_api['data'][0])) {
+            $data = $data_api['data'];
         } else {
-            if (!empty($data_api_merchant_active_or_not['data_not_active'][0])) {
-                $data = $data_api_merchant_active_or_not['data_not_active'];
-            } else {
-                $data = null;
-            }
+            $data = null;
         }
-        return view('admin.page.dashboard.grafik.print.merchant', compact('data'));
+        // dd($data);
+        // if ($status == 'active') {
+        // } else {
+        //     if (!empty($data_api_merchant_active_or_not['data_not_active'][0])) {
+        //         $data = $data_api_merchant_active_or_not['data_not_active'];
+        //     } else {
+        //         $data = null;
+        //     }
+        // }
+        return view('admin.page.dashboard.grafik.print.merchant.category', compact('data'));
     }
 
-    public function print_average_transaction($month, $year)
+    public function print_merchant_active($status, $month, $year)
     {
-        $_URL_AVERAGE_TRANSACTION = env('API_URL') . 'dashboard/merchant/data-average-transaction-merchant-periode/' . $month . '/' . $year;
-        $data_average_transaction = collect(Http::get($_URL_AVERAGE_TRANSACTION)->json());
+        $_URL = env('API_URL') . 'dashboard/merchant/data-merchant-active/' . $status . '/' . $month . '/' . $year;
+        $data_average_transaction = collect(Http::get($_URL)->json());
         if (!empty($data_average_transaction['data'][0])) {
             $data = array();
             $data = $data_average_transaction['data'];
         } else {
             $data = null;
         }
-        return view('admin.page.dashboard.grafik.print.merchant-average', compact('data'));
+        // dd($data);
+        return view('admin.page.dashboard.grafik.print.merchant.active', compact('data'));
     }
 
     public function updateVerifyOrNot(Request $request)

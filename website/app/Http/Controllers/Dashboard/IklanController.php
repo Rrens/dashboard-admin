@@ -216,23 +216,23 @@ class IklanController extends Controller
         }
     }
 
-    public function print_rating_ads($month)
+    public function print_rating_ads($status, $category)
     {
-        $_URL_RATING_ADS = env('API_URL') . 'dashboard/iklan/data-rating-ads-periode/' . $month;
-        $data_rating_ads = collect(Http::get($_URL_RATING_ADS)->json());
-        // dd($data_rating_ads);
-        if (!empty($data_rating_ads['data'][0])) {
-            $data = $data_rating_ads['data'];
+        $_URL = env('API_URL') . 'dashboard/iklan/data-rating-ads-periode/' . $status . '/' . $category;
+        $data_api = collect(Http::get($_URL)->json());
+        // dd($data_api);
+        if (!empty($data_api['data'][0])) {
+            $data = $data_api['data'];
         } else {
             $data = null;
         }
         // dd($data);
-        return view('admin.page.dashboard.grafik.print.iklan', compact('data'));
+        return view('admin.page.dashboard.grafik.print.iklan.rating', compact('data'));
     }
 
-    public function print_ads_favorite($category)
+    public function print_ads_favorite($status, $month, $year)
     {
-        $_URL_ADS_FAVORITE = env('API_URL') . 'dashboard/iklan/data-average-favorite-ads/' . $category;
+        $_URL_ADS_FAVORITE = env('API_URL') . 'dashboard/iklan/data-average-favorite-ads/' . $status . '/' . $month . '/' . $year;
         $data_average_transaction = collect(Http::get($_URL_ADS_FAVORITE)->json());
         // dd($data_average_transaction);
         if (!empty($data_average_transaction['data'][0])) {
@@ -241,28 +241,24 @@ class IklanController extends Controller
             $data = null;
         }
         // dd($data);
-        return view('admin.page.dashboard.grafik.print.iklan', compact('data'));
+        return view('admin.page.dashboard.grafik.print.iklan.average', compact('data'));
     }
 
-    public function print_verify_ads($status)
+    public function print_verify_ads($status, $month, $year)
     {
-        $_URL_VERIFY_ADS = env('API_URL') . 'dashboard/iklan/data-verify';
-        $data_api_verify_ads = collect(Http::get($_URL_VERIFY_ADS)->json());
-        if ($status == 'approve') {
-            if (!empty($data_api_verify_ads['data'][0])) {
-                $data = $data_api_verify_ads['data'];
-            } else {
-                $data = null;
-            }
+        if ($status == 'not verify') {
+            $_URL = env('API_URL') . 'dashboard/iklan/data-verify/not_approve/' . $month . '/' . $year;
         } else {
-            if (!empty($data_api_verify_ads['data_not_active'][0])) {
-                $data = $data_api_verify_ads['data_not_active'];
-            } else {
-                $data = null;
-            }
+            $_URL = env('API_URL') . 'dashboard/iklan/data-verify/approve/' . $month . '/' . $year;
+        }
+        $data_api = collect(Http::get($_URL)->json());
+        if (!empty($data_api['data'][0])) {
+            $data = $data_api['data'];
+        } else {
+            $data = null;
         }
         // dd($data);
-        return view('admin.page.dashboard.grafik.print.iklan', compact('data'));
+        return view('admin.page.dashboard.grafik.print.iklan.verify', compact('data'));
     }
 
     public function updateVerifyOrNot(Request $request)
