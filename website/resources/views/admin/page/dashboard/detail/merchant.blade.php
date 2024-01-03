@@ -19,7 +19,8 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="d-flex justify-content-between">
-                                    <h4 class="card-title">Merchant Verifikasi atau tidak</h4>
+                                    <h4 class="card-title">jumlah merchant
+                                        {{ $status == 'verify' ? 'lolos' : 'tidak lolos' }} berdasarkan periode</h4>
                                     <a href="{{ route('merchant.dashboard') }}" class="btn btn-primary">Kembali</a>
                                 </div>
                             </div>
@@ -33,7 +34,9 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="d-flex justify-content-between">
-                                    <h4 class="card-title">Merchant Aktif atau tidak</h4>
+                                    <h4 class="card-title">jumlah merchant
+                                        {{ $status == 'aktif' ? 'aktif' : 'tidak aktif' }} berdasarkan
+                                        periode</h4>
                                     <a href="{{ route('merchant.dashboard') }}" class="btn btn-primary">Kembali</a>
                                 </div>
                             </div>
@@ -47,7 +50,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="d-flex justify-content-between">
-                                    <h4 class="card-title">Rata-rata transaksi merchant berdasarkan periode</h4>
+                                    <h4 class="card-title">Merchant tramsaksi per periode</h4>
                                     <a href="{{ route('merchant.dashboard') }}" class="btn btn-primary">Kembali</a>
                                 </div>
                             </div>

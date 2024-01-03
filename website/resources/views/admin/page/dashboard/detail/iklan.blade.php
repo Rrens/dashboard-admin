@@ -20,7 +20,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="d-flex justify-content-between">
-                                    <h4 class="card-title">Rating Iklan Periode</h4>
+                                    <h4 class="card-title">jumlah iklan berdasarkan kategori</h4>
                                     <a href="{{ route('iklan.dashboard') }}" class="btn btn-primary">Kembali</a>
                                 </div>
                             </div>
@@ -35,10 +35,12 @@
                             <div class="card-header">
                                 <div class="d-flex justify-content-between">
                                     @if ($status == 'not verify' || $status == 'verify')
-                                        <h4 class="card-title">Iklan Verifikasi dan tidak</h4>
+                                        <h4 class="card-title">jumlah iklan
+                                            {{ $status == 'verify' ? 'lolos' : 'tidak lolos' }} berdasarkan
+                                            kategori</h4>
                                     @elseif ($status == 'not favorite' || $status == 'favorite')
                                     @else
-                                        <h4 class="card-title">Iklan Aktif dan tidak</h4>
+                                        <h4 class="card-title">jumlah iklan berdasarkan periode</h4>
                                         {{-- <h4 class="card-title">Rating Iklan Periode</h4> --}}
                                     @endif
                                     <a href="{{ route('iklan.dashboard') }}" class="btn btn-primary">Kembali</a>

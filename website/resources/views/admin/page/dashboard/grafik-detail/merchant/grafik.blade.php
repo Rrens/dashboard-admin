@@ -294,14 +294,15 @@
                     let url = _url ? _url : null;
                     url =
                         `{{ env('API_URL') . ':url' }}`.replace(':url', url);
-                    console.log(this.data.datasets[datasetIndex].data)
+                    console.log(status)
+                    console.log(month)
 
                     $.ajax({
                         url: `${url}`,
                         method: 'GET',
                         success: function(data) {
                             const data_api = data.data;
-                            // console.log(data_api);
+                            console.log(data_api, url);
                             $('#table_data_rate_merchant_category tbody').empty();
                             data_api.forEach(value => {
                                 // console.log(value)

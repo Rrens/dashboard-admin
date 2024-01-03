@@ -1,19 +1,40 @@
 <script>
-    let chartColors = {
-        red: 'rgb(255, 99, 132)',
-        orange: 'rgb(255, 159, 64)',
-        yellow: 'rgb(255, 205, 86)',
-        green: 'rgb(75, 192, 192)',
-        info: '#41B1F9',
-        blue: '#3245D1',
-        purple: 'rgb(153, 102, 255)',
-        grey: '#EBEFF6',
-        teal: 'rgb(1, 192, 205)',
-        pink: 'rgb(255, 105, 180)',
-        lavender: 'rgb(182, 102, 210)',
-        gold: 'rgb(255, 215, 0)',
-        silver: 'rgb(192, 192, 192)'
-    };
+    @if ($status != 'not favorite' || $status != 'favorite' || $status != 'not verify' || $status != 'verify')
+        let chartColors = {
+            red: '#EBEFF6',
+            orange: '#EBEFF6',
+            yellow: '#EBEFF6',
+            green: '#EBEFF6',
+            info: '#EBEFF6',
+            blue: '#EBEFF6',
+            purple: '#EBEFF6',
+            grey: '#EBEFF6',
+            teal: '#EBEFF6',
+            pink: '#EBEFF6',
+            lavender: '#EBEFF6',
+            gold: '#EBEFF6',
+            silver: '#EBEFF6',
+        };
+        @php
+            // dd($status);
+        @endphp
+    @else
+        let chartColors = {
+            red: 'rgb(255, 99, 132)',
+            orange: 'rgb(255, 159, 64)',
+            yellow: 'rgb(255, 205, 86)',
+            green: 'rgb(75, 192, 192)',
+            info: '#41B1F9',
+            blue: '#3245D1',
+            purple: 'rgb(153, 102, 255)',
+            grey: '#EBEFF6',
+            teal: 'rgb(1, 192, 205)',
+            pink: 'rgb(255, 105, 180)',
+            lavender: 'rgb(182, 102, 210)',
+            gold: 'rgb(255, 215, 0)',
+            silver: 'rgb(192, 192, 192)'
+        };
+    @endif
 </script>
 
 @if (in_array($status, $month_name))
