@@ -1,5 +1,5 @@
 <script>
-    @if ($status == 'not favorite' || $status == 'favorite')
+    @if (in_array($status, $month_name))
         let chartColors = {
             red: 'rgb(255, 99, 132)',
             orange: 'rgb(255, 159, 64)',
