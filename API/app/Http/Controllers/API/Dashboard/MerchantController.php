@@ -180,7 +180,7 @@ class MerchantController extends Controller
             ->select(
                 DB::raw('transaction.year'),
                 DB::raw('transaction.month'),
-                DB::raw('SUM(transaction.total_transaction) as total_transaction'),
+                DB::raw('AVG(transaction.total_transaction) as total_transaction'),
                 DB::raw('m.id')
             )
             ->groupBy('year', 'month')
@@ -696,9 +696,12 @@ class MerchantController extends Controller
         $month = Transaction::join('merchants as m', 'transaction.merchant_id', '=', 'm.id')
             ->join('categories as c', 'c.id', '=', 'm.category_id')
             ->join('sub_category as sc', 'm.category_id', '=', 'sc.category_id')
-            ->select('sc.name')
+            ->select(
+                DB::raw('sc.name'),
+                DB::raw('COUNT(c.name) as data'),
+            )
             ->groupBy('sc.name')
-            ->orderBy('sc.name', 'asc')
+            ->orderBy('data', 'desc')
             ->whereNull('m.deleted_at')
             ->where(function ($query) use ($status) {
                 $query->where('transaction.month', $status)
@@ -721,7 +724,7 @@ class MerchantController extends Controller
                     ->where('transaction.year', 2023);
             })
             ->groupBy('sc.name')
-            ->orderBy('sc.name', 'asc')
+            ->orderBy('data', 'desc')
             ->whereNull('m.deleted_at')
             ->get();
 

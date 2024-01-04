@@ -73,13 +73,18 @@ class IklanController extends Controller
         $averageRating = Ads::average('rating');
 
         $month = Ads::groupBy('month')
+            ->select(
+                DB::raw('COUNT(rating) as data'),
+                DB::raw('month'),
+            )
             ->where('rating', '>', $averageRating)
             ->where('category_id', $status)
             ->groupBy('month')
             ->where('category_id', $status)
             ->whereNull('deleted_at')
-            ->orderBy('month', 'asc')
+            ->orderBy('data', 'desc')
             ->pluck('month');
+        // ->get();
 
 
         $data = DB::table('ads')
@@ -96,8 +101,9 @@ class IklanController extends Controller
             ->groupBy('month')
             ->where('category_id', $status)
             ->whereNull('deleted_at')
-            ->orderBy('month', 'asc')
+            ->orderBy('data', 'desc')
             ->get();
+
 
         // return response()->json($data);
         if (!empty($data[0])) {
@@ -160,16 +166,30 @@ class IklanController extends Controller
             ->where('ads.rating', '>', $averageRating)
             ->whereNull('ads.deleted_at')
             ->where('ads.month', $monthNumber)
-            ->orderBy('ads.category_id', 'asc')
+            ->orderBy('data', 'desc')
             ->get();
 
         foreach ($data as $key) {
             array_push($array_category_id, $key->category_id);
         }
 
-        $month = Categories::whereIn('id', $array_category_id)
-            ->whereNull('deleted_at')
-            ->pluck('name');
+        $month = Categories::whereIn('categories.id', $array_category_id)
+            ->select(
+                DB::raw('COUNT(ads.rating) as data'),
+                DB::raw('categories.name'),
+                DB::raw('ads.rating'),
+                DB::raw('ads.month'),
+            )
+            ->join('ads', 'categories.id', '=', 'ads.category_id')
+            ->join('transaction as t', 't.ads_id', 'ads.id')
+            ->groupBy('ads.category_id')
+            ->orderBy('data', 'desc')
+            ->where('ads.rating', '>', $averageRating)
+            ->where('ads.month', $monthNumber)
+            ->whereNull('categories.deleted_at')
+            ->whereNull('ads.deleted_at')
+            ->get();
+        // ->pluck('name');
 
         if (!empty($data[0])) {
             return response()->json([
