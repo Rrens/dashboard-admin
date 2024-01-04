@@ -122,10 +122,12 @@ class IklanController extends Controller
 
             $array = [];
             foreach ($data_api['month'] as $value) {
+                // dd($value['month']);
                 if (in_array($status, $month_name)) {
-                    $array[] = json_encode($value);
+                    $array[] = json_encode($value['name']);
                 } else {
                     $array[] = (int) $value;
+                    // dd($array);
                 }
             }
             $month = implode(', ',  $array);

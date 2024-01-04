@@ -19,7 +19,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="d-flex justify-content-between">
-                                    <h4 class="card-title">jumlah merchant
+                                    <h4 class="card-title">Jumlah merchant
                                         {{ $status == 'verify' ? 'lolos' : 'tidak lolos' }} berdasarkan periode</h4>
                                     <a href="{{ route('merchant.dashboard') }}" class="btn btn-primary">Kembali</a>
                                 </div>

@@ -42,7 +42,7 @@
                 return monthNamesVerify[value];
             }),
             datasets: [{
-                label: 'Rata-rata transaksi merchant berdasarkan periode',
+                label: '',
                 backgroundColor: [
                     // chartColors.orange,
                     // chartColors.yellow,
@@ -77,7 +77,7 @@
             barRoundness: 1,
             title: {
                 display: true,
-                text: "Rata-rata transaksi merchant berdasarkan periode"
+                text: 'Jumlah merchant {{ $status == 'verify' ? 'lolos' : 'tidak lolos' }} berdasarkan periode'
             },
             legend: {
                 display: false
@@ -214,7 +214,7 @@
         data: {
             labels: [{!! $month !!}],
             datasets: [{
-                label: 'Rata-rata transaksi merchant berdasarkan periode',
+                label: '',
                 backgroundColor: [
                     chartColors.orange,
                     chartColors.yellow,
@@ -252,7 +252,7 @@
             barRoundness: 1,
             title: {
                 display: true,
-                text: "Rata-rata transaksi merchant berdasarkan periode"
+                text: "Merchant tramsaksi per periode"
             },
             legend: {
                 display: false
@@ -393,7 +393,7 @@
                 return monthNames[value];
             }),
             datasets: [{
-                label: 'Rata-rata transaksi merchant berdasarkan periode',
+                label: '',
                 backgroundColor: [
                     // chartColors.orange,
                     // chartColors.yellow,
@@ -428,7 +428,7 @@
             barRoundness: 1,
             title: {
                 display: true,
-                text: "Rata-rata transaksi merchant berdasarkan periode"
+                text: 'jumlah merchant {{ $status == 'aktif' ? 'aktif' : 'tidak aktif' }} berdasarkan periode'
             },
             legend: {
                 display: false
