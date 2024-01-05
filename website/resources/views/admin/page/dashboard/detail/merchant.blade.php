@@ -50,7 +50,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="d-flex justify-content-between">
-                                    <h4 class="card-title">Merchant tramsaksi per periode</h4>
+                                    <h4 class="card-title">Merchant transaksi per periode</h4>
                                     <a href="{{ route('merchant.dashboard') }}" class="btn btn-primary">Kembali</a>
                                 </div>
                             </div>

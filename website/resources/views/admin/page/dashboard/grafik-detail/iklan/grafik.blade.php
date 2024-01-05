@@ -15,24 +15,21 @@
             gold: 'rgb(255, 215, 0)',
             silver: 'rgb(192, 192, 192)'
         };
-        @php
-            // dd($status);
-        @endphp
     @elseif ($status == 'not verify' || $status == 'verify')
         let chartColors = {
-            red: 'rgb(255, 99, 132)',
-            orange: 'rgb(255, 159, 64)',
-            yellow: 'rgb(255, 205, 86)',
-            green: 'rgb(75, 192, 192)',
-            info: '#41B1F9',
-            blue: '#3245D1',
-            purple: 'rgb(153, 102, 255)',
+            red: '#EBEFF6',
+            orange: '#EBEFF6',
+            yellow: '#EBEFF6',
+            green: '#EBEFF6',
+            info: '#EBEFF6',
+            blue: '#EBEFF6',
+            purple: '#EBEFF6',
             grey: '#EBEFF6',
-            teal: 'rgb(1, 192, 205)',
-            pink: 'rgb(255, 105, 180)',
-            lavender: 'rgb(182, 102, 210)',
-            gold: 'rgb(255, 215, 0)',
-            silver: 'rgb(192, 192, 192)'
+            teal: '#EBEFF6',
+            pink: '#EBEFF6',
+            lavender: '#EBEFF6',
+            gold: '#EBEFF6',
+            silver: '#EBEFF6',
         };
     @else
         let chartColors = {
@@ -339,6 +336,7 @@
                         let url = _url ? _url : null;
                         url =
                             `{{ env('API_URL') . ':url' }}`.replace(':url', url);
+                        console.log(url)
                         // if (status != 'verify' && status != 'not verify') {
                         $('#modalAds tbody').empty();
                         // }

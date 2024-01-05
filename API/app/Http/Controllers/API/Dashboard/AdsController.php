@@ -153,7 +153,7 @@ class AdsController extends Controller
             ->where('month', $month)
             ->where('year', $year)
             ->whereNull('deleted_at')
-            ->orderBy('month', 'asc')
+            ->orderBy('count_order', 'desc')
             ->get();
         // return response()->json($data);
 
@@ -270,7 +270,7 @@ class AdsController extends Controller
             ->whereNull('ad.deleted_at')
             ->where('ad.month', $month)
             ->where("c.name", $category)
-            ->orderBy('ad.category_id', 'asc')
+            ->orderBy('t.total_transaction', 'desc')
             ->groupBy('t.id')
             ->get();
         // return response()->json($averageRating);

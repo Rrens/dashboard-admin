@@ -32,7 +32,8 @@ class MerchantController extends Controller
             })
             ->where('transaction.month', $month)
             // ->groupBy('sc.name')
-            ->orderBy('sc.name', 'asc')
+            // ->orderBy('sc.name', 'asc')
+            ->orderBy('total_transaction', 'desc')
             ->where('sc.name', $category)
             ->whereNull('m.deleted_at')
             ->get();

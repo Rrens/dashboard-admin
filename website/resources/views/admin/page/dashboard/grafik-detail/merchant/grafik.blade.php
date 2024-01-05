@@ -252,7 +252,7 @@
             barRoundness: 1,
             title: {
                 display: true,
-                text: "Merchant tramsaksi per periode"
+                text: "Merchant transaksi per periode"
             },
             legend: {
                 display: false
