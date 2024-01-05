@@ -37,7 +37,7 @@
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Jumlah rating iklan berdasarkan periode</h4>
+                            <h4 class="card-title">Jumlah rating iklan berdasarkan periode 2023</h4>
                         </div>
                         <div class="card-body">
                             <canvas id="barCountRatingAdsPerPeriode"></canvas>
