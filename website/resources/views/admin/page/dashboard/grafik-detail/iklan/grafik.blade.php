@@ -8,12 +8,14 @@
             info: '#41B1F9',
             blue: '#3245D1',
             purple: 'rgb(153, 102, 255)',
-            grey: '#EBEFF6',
+            grey: '#ffe0e6',
             teal: 'rgb(1, 192, 205)',
             pink: 'rgb(255, 105, 180)',
             lavender: 'rgb(182, 102, 210)',
             gold: 'rgb(255, 215, 0)',
-            silver: 'rgb(192, 192, 192)'
+            silver: 'rgb(192, 192, 192)',
+            custom1: '#d7ecfb',
+            custom2: '#ffe0e6',
         };
     @elseif ($status == 'not verify' || $status == 'verify')
         let chartColors = {
@@ -24,12 +26,14 @@
             info: '#EBEFF6',
             blue: '#EBEFF6',
             purple: '#EBEFF6',
-            grey: '#EBEFF6',
+            grey: '#ffe0e6',
             teal: '#EBEFF6',
             pink: '#EBEFF6',
             lavender: '#EBEFF6',
             gold: '#EBEFF6',
             silver: '#EBEFF6',
+            custom1: '#d7ecfb',
+            custom2: '#ffe0e6',
         };
     @else
         let chartColors = {
@@ -40,12 +44,14 @@
             info: '#EBEFF6',
             blue: '#EBEFF6',
             purple: '#EBEFF6',
-            grey: '#EBEFF6',
+            grey: '#ffe0e6',
             teal: '#EBEFF6',
             pink: '#EBEFF6',
             lavender: '#EBEFF6',
             gold: '#EBEFF6',
             silver: '#EBEFF6',
+            custom1: '#d7ecfb',
+            custom2: '#ffe0e6',
         };
     @endif
 </script>
@@ -229,18 +235,18 @@
                 datasets: [{
                     label: '',
                     backgroundColor: [
-                        chartColors.orange,
-                        chartColors.yellow,
-                        chartColors.green,
                         chartColors.grey,
-                        chartColors.info,
-                        chartColors.blue,
-                        chartColors.purple,
-                        chartColors.teal,
-                        chartColors.pink,
-                        chartColors.lavender,
-                        chartColors.gold,
-                        chartColors.silver
+                        chartColors.grey,
+                        chartColors.grey,
+                        chartColors.grey,
+                        chartColors.grey,
+                        chartColors.grey,
+                        chartColors.grey,
+                        chartColors.grey,
+                        chartColors.grey,
+                        chartColors.grey,
+                        chartColors.grey,
+                        chartColors.greyr
                     ],
                     data: [{{ $is_approve }}],
                     month: data_month,
@@ -252,7 +258,7 @@
                 barRoundness: 1,
                 title: {
                     display: true,
-                    text: '{{ $status == 'not verify' || $status == 'verify' ? ($status == 'verify' ? 'jumlah iklan lolos berdasarkan kategori' : 'jumlah iklan tidak lolos berdasarkan kategori') : 'jumlah iklan berdasarkan periode' }}'
+                    text: '{{ $status == 'not verify' || $status == 'verify' ? ($status == 'verify' ? 'jumlah iklan lolos berdasarkan periode 2023' : 'jumlah iklan tidak lolos berdasarkan periode 2023') : 'jumlah iklan berdasarkan periode' }}'
                 },
                 legend: {
                     display: false

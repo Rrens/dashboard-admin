@@ -37,7 +37,7 @@
                                     @if ($status == 'not verify' || $status == 'verify')
                                         <h4 class="card-title">jumlah iklan
                                             {{ $status == 'verify' ? 'lolos' : 'tidak lolos' }} berdasarkan
-                                            kategori</h4>
+                                            periode 2023</h4>
                                     @elseif ($status == 'not favorite' || $status == 'favorite')
                                     @else
                                         <h4 class="card-title">jumlah iklan berdasarkan periode</h4>

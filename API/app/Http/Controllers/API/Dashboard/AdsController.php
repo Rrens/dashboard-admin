@@ -112,7 +112,8 @@ class AdsController extends Controller
                 'ad.rating',
                 'ad.count_view',
                 'ad.month',
-                DB::raw('AVG(ad.rating) as average_rating')
+                DB::raw('AVG(ad.rating) as average_rating'),
+                DB::raw('(SUM(ad.rating) / (COUNT(ad.rating) * 5)) * 100 as rating_percentage')
             )
             ->whereNull('mc.deleted_at')
             ->groupBy('ad.category_id')

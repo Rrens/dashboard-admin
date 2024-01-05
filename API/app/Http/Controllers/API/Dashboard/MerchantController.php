@@ -188,6 +188,19 @@ class MerchantController extends Controller
             ->where('m.deleted_at', null)
             ->get();
 
+        // $data = Transaction::join('merchants as m', 'transaction.merchant_id', '=', 'm.id')
+        //     ->select(
+        //         DB::raw('transaction.year'),
+        //         DB::raw('transaction.month'),
+        //         DB::raw('(SELECT SUM(total_transaction) FROM transaction WHERE transaction.year = transaction.year AND transaction.month = transaction.month) AS sum_transaction'),
+        //         DB::raw('AVG((SELECT SUM(total_transaction) FROM transaction WHERE transaction.year = transaction.year AND transaction.month = transaction.month)) as total_transaction'),
+        //         DB::raw('m.id')
+        //     )
+        //     ->groupBy('year', 'month')
+        //     ->orderBy('month', 'asc')
+        //     ->where('m.deleted_at', null)
+        //     ->get();
+
         if (!empty($data[0])) {
             return response()->json([
                 'meta' => [

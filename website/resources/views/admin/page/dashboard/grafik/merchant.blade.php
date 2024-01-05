@@ -7,12 +7,14 @@
         info: '#41B1F9',
         blue: '#3245D1',
         purple: 'rgb(153, 102, 255)',
-        grey: '#EBEFF6',
+        grey: '#ffe0e6',
         teal: 'rgb(1, 192, 205)',
         pink: 'rgb(255, 105, 180)',
         lavender: 'rgb(182, 102, 210)',
         gold: 'rgb(255, 215, 0)',
-        silver: 'rgb(192, 192, 192)'
+        silver: 'rgb(192, 192, 192)',
+        custom1: '#d7ecfb',
+        custom2: '#ffe0e6',
     };
 
     // PIE MERCHANT VERIFY
@@ -31,7 +33,7 @@
             labels: ["Verifikasi", "Tidak"],
             datasets: [{
                 label: 'Merchant Verifikasi dan tidak',
-                backgroundColor: [chartColors.orange, chartColors.blue],
+                backgroundColor: [chartColors.custom1, chartColors.custom2],
                 data: [{{ $data_verify_and_not[0]['approve'] }},
                     {{ $data_verify_and_not[0]['not_approve'] }}
                 ]
@@ -121,18 +123,18 @@
                     // chartColors.pink,
                     // chartColors.lavender,
                     // chartColors.gold,
-                    chartColors.silver,
-                    chartColors.silver,
-                    chartColors.silver,
-                    chartColors.silver,
-                    chartColors.silver,
-                    chartColors.silver,
-                    chartColors.silver,
-                    chartColors.silver,
-                    chartColors.silver,
-                    chartColors.silver,
-                    chartColors.silver,
-                    chartColors.silver
+                    chartColors.grey,
+                    chartColors.grey,
+                    chartColors.grey,
+                    chartColors.grey,
+                    chartColors.grey,
+                    chartColors.grey,
+                    chartColors.grey,
+                    chartColors.grey,
+                    chartColors.grey,
+                    chartColors.grey,
+                    chartColors.grey,
+                    chartColors.grey
                 ],
                 data: [{{ $totalTransactionsString }}],
                 month: data_month,
@@ -261,7 +263,7 @@
             labels: ["Aktif", "Tidak"],
             datasets: [{
                 label: 'Pengguna Aktif dan tidak',
-                backgroundColor: [chartColors.silver, chartColors.gold],
+                backgroundColor: [chartColors.custom1, chartColors.custom2],
                 data: [{{ $data_merchant_active_or_not[0]['active'] }},
                     {{ $data_merchant_active_or_not[0]['not_active'] }}
                 ]
