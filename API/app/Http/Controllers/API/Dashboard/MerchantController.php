@@ -180,7 +180,7 @@ class MerchantController extends Controller
             ->select(
                 DB::raw('transaction.year'),
                 DB::raw('transaction.month'),
-                DB::raw('AVG(transaction.total_transaction) as total_transaction'),
+                DB::raw('SUM(transaction.total_transaction) as total_transaction'),
                 DB::raw('m.id')
             )
             ->groupBy('year', 'month')

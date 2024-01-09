@@ -265,6 +265,14 @@ class AdsController extends Controller
         //     ->get();
 
         $data = DB::table('ads as ad')
+            ->select(
+                't.id as id',
+                'ad.merchant_id as merchant_id',
+                'ad.category_id as category_id',
+                'ad.id as ads_id',
+                't.total_transaction as total_transaction',
+                'ad.month as month'
+            )
             ->join('transaction as t', 't.ads_id', 'ad.id')
             ->join('categories as c', 'ad.category_id', '=', 'c.id')
             ->where('ad.rating', '>', $averageRating)

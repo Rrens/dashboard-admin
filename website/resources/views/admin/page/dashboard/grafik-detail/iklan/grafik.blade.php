@@ -148,6 +148,7 @@
                                 let newRow = null;
                                 $('#table_data_rate_ads_category tbody').empty();
                                 data_api.forEach(value => {
+                                    console.log(value)
                                     newRow += `
                                     <tr>
                                         <td class="text-bold-500">

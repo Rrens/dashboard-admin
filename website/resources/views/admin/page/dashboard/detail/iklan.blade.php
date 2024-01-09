@@ -20,7 +20,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="d-flex justify-content-between">
-                                    <h4 class="card-title">jumlah iklan berdasarkan kategori</h4>
+                                    <h4 class="card-title">Rating iklan berdasarkan kategori</h4>
                                     <a href="{{ route('iklan.dashboard') }}" class="btn btn-primary">Kembali</a>
                                 </div>
                             </div>

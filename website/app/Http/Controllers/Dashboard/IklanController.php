@@ -109,7 +109,6 @@ class IklanController extends Controller
         }
         // dd($_URL);
         $data_api = collect(Http::get($_URL)->json());
-        // dd($data_api);
         if (!empty($data_api['data'][0])) {
             $data = array();
             $data = $data_api['data'];
@@ -145,6 +144,7 @@ class IklanController extends Controller
             $year = null;
             $data_categories = null;
         }
+        // dd($data);
         // dd($_URL);
         return view('admin.page.dashboard.detail.iklan', compact(
             'active',
