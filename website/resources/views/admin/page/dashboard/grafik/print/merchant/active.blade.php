@@ -411,6 +411,13 @@
         span.footnote ul li {
             text-indent: -5px;
         }
+
+        .keteranganbwh {
+            font-size: 9pt;
+            text-align: center;
+            margin-left: 350px;
+            font-family: Arial, sans-serif;
+        }
     </style>
 </head>
 
@@ -427,7 +434,7 @@
 
 
     <p style="text-align:center;font-weight: bold;font-size: 14px;margin-bottom:3px;padding-bottom:0px ">
-        DASHBOARD ADMIN
+        jumlah merchant {{ $status == 'aktif' ? 'aktif' : 'tidak aktif' }} berdasarkan periode
     </p>
 
     {{-- <br />
@@ -491,7 +498,12 @@
 
     </table>
 
-    </table>
+    <p class="keteranganbwh" style="margin-top: 100px;"><b>SURABAYA, </b></p>
+    <p class="keteranganbwh"><b>HORMAT KAMI</b></p>
+    <p class="keteranganbwh"><img src="" style="height: 100px; margin-top: 55px;"></p>
+    {{-- <p class="keteranganbwh"><b></b></p> --}}
+    <p class="keteranganbwh"><b>Regina Ayu Prameswari</b></p>
+
     {{-- <p style="text-align:right">Total: Rp.</p> --}}
 
     <script>

@@ -243,7 +243,7 @@ class IklanController extends Controller
             $data = null;
         }
         // dd($data);
-        return view('admin.page.dashboard.grafik.print.iklan.average', compact('data'));
+        return view('admin.page.dashboard.grafik.print.iklan.average', compact('data', 'status'));
     }
 
     public function print_verify_ads($status, $month, $year)
@@ -260,7 +260,7 @@ class IklanController extends Controller
             $data = null;
         }
         // dd($data);
-        return view('admin.page.dashboard.grafik.print.iklan.verify', compact('data'));
+        return view('admin.page.dashboard.grafik.print.iklan.verify', compact('data', 'status'));
     }
 
     public function updateVerifyOrNot(Request $request)

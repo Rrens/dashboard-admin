@@ -40,7 +40,7 @@
                                             periode 2023</h4>
                                     @elseif ($status == 'not favorite' || $status == 'favorite')
                                     @else
-                                        <h4 class="card-title">jumlah iklan berdasarkan periode</h4>
+                                        <h4 class="card-title">Jumlah iklan berdasarkan periode</h4>
                                         {{-- <h4 class="card-title">Rating Iklan Periode</h4> --}}
                                     @endif
                                     <a href="{{ route('iklan.dashboard') }}" class="btn btn-primary">Kembali</a>

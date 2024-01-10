@@ -411,6 +411,13 @@
         span.footnote ul li {
             text-indent: -5px;
         }
+
+        .keteranganbwh {
+            font-size: 9pt;
+            text-align: center;
+            margin-left: 350px;
+            font-family: Arial, sans-serif;
+        }
     </style>
 </head>
 
@@ -427,31 +434,10 @@
 
 
     <p style="text-align:center;font-weight: bold;font-size: 14px;margin-bottom:3px;padding-bottom:0px ">
-        DASHBOARD ADMIN
+        Jumlah merchant {{ $status == 'verify' ? 'lolos' : 'tidak lolos' }} berdasarkan periode
     </p>
 
-    {{-- <br />
-    <table>
-        <tr>
-            <td>TANGGAL</td>
-            <td>: </td>
-        </tr>
-        <tr>
-            <td>NO PEMBELIAN </td>
-            <td>: </td>
-        </tr>
-        <tr>
-            <td>TOTAL BARANG </td>
-            <td>:</td>
-        </tr>
-        <tr>
-            <td>KETERANGAN </td>
-            <td>: </td>
-        </tr>
-    </table> --}}
-
     <br /><br />
-    {{-- <p>Credit</p> --}}
 
     <table class="sicycatablemanual">
         <tr>
@@ -486,8 +472,11 @@
 
     </table>
 
-    </table>
-    {{-- <p style="text-align:right">Total: Rp.</p> --}}
+    <p class="keteranganbwh" style="margin-top: 100px;"><b>SURABAYA, </b></p>
+    <p class="keteranganbwh"><b>HORMAT KAMI</b></p>
+    <p class="keteranganbwh"><img src="" style="height: 100px; margin-top: 55px;"></p>
+    {{-- <p class="keteranganbwh"><b></b></p> --}}
+    <p class="keteranganbwh"><b>Regina Ayu Prameswari</b></p>
 
     <script>
         window.print();

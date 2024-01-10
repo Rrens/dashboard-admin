@@ -205,7 +205,7 @@ class MerchantController extends Controller
             $data = null;
         }
         // dd($_URL, $data);
-        return view('admin.page.dashboard.grafik.print.merchant.verify', compact('data'));
+        return view('admin.page.dashboard.grafik.print.merchant.verify', compact('data', 'status'));
     }
 
     public function print_merchant_category($month, $status)
@@ -241,7 +241,7 @@ class MerchantController extends Controller
             $data = null;
         }
         // dd($data);
-        return view('admin.page.dashboard.grafik.print.merchant.active', compact('data'));
+        return view('admin.page.dashboard.grafik.print.merchant.active', compact('data', 'status'));
     }
 
     public function updateVerifyOrNot(Request $request)
